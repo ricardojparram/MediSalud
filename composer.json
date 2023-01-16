@@ -1,0 +1,24 @@
+{
+    "name": "medi-salud/bin",
+    "description": "Proyecto",
+    "type": "project",
+    "require": {
+        "php": "^7.3",
+        "setasign/fpdf": "^1.8"
+    },
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "bin\\" : "bin/",
+            "component\\" : "bin/component",
+            "config\\" : "bin/config/",
+            "modelo\\" : "bin/modelo/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Enmanuel Torres"
+        }
+    ],
+    "minimum-stability": "beta"
+}
