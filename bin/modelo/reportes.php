@@ -96,6 +96,7 @@
 			$pdf = new FPDF();
 			$pdf->AddPage();
 			$pdf->SetMargins(20,30,20);
+			
 			$pdf->Image('assets/img/Logo_titulo.png',20,5,40);
 			$pdf->SetFont('Arial','B',16);
 			$pdf->setX(20);
@@ -103,8 +104,10 @@
 			$pdf->Cell(0,10,$titulo,0,1,'C');
 			$pdf->Cell(0,10,$subTitulo,0,0,'C');
 			$pdf->Ln(18); 
+
 			$pdf->SetFont('Helvetica','B',12);
 			$pdf->SetFillColor(210, 224, 137);
+
 			$pdf->Cell(25,10,utf8_decode($columnas[0]),1,0,'C',1);
 			$pdf->Cell(40,10,utf8_decode($columnas[1]),1,0,'C',1);
 			$pdf->Cell(45,10,utf8_decode($columnas[2]),1,0,'C',1);
