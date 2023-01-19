@@ -69,7 +69,7 @@ $(document).ready(function(){
 	})
 
 	/* --- EDITAR --- */
-	let id 
+	var id 
     // SELECCIONA ITEM
     $(document).on('click', '.editar', function() {
         id = this.id; // se obtiene el id del botón, previamente le puse de id el codigo en rellenar()
@@ -144,8 +144,9 @@ $(document).ready(function(){
 
 
     $(document).on('click', '.borrar', function() {
-    	let id = this.id;
-    	$('#borrar').click(()=>{
+    	id = this.id;
+    	console.log(id);
+/*    	$('#borrar').click(()=>{
     		$.ajax({
     			type : 'post',
     			url : '',
@@ -157,7 +158,7 @@ $(document).ready(function(){
     				Toast.fire({ icon: 'success', title: 'Laboratorio eliminado' })
     			}
     		})
-    	})
+    	})*/
     });
 
 

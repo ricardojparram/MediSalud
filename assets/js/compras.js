@@ -247,9 +247,9 @@ $(document).ready(function() {
     			data : {eliminar : 'asd', id},
     			success(data){
     				tablaMostrar.destroy();
-    				rellenar();
     				$('.cerrar').click();
-    				Toast.fire({ icon: 'success', title: 'Compra eliminada' })
+					Toast.fire({ icon: 'success', title: 'Compra eliminada' })
+    				rellenar();
     			}
     		})
     	})
