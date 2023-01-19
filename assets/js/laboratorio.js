@@ -69,7 +69,7 @@ $(document).ready(function(){
 	})
 
 	/* --- EDITAR --- */
-	var id 
+	let id 
     // SELECCIONA ITEM
     $(document).on('click', '.editar', function() {
         id = this.id; // se obtiene el id del botón, previamente le puse de id el codigo en rellenar()
@@ -143,25 +143,25 @@ $(document).ready(function(){
 	})
 
 
-    $(document).on('click', '.borrar', function() {
-    	id = this.id;
-    	console.log(id);
-/*    	$('#borrar').click(()=>{
-    		$.ajax({
-    			type : 'post',
-    			url : '',
-    			data : {eliminar : 'asd', id},
-    			success(data){
-    				mostrar.destroy();
-    				$('.cerrar').click();
-    				rellenar();
-    				Toast.fire({ icon: 'success', title: 'Laboratorio eliminado' })
-    			}
-    		})
-    	})*/
-    });
+	$(document).on('click', '.borrar', function() {
+		id = this.id;
+		console.log(id)
+	});
 
-
+	$('#borrar').click(()=>{
+		$.ajax({
+			type : 'post',
+			url : '',
+			data : {eliminar : 'asd', id},
+			success(data){
+				console.log(id)
+				mostrar.destroy();
+				$('.cerrar').click();
+				rellenar();
+				Toast.fire({ icon: 'success', title: 'Laboratorio eliminado' })
+			}
+		})
+	})
 
 })
 

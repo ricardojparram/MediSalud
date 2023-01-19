@@ -239,21 +239,22 @@ $(document).ready(function() {
 	}
 
 	$(document).on('click', '.borrar', function() {
-    	let id = this.id;
-    	$('#borrar').click(()=>{
-    		$.ajax({
-    			type : 'post',
-    			url : '',
-    			data : {eliminar : 'asd', id},
-    			success(data){
-    				tablaMostrar.destroy();
-    				$('.cerrar').click();
-					Toast.fire({ icon: 'success', title: 'Compra eliminada' })
-    				rellenar();
-    			}
-    		})
-    	})
+    	id = this.id;
     });
+    
+	$('#borrar').click(()=>{
+		$.ajax({
+			type : 'post',
+			url : '',
+			data : {eliminar : 'asd', id},
+			success(data){
+				tablaMostrar.destroy();
+				$('.cerrar').click();
+				Toast.fire({ icon: 'success', title: 'Compra eliminada' })
+				rellenar();
+			}
+		})
+	})
 
 	$('#cancelar').click(()=>{
 		$('#agregarform').trigger('reset');
