@@ -79,7 +79,8 @@ $(document).ready(function(){
 			$.post('',{exportar: 'reporte', tipo, fechaInicio, fechaFinal},function(e){
 				data = JSON.parse(e);
 				if(data.respuesta == "Archivo guardado"){
-					descargarArchivo(data.ruta);
+					/*descargarArchivo(data.ruta);*/
+					window.open(data.ruta);
 				}else{
 					Toast.fire({ icon: 'error', title: 'No se pudo exportar el reporte.' })
 				}

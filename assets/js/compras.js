@@ -241,7 +241,7 @@ $(document).ready(function() {
 	$(document).on('click', '.borrar', function() {
     	id = this.id;
     });
-    
+
 	$('#borrar').click(()=>{
 		$.ajax({
 			type : 'post',
