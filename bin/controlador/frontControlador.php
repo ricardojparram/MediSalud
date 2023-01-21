@@ -37,7 +37,7 @@
          }else{
           $url = "home";   
           if(file_exists($this->directory.$url.$this->controlador)){
-          die("$this->directory.$url.$this->controlador");
+            die("<script>location='?url=$url'</script>");
            }else{
            die("<script>location='?url=login'</script>");
          }
