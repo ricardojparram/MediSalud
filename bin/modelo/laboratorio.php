@@ -41,18 +41,22 @@
       public function getDatosLab($rif, $direccion, $razon, $telefono, $contacto){
 
         if(preg_match_all("/^[0-9]{7,20}$/", $rif) != 1){
-            return "Error de cedula!";
-         }
-        if(preg_match_all("/^[a-zA-Z]{3,30}$/", $razon) != 1){
-            return "Error de nombre!";
-        }
-        
-        if(preg_match_all("/[$%&|<>]/", $direccion) == 1){
-            return "Error de direccion!";
-         }
-         if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
-            return "Error de telefono!";
-         }
+         echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
+         die();
+       }
+       if(preg_match_all("/^[a-zA-Z]{3,30}$/", $razon) != 1){
+        echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
+        die();
+      }
+
+      if(preg_match_all("/[$%&|<>]/", $direccion) == 1){
+        echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
+        die();
+      }
+      if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
+        echo json_encode(['resultado' => 'Error de telefono','error' => 'Telefono inválido.']);
+        die();
+      }
 
         $this->rif = $rif;
         $this->direccion = $direccion;
@@ -87,7 +91,7 @@
                   $new->bindValue(2, $this->contacto);
                   $new->bindValue(3, $lastInsertId);
                   $new->execute();
-                  $resultado = ['resultado' => 'El rif ya está registrado.'];
+                  $resultado = ['resultado' => 'Laboratorio registrado.'];
                   echo json_encode($resultado);
                   die();
                 
@@ -103,6 +107,33 @@
         } 
       
     }
+
+    public function getRif($rif){
+      $this->rif = $rif;
+
+      $this->validarRif();
+    }
+
+    private function validarRif(){
+
+      try {
+
+       $new = $this->con->prepare("SELECT rif FROM laboratorio WHERE status = 1 and rif = ?");
+       $new->bindValue(1, $this->rif);
+       $new->execute();
+       $data = $new->fetchAll();
+
+       if(isset($data[0]['rif'])){
+        echo json_encode(['resultado' => 'Error de rif', 'error' => 'El rif ya está registrado.']);
+        die();
+      }
+
+    } catch (PDOException $e) {
+      return $e;
+    }
+
+  }
+
     
     public function getItem($id){
       $this->id = $id;
@@ -131,19 +162,44 @@
 
     public function getEditar($rif, $direccion, $razon, $telefono, $contacto, $id){
 
-        $this->rif = $rif;
-        $this->direccion = $direccion;
-        $this->razon = $razon;
-        $this->telefono = $telefono;
-        $this->contacto = $contacto;
-        $this->idedit = $id;
+      if(preg_match_all("/^[0-9]{7,20}$/", $rif) != 1){
+        echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
+        die();
+      }
+      if(preg_match_all("/^[a-zA-Z]{3,30}$/", $razon) != 1){
+        echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
+        die();
+      }
 
-        $this->editarLaboratorio();
+      if(preg_match_all("/[$%&|<>]/", $direccion) == 1){
+        echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
+        die();
+      }
+      if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
+        echo json_encode(['resultado' => 'Error de telefono','error' => 'Telefono inválido.']);
+        die();
+      }
+
+      $this->rif = $rif;
+      $this->direccion = $direccion;
+      $this->razon = $razon;
+      $this->telefono = $telefono;
+      $this->contacto = $contacto;
+      $this->idedit = $id;
+
+      $this->editarLaboratorio();
     }
 
     private function editarLaboratorio(){
 
         try{
+
+          $new = $this->con->prepare("SELECT rif FROM laboratorio WHERE status = 1 and rif = ?");
+          $new->bindValue(1, $this->rif);
+          $new->execute();
+          $data = $new->fetchAll();
+
+          if(!isset($data[0]["rif"])){ 
 
             $new = $this->con->prepare("
               UPDATE laboratorio l
@@ -161,6 +217,13 @@
             $resultado = ['resultado' => 'Editado'];
             echo json_encode($resultado);
             die();
+
+
+          }else{
+            $resultado = ['resultado' => 'Error de rif' , 'error' => 'El rif ya está registrado.'];
+            echo json_encode($resultado);
+            die();
+          }
 
         }catch(\PDOException $error){
             echo json_encode($error);

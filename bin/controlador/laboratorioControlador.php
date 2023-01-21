@@ -30,6 +30,10 @@
   if(isset($_POST['eliminar'])){
     $objModel->getEliminar($_POST['id']);
   }
+
+  if(isset($_POST['rif']) && isset($_POST['validar'])){
+    $objModel->getRif($_POST['rif']);
+  }
   
 
 

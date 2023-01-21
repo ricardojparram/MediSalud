@@ -22,49 +22,74 @@ $(document).ready(function(){
 	/* --- AGREGAR --- */
 
 	// VALIDACIONES
-	$("#rif").keyup(()=> {  validarCedula($("#rif"),$("#error") ,"Error de RIF,") });
+	function validarRif(){
+		$.post('',{rif: $("#rif").val(), validar: "rif"}, function(data){
+			let mensaje = JSON.parse(data);
+			if(mensaje.resultado === "Error de rif"){
+				$("#error").text(mensaje.error);
+				$("#rif").attr("style","border-color: red;")
+				$("#rif").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+			}
+		})
+	}
+
+	$("#rif").keyup(()=> {  let valid = validarCedula($("#rif"),$("#error") ,"Error de RIF,");
+		if(valid){
+			validarRif();
+		}
+	});
 	$("#razon").keyup(()=> {  validarNombre($("#razon"),$("#error") , "Error de nombre,") });
 	$("#direccion").keyup(()=> {  validarDireccion($("#direccion"),$("#error") , "Error de direccion,") });
 	$("#telefono").keyup(()=> {  validarTelefono($("#telefono"),$("#error") ,"Error de telefono,") });
 
 	$("#registrar").click((e)=>{
+		e.preventDefault()
 
-		let vrif = validarCedula($("#rif"),$("#error") ,"Error de RIF,");
-		let vnombre = validarNombre($("#razon"),$("#error") , "Error de nombre,");
-		let vdireccion = validarDireccion($("#direccion"),$("#error") , "Error de direccion,");
-		let vtelefono = validarTelefono($("#telefono"),$("#error") ,"Error de telefono,");
+		let vrif, vnombre, vdireccion, vtelefono;
+		validarCedula($("#rif"),$("#error") ,"Error de RIF,");
+		vnombre = validarNombre($("#razon"),$("#error") , "Error de nombre,");
+		vdireccion = validarDireccion($("#direccion"),$("#error") , "Error de direccion,");
+		vtelefono = validarTelefono($("#telefono"),$("#error") ,"Error de telefono,");
 
-		if(vrif ==true && vnombre ==true && vdireccion ==true && vtelefono ==true){
+		if(!vnombre || !vdireccion || !vtelefono){
+			throw new Error('Error.');
+		}
 
-			// ENVÍO DE DATOS
-			$.ajax({
+		$.ajax({
 
-				type: "post",
-				url: '',
-				data: {
-					rif : $("#rif").val(),
-					razon : $("#razon").val(),
-					direccion : $("#direccion").val(),
-					telefono : $("#telefono").val(),
-					contacto : $("#contacto").val()
-				},
-				success(){
+			type: "post",
+			url: '',
+			data: {
+				rif : $("#rif").val(),
+				razon : $("#razon").val(),
+				direccion : $("#direccion").val(),
+				telefono : $("#telefono").val(),
+				contacto : $("#contacto").val()
+			},
+			success(data){
 
-					mostrar.destroy(); // VACÍA LA DATATABLE
-					rellenar();  // FUNCIÓN PARA RELLENAR DATATABLE
-					$('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
-				  	$('.cerrar').click(); // CERRAR EL MODAL
-				    Toast.fire({ icon: 'success', title: 'Laboratorio registrado' }) // ALERTA 
-				    
+				if(data.resultado === "Error de rif"){
+					$("#error").text(data.error);
+					$("#rif").attr("style","border-color: red;")
+					$("#rif").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+					throw new Error('Rif ya registrado.');
+				}else{
+					vrif = true;
 				}
 
-			})
+				if(vrif ==true && vnombre ==true && vdireccion ==true && vtelefono ==true){
 
-			e.preventDefault();
+					mostrar.destroy(); 
+					rellenar(); 
+					$('#agregarform').trigger('reset'); 
+					$('.cerrar').click(); 
+					Toast.fire({ icon: 'success', title: 'Laboratorio registrado' }) 
 
-		}else{
-			e.preventDefault();
-		}   
+				}   
+
+			}
+
+		})
 
 	})
 
@@ -102,14 +127,14 @@ $(document).ready(function(){
 	// FORMULARIO DE EDITAR
 
 	$("#editar").click((e)=>{
+
+		e.preventDefault(e);
     	//VALIDACIONES
-
-		let vrif = validarCedula($("#rifEdit"),$("#errorEdit") ,"Error de RIF,");
-		let vnombre =  validarNombre($("#razonEdit"),$("#errorEdit") , "Error de nombre,");
-		let vdireccion = validarDireccion($("#direccionEdit"),$("#errorEdit") , "Error de direccion,");
-		let vtelefono = validarTelefono($("#telefonoEdit"),$("#errorEdit") ,"Error de telefono,");
-
-		if(vrif ==true && vnombre ==true && vdireccion ==true && vtelefono ==true){
+    	let vrif, vnombre, vdireccion, vtelefono;
+		validarCedula($("#rifEdit"),$("#errorEdit") ,"Error de RIF,");
+		vnombre =  validarNombre($("#razonEdit"),$("#errorEdit") , "Error de nombre,");
+		vdireccion = validarDireccion($("#direccionEdit"),$("#errorEdit") , "Error de direccion,");
+		vtelefono = validarTelefono($("#telefonoEdit"),$("#errorEdit") ,"Error de telefono,");
 
 			// 	ENVÍO DE DATOS
 			$.ajax({
@@ -124,21 +149,26 @@ $(document).ready(function(){
 					contactoEdit : $("#contactoEdit").val(),
 					id
 				},
-				success(){
-					mostrar.destroy();
-					rellenar(); 
-					$('#editarform').trigger('reset');
-					$('.cerrar').click();
-					Toast.fire({ icon: 'success', title: 'Laboratorio modificado' })
+				success(r){
+					let data = JSON.parse(r);
+					if(data.resultado === "Error de rif"){
+						$("#errorEdit").text(data.error);
+						$("#rifEdit").attr("style","border-color: red;")
+						$("#rifEdit").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+						throw new Error('Rif ya registrado.');
+					}else{
+						vrif = true;
+					}
+					if(vrif ==true && vnombre ==true && vdireccion ==true && vtelefono ==true){					
+						mostrar.destroy();
+						rellenar(); 
+						$('#editarform').trigger('reset');
+						$('.cerrar').click();
+						Toast.fire({ icon: 'success', title: 'Laboratorio modificado' })
+					}
 				}
 
 			})
-
-			e.preventDefault();
-
-		}else{
-			e.preventDefault();
-		}   
 
 	})
 
