@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Inicio</title>
     <?php $VarComp->header(); ?>
     <link rel="stylesheet" href="assets/css/estiloInterno.css">
+
 </head>
 <body>
 
@@ -62,22 +63,21 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
+                    <li><a class="dropdown-item ventas" id="hoy">Hoy</a></li>
+                    <li><a class="dropdown-item ventas" id="mensual">Mensual</a></li>
+                    <li><a class="dropdown-item ventas" id="anual">Anual</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Ventas <span>| Dia</span></h5>
+                  <h5 class="card-title">Ventas <span id="ventas">| Dia</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      
+                      <h6 id="valorV"></h6>
                     </div>
                   </div>
                 </div>
@@ -96,23 +96,21 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
+                    <li><a class="dropdown-item compras" id="hoy">Hoy</a></li>
+                    <li><a class="dropdown-item compras" id="mensual">Mensual</a></li>
+                    <li><a class="dropdown-item compras" id="anual">Anual</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Compras<span>| Mensuales</span></h5>
+                  <h5 class="card-title">Compras <span id="compras">| Dia</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                      <i class="bi bi-cart-check"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$4.000</h6>
-                      
-
+                      <h6 id="valorC"></h6>
                     </div>
                   </div>
                 </div>
@@ -125,28 +123,16 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Productos<span>| Mensuales</span></h5>
+                  <h5 class="card-title">Productos<span></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="ri-capsule-fill"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>2.200</h6>
+                      <h6 id="producto"></h6>
                       
 
                     </div>
@@ -160,31 +146,19 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Usuarios<span>| Mensuales</span></h5>
+                  <h5 class="card-title">Usuarios</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="ri-contacts-fill"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>5</h6>
+                      <h6 id="usuarios"></h6>
                       
 
-                    </div>
+                    </div> 
                   </div>
                 </div>
 
@@ -195,28 +169,16 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Droguerias<span> </span></h5>
+                  <h5 class="card-title">Proveedores<span></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="ri-bank-fill"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>3</h6>
+                      <h6 id="proveedores"></h6>
                       
 
                     </div>
@@ -227,25 +189,10 @@
             </div><!-- End Revenue Card -->
 
 
-
-
             <!-- Customers Card -->
             <div class="col-xxl-4 col-md-6">
 
               <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
-                  </ul>
-                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">Clientes <span></span></h5>
@@ -255,7 +202,7 @@
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
+                      <h6 id="clientes"></h6>
 
                     </div>
                   </div>
@@ -269,38 +216,27 @@
             <div class="col-12">
               <div class="card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Anual</a></li>
-                  </ul>
-                </div>
+                
 
                 <div class="card-body">
-                  <h5 class="card-title">Ventas<span></span></h5>
+                  <h5 class="card-title">Gráfico de la semana actual</h5>
 
                   <!-- Line Chart -->
-                  <div id="reportsChart"></div>
+                  <canvas id="reportsChart"></canvas>
 
-                  <script>
+                  <!-- <script>
                     document.addEventListener("DOMContentLoaded", () => {
                       new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
+                          name: 'Compras',
+                          data: [15, 22, 52, 28, 2, 96, 23],
+                        }, {
                           name: 'Ventas',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Medicina',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Clientes',
                           data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
+                        }/*, {
+                          name: 'Ganancias',
+                          data: [15, 11, 32, 18, 9, 24, 11]
+                        }*/],
                         chart: {
                           height: 350,
                           type: 'area',
@@ -330,16 +266,16 @@
                         },
                         xaxis: {
                           type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                          categories: ["2023-01-15", "2023-01-16", "2023-01-17", "2023-01-18", "2023-01-19", "2023-01-20", "2023-01-21"]
                         },
                         tooltip: {
                           x: {
-                            format: 'dd/MM/yy HH:mm'
+                            format: 'dd/MM/yyyy'
                           },
                         }
                       }).render();
                     });
-                  </script>
+                  </script> -->
                   <!-- End Line Chart -->
 
                 </div>
@@ -361,4 +297,7 @@
 
 </body>
 <?php $VarComp->js();?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src="assets/js/chart.min.js"></script> -->
+<script type="text/javascript" src="assets/js/home.js"></script>
 </html>
