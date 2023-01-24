@@ -128,6 +128,15 @@ $(document).ready(function(){
 			})
 		}
 
+		    let ctx = document.getElementById('reportsChart').getContext('2d');
+
+		    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+		    gradient.addColorStop(0, 'rgba(94, 166, 48, 0.7)');
+		    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+		    let gradient2 = ctx.createLinearGradient(0, 0, 0, 400)
+		    gradient2.addColorStop(0, 'rgba(166, 74, 40, 0.7)');
+		    gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
 		let ventasG, comprasG, fechas;
 
 		$.post('', {fechas:'asd'}, function(r){
@@ -137,7 +146,7 @@ $(document).ready(function(){
 
 				$.post('',{grafico:'xd', compra:'xd'},function(response){
 					comprasG = JSON.parse(response);
-					new Chart("reportsChart", {
+					new Chart(ctx, {
 						type: "line",
 						xAxisID: [0,5,10,15,20,25],
 						data: {
@@ -145,18 +154,19 @@ $(document).ready(function(){
 							datasets: [{
 								label: "Ventas",
 								data: ventasG,
-								borderColor: "#efb710",
+								borderColor: "#5EA630",
 								borderRadius: 5,
-								backgroundColor:"#efb710",
-								pointBackgroundColor: "#efb710",
-								fill: false
+								backgroundColor:gradient,
+								pointBackgroundColor: "#5EA630",
+								fill: true
 							},
 							{
 								label: "Compras",
 								data: comprasG,
-								borderColor: "#189be7",
-								pointBackgroundColor: "#189be7",
-								fill: false
+								borderColor: "#A64A28",
+								pointBackgroundColor: "#A64A28",
+								backgroundColor: gradient2,
+								fill: true
 							}]
 						},
 						options: {
@@ -173,6 +183,10 @@ $(document).ready(function(){
 
 								}
 							},
+							interaction: {
+								intersect: false,
+								mode: 'nearest',
+							},
 							pointRadius: 4,
 							pointHoverRadius: 6,
 							pointBorderColor: "white",
@@ -182,9 +196,22 @@ $(document).ready(function(){
 							borderCapStyle: "round",
 							responsive: true,
 							scales: {
+								x: {
+									grid: {
+										display: false
+									}
+								},
 								y: {
-									min: 0,
-									max: 10
+									suggestedMin: 0,
+									suggestedMax: 10,
+									type: 'linear',
+									position: 'left'
+								},
+								y1: {
+									suggestedMin: 0,
+									suggestedMax: 10,
+									type: 'linear',
+									position: 'right'
 								}
 							},
 						}

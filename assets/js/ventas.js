@@ -1,5 +1,7 @@
  $(document).ready(function(){
-     
+
+  // MOSTRA TABLA CON DATATABLE
+
      let tablaMostrar;         
      rellenar();
        function rellenar(){
@@ -17,7 +19,8 @@
           }
         })
       }
-      
+      // MOSTRA DETALLES DE VENTA POR PRODUCTO
+
       let id;
 
       $(document).on('click', '.detalleV' , function(){
@@ -45,7 +48,7 @@
     })
 
      
-
+     // FUNCION CALCULATE PARA PRECIOS
 
       var iva = parseFloat($('#config_iva').val());
       console.log(iva);
@@ -103,7 +106,7 @@
                $(this).append(option);
                $(this).chosen({
                 width: '25vw',
-                placeholder_text_single: "Select an option",
+                placeholder_text_single: "Selecciona un producto",
                 search_contains: true,
                 allow_single_deselect: true,
                 });
@@ -138,6 +141,12 @@
        
      })
     }
+    
+    //  SELECT2 CON BOOTSTRAP-5 
+    $(".select2").select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#Agregar .modal-body'),
+    })
  
 
      //  fila que se inserta
@@ -186,7 +195,9 @@
       calculate();
 
      })
-
+     
+     // REGISTRAR VENTA
+     
 
      $('#cedula').keyup(()=> {validarCedula($("#cedula"),$("#error"),"Error de Cedula") });
      $('#metodo').keyup(()=> {validarNumero($("#metodo"),$("#error"),"Error de metodo de pago") });
@@ -227,9 +238,11 @@
          enviarProductos(idVenta.id);
          tablaMostrar.destroy();
             rellenar();  // FUNCIÓN PARA RELLENAR
+            $('.select2').val(null).trigger('change'); // LIMPIA EL SELECT2
             $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
             $('.cerrar').click(); // CERRAR EL MODAL
             $('.removeRow').click(); 
+            filaN()
             Toast.fire({ icon: 'success', title: 'Venta registrada' }) // ALERTA 
 
           })
@@ -248,22 +261,34 @@
     })
   }
 
-    $(document).on('click', '.borrar', function() {
+  $('#cerrar').click(()=>{
+     $('.select2').val(null).trigger('change'); // LIMPIA EL SELECT2
+     $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
+     $('.removeRow').click(); // LIMPIAR FILAS 
+     filaN() // 
+  })
+
+  // ELIMNINAR VENTA
+
+       $(document).on('click', '.borrar', function(){
         id = this.id;
-        console.log(id);
-        $("#delete").click(()=>{ 
-          $.ajax({
+
+      })   
+       
+       $("#delete").click(()=>{ 
+         console.log(id);
+         $.ajax({
           type: "POST",
           url: '',
           data: {eliminar: "asd", id},
           success(data){
-              tablaMostrar.destroy();
-              rellenar();
-              $('.cerrar').click();
+            tablaMostrar.destroy();
+            rellenar();
+            $('.cerrar').click();
               Toast.fire({ icon: 'error', title: 'Venta eliminada' }) // ALERTA 
-         }
-      })
-    })
-  }) 
+            }
+          })
+       })
+  
 
 });

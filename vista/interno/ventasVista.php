@@ -8,6 +8,9 @@
     <?php $VarComp->header(); ?>
     <link rel="stylesheet" href="assets/css/estiloInterno.css">
     <link rel="stylesheet" href="assets/css/chosen.min.css">
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/select2-bootstrap-5-theme.min.css">
+    <link rel="stylesheet" href="assets/css/select2-bootstrap-5-theme.rtl.min.css">
 </head>
 <body>
 
@@ -99,9 +102,9 @@
  </main>
 </body>
   
-              <!-- Modal AGREGAR -->
+      <!-- Modal AGREGAR -->
 
-    <div class="modal fade" id="Agregar" tabindex="-1">
+    <div class="modal fade" id="Agregar" >
      <div class="modal-dialog modal-dialog-scrollable modal-lg ">
        <div class="modal-content">
          <div class="modal-header alert alert-success">
@@ -121,12 +124,12 @@
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Cliente</strong></label>
                     <div class="input-group">
                       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca una cédula registrada en el sistema."><i class="bi bi-person-fill"></i></button>
-                      <select type="number" class="form-control"  placeholder="Cédula" name="cedula" id="cedula">
+                      <select class="form-control select2" placeholder="Cédula" id="cedula">
                         <option selected disabled>Clientes</option>
                         <?php if(isset($mostrarC)){
                           foreach($mostrarC as $data){
                             ?> 
-                            <option value="<?php echo $data->cedula;?>" class="opcion"><?php echo $data->cedula;?></option>
+                            <option value="<?php echo $data->cedula;?>" class="opcion"><?php echo $data->nombre;?> <?php echo $data->apellido;?> <?php echo $data->cedula;?></option>
                             <?php
                           }
                         }else{"";}?>
@@ -137,8 +140,8 @@
                   <div class="form-group col-6">                          
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Pago</strong></label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca una cédula registrada en el sistema."><i class="bi bi-person-fill"></i></button>
-                      <select type="number" class="form-control"  placeholder="Metodo de pago" name="metodo" id="metodo">
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca una cédula registrada en el sistema."><i class="bi bi-cash-coin"></i></button>
+                      <select class="form-control"  placeholder="Metodo de pago" name="metodo" id="metodo">
                         <option selected disabled>Metodo a pagar</option>
                         <?php if(isset($mostrerM)){
                           foreach($mostrerM as $data){
@@ -199,7 +202,7 @@
                       <tbody id="ASD">
                         <tr>
                           <td width="1%"><a class="removeRow a-asd" href="#"><i class="bi bi-trash-fill"></i></a></td>
-                          <td width='40%'> 
+                          <td width='30%'> 
                             <select class="select-productos select-asd" name="productos">
                               <option></option>
                             </select>
@@ -227,7 +230,7 @@
           <p style="color:#ff0000;text-align: center;" id="error"></p>
           
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-secondary cerrar" id="cerrar" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-success " id="registrar">Registrar</button>
           </div>
         </form>
@@ -288,6 +291,7 @@
  
 <?php $VarComp->js(); ?>
 <script src="assets/js/chosen.jquery.min.js"></script>
+<script src="assets/js/select2.full.min.js"></script>
 <script src="assets/js/ventas.js"></script>
 </html>
 
