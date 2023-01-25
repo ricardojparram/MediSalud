@@ -11,7 +11,6 @@
           dataType: "json",
           data:{mostrar: "venta"},
           success(data){
-            console.log(data)
             tablaMostrar = $('#tableMostrar').DataTable({
               responsive : true,
               data : data
@@ -51,7 +50,6 @@
      // FUNCION CALCULATE PARA PRECIOS
 
       var iva = parseFloat($('#config_iva').val());
-      console.log(iva);
       selectOptions();
       calculate();
 
@@ -118,29 +116,50 @@
       })
     } 
 
-      let producto;
+    let producto, select, cantidad, stock;
     //Selecciona cada producto 
     cambio();
     function cambio(){
-       $('.select-productos').change(function(){
-         select = $(this);
-         producto = $(this).val();
-         fillData($(this).val());
-       })
+      $('.select-productos').change(function(){
+        select = $(this);
+        producto = $(this).val();
+        cantidad = select.closest('tr').find('.amount input');
+        fillData();
+
+      })
     }
     //  Rellena los inputs con el precio y cantidad de cada producto
-    function fillData(val){
+    function fillData(){
       $.getJSON('',{producto, fill: "data"}, function(data){
-        if(producto == val){
-          let cantidad = select.closest('tr').find('.amount input');
-          let precio = select.closest('tr').find('.rate input');
-          cantidad.val(data[0].stock);
-          precio.val(data[0].p_venta);
-          calculate();
-       }
-       
-     })
+
+        let precio = select.closest('tr').find('.rate input');
+        stock = data[0].stock;
+        cantidad.val(data[0].stock);
+        cantidad.attr("placeholder", stock);
+        precio.val(data[0].p_venta);
+        calculate();
+        validarStock(cantidad, stock);
+
+      })
     }
+
+    function validarStock(input, max){
+      $(input).keyup(()=>{
+        stock = Number(max);
+        num = Number(input.val());
+        if(num > stock || num == 0){
+          input.css({"border" : "solid", "border-color" : "red"})
+          input.attr("valid", "false")
+        }else{
+          input.css({'border': 'none'})
+          input.attr("valid", "true")
+        }
+      })
+    }
+  
+
+      
+
     
     //  SELECT2 CON BOOTSTRAP-5 
     $(".select2").select2({
@@ -157,8 +176,8 @@
             <option></option>
           </select>
           </td>
-          <td width='10%' class="amount"><input class="select-asd" type="number" value=""/></td>
-          <td width='10%' class="rate"><input class="select-asd" type="number" value="" /></td>
+          <td width='10%' class="amount"><input class="select-asd stock" type="number" value=""/></td>
+          <td width='10%' class="rate"><input class="select-asd" type="number" disabled value="" /></td>
           <td width='10%'class="tax"></td>
           <td width='10%' class="sum"></td>
           </tr>`;
@@ -207,6 +226,8 @@
      $("#registrar").click((e)=>{
        e.preventDefault();
 
+       
+
        let cedula =validarCedula($("#cedula"),$("#error"),"Error de Cedula");
        let metodo = validarNumero($("#metodo"),$("#error"),"Error de metodo de pago");
        let montoT = validarNumero($("#monto"),$("#error"),"Error de monto");
@@ -215,15 +236,19 @@
 
        $('.table-body tbody tr').each(function(){
         let producto = $(this).find('.select-productos').val();
-        console.log(producto);
-         if(producto == "" || producto == null){
-           vproductos = false;
-          $('#error').text('No debe haber productos vacíos.')
-         }
+        if(producto == "" || producto == null){
+         vproductos = false;
+         $('#error').text('No debe haber productos vacíos.')
+        }
       })
+       let vstock = true;
+       if($('.stock').is('[valid="false"]')){
+        vstock  = false
+        $('#error').text('Cantidad inválida.')
+      }
 
 
-       if(cedula == true && metodo == true && montoT == true && vproductos == true){
+       if(cedula == true && metodo == true && montoT == true && vproductos == true && vstock == true){
 
          console.log("Enviando ...");
 

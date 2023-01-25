@@ -68,6 +68,7 @@ body{
     background: transparent;
     border: none;
     width: 100%;
+    border-width: 1px;
 }
 
 .iconos{
