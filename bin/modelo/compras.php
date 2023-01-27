@@ -138,7 +138,20 @@
 				$new->bindValue(3, $this->cantidad);
 				$new->bindValue(4, $this->precio);
 				$new->execute();
-				die();
+
+				$new = $this->con->prepare('SELECT stock FROM producto WHERE cod_producto = ?');
+				$new->bindValue(1, $this->producto);
+				$new->execute();
+				$stock= $new->fetchAll(\PDO::FETCH_OBJ);
+				$stockActual = $stock[0]->stock;
+
+				$stockActual += $this->cantidad;
+				$new = $this->con->prepare('UPDATE producto SET	stock = ? WHERE cod_producto = ?');
+				$new->bindValue(1, $stockActual);
+				$new->bindValue(2, $this->producto);
+				$new->execute();
+				echo "Stock actualizado";
+				die();	
 				
 			} catch (\PDOException $e) {
 				return $e;

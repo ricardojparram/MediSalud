@@ -203,15 +203,9 @@ $(document).ready(function(){
 								},
 								y: {
 									suggestedMin: 0,
-									suggestedMax: 10,
+									suggestedMax: 15,
 									type: 'linear',
 									position: 'left'
-								},
-								y1: {
-									suggestedMin: 0,
-									suggestedMax: 10,
-									type: 'linear',
-									position: 'right'
 								}
 							},
 						}

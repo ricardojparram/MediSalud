@@ -29,7 +29,7 @@
 							INNER JOIN proveedor p 
 							ON c.cod_prove = p.cod_prove
 							WHERE fecha BETWEEN ? AND ? AND c.status = 1
-							GROUP BY cp.cod_compra";
+							GROUP BY cp.cod_compra ORDER BY c.fecha";
 				break;
 				case 'venta':
 				$this->sql="SELECT v.num_fact, c.cedula, CONCAT(c.nombre,' ',c.apellido) as nombre,
@@ -37,7 +37,7 @@
 							INNER JOIN cliente c 
 							ON v.cedula_cliente = c.cedula
 							WHERE fecha BETWEEN ? AND ? AND c.status = 1
-							ORDER BY v.num_fact ASC";
+							ORDER BY v.fecha";
 				break;
 				
 				default:
@@ -91,13 +91,13 @@
 			$nombre = ($this->tipo == 'compra') ? 'compras_'.$fechaI.'_'.$fechaF.'.pdf' : 'ventas_'.$fechaI.'_'.$fechaF.'.pdf';
 			$titulo = ($this->tipo == 'compra') ? 'Reporte de Compras' : 'Reporte de Ventas';
 			$subTitulo = $fechaI.' a '.$fechaF;
-			$columnas = ($this->tipo == 'compra') ? [0 => 'Orden', 1 => 'Proveedor', 2 => 'Fecha', 3 => 'Cantidad', 4 => 'Monto Total'] : [0 => 'N°', 1 => 'Cédula', 2 => 'Nombre', 3 => 'Fecha', 4 => 'Monto'];
+			$columnas = ($this->tipo == 'compra') ? [0 => 'Orden', 1 => 'Proveedor', 2 => 'Fecha', 3 => 'Cantidad', 4 => 'Monto'] : [0 => 'N°', 1 => 'Cédula', 2 => 'Nombre', 3 => 'Fecha', 4 => 'Monto'];
 
 			$pdf = new FPDF();
 			$pdf->AddPage();
-			$pdf->SetMargins(20,30,20);
+			$pdf->SetMargins(15,30,15);
 			
-			$pdf->Image('assets/img/Logo_titulo.png',20,5,40);
+			$pdf->Image('assets/img/Logo_titulo.png',15,5,40);
 			$pdf->SetFont('Arial','B',16);
 			$pdf->setX(20);
 			$pdf->setY(15);
@@ -117,6 +117,8 @@
 			$pdf->SetFont('Arial','',12);
 			$pdf->SetFillColor(245,245,245);
 
+			$total = 0;
+
 			foreach ($reporte as $col => $value) {
 
 				$pdf->Cell(25,10,utf8_decode($value[0]),1,0,'C',1);
@@ -124,8 +126,13 @@
 				$pdf->Cell(45,10,utf8_decode($value[2]),1,0,'C',1);
 				$pdf->Cell(40,10,utf8_decode($value[3]),1,0,'C',1);
 				$pdf->Cell(30,10,utf8_decode($value[4]),1,1,'C',1);
-
+				$total += $value[4];
 			}
+			
+			$pdf->SetFillColor(210, 224, 137);
+			$pdf->setX(125);
+			$pdf->Cell(40,10,utf8_decode('Monto total'),1,0,'C',1);
+			$pdf->Cell(30,10,utf8_decode($total),1,1,'C',1);
 
 			$repositorio = 'assets/reportes/'.$nombre;
 			$pdf->Output('F',$repositorio);
