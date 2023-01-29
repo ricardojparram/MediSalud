@@ -7,12 +7,40 @@
   
   $objModel = new moneda();
 
-  $mostrar = $objModel->getMostrarMoneda();
+  if (isset($_POST["mostrar"])) {
+    $objModel->getMostrarMoneda();
+  }
 
-  if(isset($_POST["moneda"]) && isset($_POST["alcambio"])) {
+  if(isset($_POST["cambio"]) && isset($_POST["tipo"])) {
 
-    $respuesta = $objModel->getAgregarMoneda($_POST["moneda"] , $_POST["alcambio"] ) ;  
+    $objModel->getAgregarMoneda($_POST["cambio"], $_POST["tipo"]);  
   } 
+
+
+
+  if (isset($_POST["borrar"]) && isset($_POST["id"])) {
+    $objModel->getEliminarMoneda($_POST["id"]);
+  }
+
+  if (isset($_POST["unico"]) && isset($_POST["editar"])) {
+
+    
+    $objModel->mostrarUnico($_POST["unico"]);
+  }
+
+   if(isset($_POST["cambioEdit"]) && isset($_POST["tipoEdit"]) && isset($_POST["unico"])) {
+
+    $objModel->getEditarMoneda($_POST["cambioEdit"], $_POST["tipoEdit"], $_POST["unico"]);  
+  } 
+
+
+
+
+
+
+
+
+
 
   $VarComp = new initcomponents();
   $header = new header();

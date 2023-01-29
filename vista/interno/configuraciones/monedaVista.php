@@ -60,34 +60,23 @@
          <div class="table-responsive">
           
 
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th scope="col">tipos de moneda</th>
+                      <th scope="col">Tipos de moneda</th>
                       <th scope="col">Alcambio</th>
                       <th scope="col">Opciones</th>
                     </tr>
                   </thead>
-                   <tbody>
-                     <?php if(isset($mostrar)) {
-                      foreach ($mostrar as $col) {
-                       ?>
-                     <tr>
-                      <td><?php echo $col->nombre; ?></td>
-                      <td><?php echo $col->cambio; ?></td>
-                      <td>
-                      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"><i class="bi bi-pencil"></i></button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
+                  <tfoot>
+                    <tr>
+                      <th scope="col">Tipos de moneda</th>
+                      <th scope="col">Alcambio</th>
+                      <th scope="col">Opciones</th>
                     </tr>
-                     <?php
-                        }
-                      }
-                        ?>
+                  </tfoot>
+                   <tbody id = "tbody">
 
-                     
-                      
             </tbody>
                 </table>
               </div>
@@ -125,9 +114,8 @@
                     
                               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-currency-exchange"></i></button> 
 
-                              <input id="tipMon" class="form-control" required="" placeholder="Moneda" name="moneda">
-                            </div> 
-                             <p class="p" id="error_1" style="display: none">Tipo de moneda inválida</p>  
+                              <input id="tipMon" class="form-control" required="" placeholder="Moneda" >
+                            </div>  
                           </div>
                             <div class="form-group col-lg-7">
                               <label class="col-form-label"> <strong>Alcambio*</strong> </label>
@@ -135,23 +123,20 @@
                                <div class="input-group">
                               
                               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-cash-coin"></i></button>
-                              <input id="cambio"class="form-control" required="" placeholder="Alcambio" name="alcambio">
+                              <input id="cambio" class="form-control" required="" placeholder="Alcambio" >
+                            </div> 
                             </div>
-                            <p class="p" id="error_2" style="display: none"> Digito inválida</p>  
-                             
-                            </div>
-                        
                       </div>
                     </div>
                   </div>
-                 <p style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
-                  
+                 <p id="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
       <div class="modal-footer">
-        
-        <button id="boton" type="sumit" class="btn btn-success">Registrar</button>
+        <button type="reset" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" id="enviar" class="btn btn-success">Registrar</button>
       </div>
-
+    </form>
     </div>
+  
   </div>
  </div>
 </div>
@@ -186,7 +171,7 @@
                     
                               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-currency-exchange"></i></button> 
 
-                              <input class="form-control" required="" value="Dolares">
+                              <input id="tipMonEdit" class="form-control" required="" >
                             </div> 
                             </div>
                             <div class="form-group col-lg-6">
@@ -196,7 +181,7 @@
                               
                               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-cash-coin"></i></button>
 
-                              <input class="form-control" required="" Value="9,68">
+                              <input id="cambioEdit" class="form-control" required="" >
                             </div>
                         
                       </div>
@@ -205,9 +190,10 @@
 
 
       </div>
+      <p id="error2" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
       <div class="modal-footer">
-        
-        <button type="button" class="btn btn-success">Actualizar</button>
+        <button type="reset" id="closeEdit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" id="enviarEdit" class="btn btn-success">Actualizar</button>
       </div>
 
     </div>
@@ -229,8 +215,14 @@
         <h5>Los datos serán eliminados completamente del sistema</h5>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Borrar</button>
+        <button id="cerrar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+
+
+
+
+        
+        <button id="delete" type="button" class="btn btn-danger">Borrar</button>
       </div>
     </div>
   </div>
@@ -246,10 +238,7 @@
 <!-- Production version -->
 <script src="assets/js/popper.min.js"></script>
 
-<script type="text/javascript">
-  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-</script>
+
 
 
 </body>

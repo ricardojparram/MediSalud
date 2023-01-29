@@ -97,7 +97,8 @@ CREATE TABLE `contacto_prove`(
 CREATE TABLE `presentacion`(
     `cod_pres` int AUTO_INCREMENT PRIMARY KEY,
     `cantidad` varchar(12) COLLATE utf8_spanish2_ci NOT NULL,
-    `medida` int NOT NULL,
+    `medida` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
+    `peso` decimal(10,2) NOT NULL,
     `status` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -109,12 +110,19 @@ CREATE TABLE `tipo`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- TABLA PARA LAS CLASES DE PRODUCTOS 
-CREATE TABLE `clase_prod`(
-    `cod_clase` int AUTO_INCREMENT PRIMARY KEY,
-    `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
-    `status` int NOT NULL,
-    `cod_tipo` int NOT NULL,
-    FOREIGN KEY (`cod_tipo`) REFERENCES `tipo`(`cod_tipo`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `clase` (
+  `cod_clase` int AUTO_INCREMENT PRIMARY KEY,
+  `des_clase` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- TABLA RELACION CLASE - PRODUCTO
+
+CREATE TABLE `clase_producto` (
+  `cod_clase` int NOT NULL,
+  `cod_producto` int NOT NULL,
+  FOREIGN KEY (`cod_clase`) REFERENCES `clase` (`cod_clase`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`cod_producto`) REFERENCES `producto` (`cod_producto`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- TABLA DE LA RELACIÓN PRODUCTO - LABORATORIO 
@@ -218,6 +226,7 @@ INSERT INTO `cliente`(`cedula`, `nombre`, `apellido`, `direccion`, `status`) VAL
 ('28956745','Victor','Aparicio','Chivacoa',1);
 -- INSERTA LOS LABORATORIOS
 INSERT INTO `laboratorio`(`rif`, `direccion`, `razon_social`, `status`) VALUES 
+(0000000,'ninguno','NO ASIGNADO',1),
 (1234567,'Av. Venezuela','MedicalCare',1),
 (7788564,'Pueblo Nuevo','Bayer',1),
 (2394739,'Pueblo Nuevo','Geven',1);
@@ -227,11 +236,22 @@ INSERT INTO `proveedor`(`rif`, `direccion`, `razon_social`, `status`) VALUES
 (34534565,'Pueblo Nuevo','DroAra',1),
 (12232432,'Centro','DroNose',1);
 -- INSERTA LAS PRECENTACIONES
-INSERT INTO `presentacion`(`cantidad`, `medida`, `status`) VALUES 
-(3,'500mg',1),
-(5,'800mg',1),
-(2,'10mg',1);
+INSERT INTO `presentacion` (`cod_pres`, `cantidad`, `medida`, `peso`, `status`) VALUES
+(1,0,'NO ASIGNADO','0',1),
+(2, 30, 'mg', '250.00', 1),
+(3, 50, 'mg', '500.00', 1),
+(4, 20, 'lts', '1.00', 1),
+(5, 100, 'mg', '20.00', 1);
 -- INSERTA LAS TIPO
 INSERT INTO `tipo`(`des_tipo`, `status`) VALUES 
+('NO ASIGNADO',1),
 ('Adulto',1),
 ('Pediatrico',1);
+-- INSERTA LAS CLASE
+INSERT INTO `clase`(`des_clase`, `status`) VALUES ('NO ASIGNADO',1);
+
+INSERT INTO `tipo_pago`(`cod_tipo_pago`, `des_tipo_pago`, `status`) VALUES 
+(1,'Tarjeta de credito',1),
+(2,'Efectivo',1),
+(3,'divisa',1),
+(4,'Pago movil',1);

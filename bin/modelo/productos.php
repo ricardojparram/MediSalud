@@ -12,6 +12,7 @@
      private $posologia;
      private $laboratorio;
      private $tipoP;
+     private $clase;
      private $presentación;
      private $ubicación;
      private $contraIn;
@@ -24,7 +25,7 @@
       parent::__construct();
     }
 
-    public function getRegistraProd($descripcion, $fechaV ,$composicionP,$posologia,$laboratorio,$tipoP,$presentación,$ubicación,$contraIn,$cantidad,$precioV){
+    public function getRegistraProd($descripcion, $fechaV ,$composicionP,$posologia,$laboratorio,$tipoP,$clase,$presentación,$ubicación,$contraIn,$cantidad,$precioV){
       
      if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $descripcion)){
       return "Error de nombre!";
@@ -44,6 +45,9 @@
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $tipoP)){
       return "Error de tipo producto!";
     }
+    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $clase)){
+      return "Error de clase!";
+    }
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $presentación)){
       return "Error de presentación!";
     }
@@ -56,7 +60,7 @@
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $cantidad)){
       return "Error de cantidad!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $precioV)){
+    if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $precioV) !== 1){
       return "Error de precio de venta!";
     }
 
@@ -65,7 +69,7 @@
 
     if(strftime($time) > strftime($fechaV)){
 
-    $result = ['resultado' => 'Error de fecha', 'error' => 'Fecha es menor'];
+    $result = ['resultado' => 'Error de fecha', 'error' => 'La fecha es menor'];
     echo json_encode($result);
     die();
     }
@@ -81,6 +85,7 @@
 
     $this->laboratorio = $laboratorio;
     $this->tipoP = $tipoP;
+    $this->clase = $clase;
     $this->presentación = $presentación; 
 
 
@@ -118,6 +123,11 @@
       $new->bindValue(1, $this->tipoP);
       $new->bindValue(2, $lastInsertId);
       $new->execute();
+
+      $new = $this->con->prepare("INSERT INTO `clase_producto`(`cod_clase`, `cod_producto`) VALUES (?,?)");
+      $new->bindValue(1, $this->clase);
+      $new->bindValue(2, $lastInsertId);
+      $new->execute();
             
       $result = ['resultado' => 'Registrado'];
       echo json_encode($result);
@@ -132,7 +142,7 @@
    public function MostrarEditProductos($id){
       try{
         $this->id = $id;
-        $new = $this->con->prepare("SELECT * FROM producto p INNER JOIN laboratorio_producto lp ON p.cod_producto = lp.cod_producto INNER JOIN presentacion_producto pp ON p.cod_producto = pp.cod_producto INNER JOIN tipo_producto tp ON p.cod_producto = tp.cod_producto WHERE p.status = 1 and p.cod_producto = ?");
+        $new = $this->con->prepare("SELECT * FROM producto p INNER JOIN laboratorio_producto lp ON p.cod_producto = lp.cod_producto INNER JOIN presentacion_producto pp ON p.cod_producto = pp.cod_producto INNER JOIN tipo_producto tp ON p.cod_producto = tp.cod_producto INNER JOIN clase_producto cp ON cp.cod_producto = p.cod_producto WHERE p.status = 1 and p.cod_producto = ?");
         $new->bindValue(1, $this->id);
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
@@ -146,8 +156,8 @@
     }
 
 
-   public function getEditarProd($descripcionEd, $fechaEd ,$composicionEd,$posologiaEd,$laboratorioEd,$tipoEd,$presentaciónEd,$ubicaciónEd,$contraInEd,$cantidadEd,$VentaEd,$id){
-
+   public function getEditarProd($descripcionEd, $fechaEd ,$composicionEd,$posologiaEd,$laboratorioEd,$tipoEd,$claseEd,$presentaciónEd,$ubicaciónEd,$contraInEd,$cantidadEd,$VentaEd,$id){
+ 
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $descripcionEd)){
       return "Error de nombre!";
     }
@@ -166,6 +176,9 @@
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $tipoEd)){
       return "Error de tipo producto!";
     }
+    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $claseEd)){
+      return "Error de clase!";
+    }
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $presentaciónEd)){
       return "Error de presentación!";
     }
@@ -178,7 +191,7 @@
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $cantidadEd)){
       return "Error de cantidad!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $VentaEd)){
+    if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $VentaEd) !== 1){
       return "Error de precio de venta!";
     }
 
@@ -195,6 +208,7 @@
 
     $this->laboratorio = $laboratorioEd;
     $this->tipoP = $tipoEd;
+    $this->clase = $claseEd;
     $this->presentación = $presentaciónEd; 
 
     return $this->editarProd();
@@ -229,6 +243,11 @@
 
       $new = $this->con->prepare("UPDATE `tipo_producto` SET `cod_tipo` = ? WHERE `cod_producto` = ?");
       $new->bindValue(1, $this->tipoP);
+      $new->bindValue(2, $this->id);
+      $new->execute();
+
+      $new = $this->con->prepare("UPDATE `clase_producto` SET `cod_clase` = ? WHERE `cod_producto` = ?");
+      $new->bindValue(1, $this->clase);
       $new->bindValue(2, $this->id);
       $new->execute();
       
@@ -303,6 +322,19 @@
     public function mostrarPresentacion(){
       try{
         $new = $this->con->prepare("SELECT * FROM `presentacion`");
+        $new->execute();
+        $data = $new->fetchAll(\PDO::FETCH_OBJ);
+        return $data;
+
+      }catch(\PDOexection $error){
+
+       return $error;   
+     } 
+    }
+
+    public function mostrarClase(){
+      try{
+        $new = $this->con->prepare("SELECT * FROM `clase`");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         return $data;

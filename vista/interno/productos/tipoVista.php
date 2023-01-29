@@ -61,47 +61,32 @@
               <div class="modal fade" id="basicModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-xm">
                   <div class="modal-content">
+
                     <div class="modal-header alert alert-success">
                       <h4 class="modal-title"><strong>Registrar Tipo de producto</strong></h4>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body ">
-                    <form>
+                    <div class="modal-body "> 
 
+                      <div class="modal-body">
+                    <form class="user" method="POST">
                     <div class="form-group col-md-12">  
                       <div class="container-fluid">
                         <div class="row">
-
                             <div class="form-group col-lg-6">
                               <label class="col-form-label"> <strong>Tipo*</strong> </label>
-                              <input type="text" class="form-control" required="" placeholder="Tipo de producto">
-
+                              <input id="tipNom" type="text" class="form-control" required="" placeholder="Tipo de producto">
                             </div>
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Clase*</strong> </label>
-                              <select class="form-control" aria-label="Default select example"><option value="" selected="" >Seleccione una opción</option>
-                                  <option value="">Comprimido</option>
-                                  <option value="">Jarabe</option>
-                                  <option value="">Intravenoso</option>
-                              
-                              </select>
-                            </div>
-
                         </div>
                       </div>
                     </div>
-
-                  </div>
-
-
-                    
-
-                      
+                  </div> 
+                   <p id="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>     
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-success">Registrar</button>
+                      <button id="closeAg" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button id="enviar" type="button" class="btn btn-success">Registrar</button>
+                      </div>
                     </div>
                   </form>
                   </div>
@@ -110,7 +95,7 @@
 
               <!-- Modal Editar-->
 
-              <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+              <div class="modal fade" id="editarModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-xm">
                   <div class="modal-content">
                     <div class="modal-header alert alert-success">
@@ -127,25 +112,17 @@
 
                             <div class="form-group col-lg-6">
                               <label class="col-form-label"> <strong>Tipo*</strong> </label>
-                              <input type="text" class="form-control" required="" Value="Adulto">
+                              <input id="tipNomEdit"type="text" class="form-control" required="" >
 
-                            </div>
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Clase*</strong> </label>
-                              <select class="form-control" aria-label="Default select example"><option value="" selected="" >Seleccione una opción</option>
-                                  <option value="">Comprimido</option>
-                                  <option value="">Jarabe</option>
-                                  <option value="">Intravenoso</option>
-                              </select>
-                            </div>
+                            </div> 
                         </div>
                       </div>
                     </div>
                   </div> 
+                  <p id="error2" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-success">Actualizar</button>
+                      <button type="button" id="closeEditar"class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="button" id="enviarEditar" class="btn btn-success">Actualizar</button>
                     </div>
                   </form>
                   </div>
@@ -165,20 +142,19 @@
                       <h5>Los datos serán eliminados completamente del sistema</h5>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-danger">Borrar</button>
+                      <button id="cerrar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button id="delete" type="button" class="btn btn-danger">Borrar</button>
                     </div>
                   </div>
                 </div>
               </div>
 
          <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                   <thead>
 
                     <tr>
                       <th scope="col">Tipo</th>
-                      <th scope="col">Clase</th>
                       <th scope="col">Opciones</th>
                     
                     </tr>
@@ -186,27 +162,6 @@
               
                 
               <tbody>
-                    <tr>
-                      <td>Adulto</td>
-                      <td>Comprimido</td>
-                      <td><button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#editModal">
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
-
-                    <tr>
-                      <td>Pediátrico</td>
-                      <td>Jarabe</td>
-                      <td><button type="button" class="btn btn-success ">
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
                     
                   </tbody>
                 </table>
@@ -223,6 +178,7 @@
 </body>
 
   <?php $VarComp->js(); ?>
+  <script src="assets/js/tipo.js"></script> 
 
  
 </html>

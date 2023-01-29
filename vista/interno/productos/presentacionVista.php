@@ -31,18 +31,17 @@
          
   <!-- End Sidebar-->
 
-
   <main class="main" id="main">
     <div class="pagetitle">
       
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><h1> Presentación del producto</h1></li>
+          <li class="breadcrumb-item"><h1> Gestionar Presentación</h1></li>
         </ol>
       </nav>
 
     </div>
-
+    
   <div class="card">
             <div class="card-body">
             
@@ -52,242 +51,34 @@
                 </div>
 
                 <div class="col-6 text-end mt-3">
-                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal">Agregar</button>
+                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Agregar">Agregar</button>
                 </div>
               </div>
 
-              <!-- Modal AGREGAR -->
 
-              <div class="modal fade" id="basicModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-xm">
-                  <div class="modal-content">
-                    <div class="modal-header alert alert-success">
-                      <h4 class="modal-title"> <strong>Registrar Tipo de Presentación del Producto</strong> </h4>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body ">
-                    <form>
-
-                    <div class="form-group col-md-12">  
-                      <div class="container-fluid">
-                        <div class="row">
-
-                         
-
-                            <div class="form-group col-lg-6">
-
-                              <label class="col-form-label"> <strong>Unidad de medida</strong> </label>
-                              <div class="input-group">
-                                <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca unidad de medida"><i class="ri-bar-chart-fill"></i></button> 
-                              <input class="form-control" required="" placeholder="Unidad de Medida">
-                            </div>
-                            </div>
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Cantidad*</strong> </label>
-                              <div class="input-group">
-                                <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca cantidad"><i class="ri-bar-chart-horizontal-fill"></i></button> 
-                              <input type="number" class="form-control" required="" placeholder="123">
-                            </div>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                     
-                     
-                      <div class="form-group col-md-12">  
-                      <div class="container-fluid">
-                        <div class="row">
-
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Tipo</strong> </label>
-                              <select class="form-control" aria-label="Default select example"><option value="" selected="" >Seleccione una opción</option>
-                                  <option value="">Comprimido</option>
-                                  <option value="">Unidad</option>
-                                
-                                  
-                              </select>
-                            </div>
-
-                            <div class="form-group col-lg-6">
-
-                              <label class="col-form-label"> <strong>Peso</strong> </label>
-                              <input class="form-control" required="" placeholder="peso">
-
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-      
-
-                  </div>
-
-
-                    
-
-                      
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-success">Registrar</button>
-                    </div>
-                  </form>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Modal Editar -->
-
-              <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-xm">
-                  <div class="modal-content">
-                    <div class="modal-header alert alert-success">
-                      <h4 class="modal-title"> <strong>Editar Tipo de Presentación del Producto</strong> </h4>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body ">
-                    <form>
-
-                    <div class="form-group col-md-12">  
-                      <div class="container-fluid">
-                        <div class="row">
-
-                         
-
-                            <div class="form-group col-lg-6">
-
-                              <label class="col-form-label"> <strong>Unidad de medida</strong> </label>
-                              <input class="form-control" required="" value="500mg">
-
-                            </div>
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Cantidad*</strong> </label>
-                              <input type="number" class="form-control" required="" value="3">
-
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                     
-                     
-                      <div class="form-group col-md-12">  
-                      <div class="container-fluid">
-                        <div class="row">
-
-
-                            <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Tipo</strong> </label>
-                              <select class="form-control" aria-label="Default select example"><option value="" selected="" >Seleccione una opción</option>
-                                  <option value="">Comprimido</option>
-                                  <option value="">Unidad</option>
-                                
-                                  
-                              </select>
-                            </div>
-
-                            <div class="form-group col-lg-6">
-
-                              <label class="col-form-label"> <strong>Peso</strong> </label>
-                              <input class="form-control" required="" value="10">
-
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-      
-
-                  </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-success">Actualizar</button>
-                    </div>
-                  </form>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Modal Eliminar-->
-
-              <div class="modal fade" id="delModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h3 class="modal-title" id="staticBackdropLabel">¿Estás seguro?</h3>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <h5>Los datos serán eliminados completamente del sistema</h5>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-danger">Borrar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <!-- COMIENZO DE TABLA -->
          <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-hover" id="tableMostrar" width="100%" cellspacing="0">
                   <thead>
 
                     <tr>
-                      <th scope="col">Peso</th>
-                      <th scope="col">U.Medida</th>
                       <th scope="col">Cant</th>
-                      <th scope="col">Tipo</th>
+                      <th scope="col">U.Medida</th>
+                      <th scope="col">Peso</th>
                       <th scope="col">Opciones</th>
+
                     
                     </tr>
                   </thead>
               
                 
-              <tbody>
-                    <tr>
-                      <td>10</td>
-                      <td>500mg</td>
-                      <td>3</td>
-                      <td>Comprimido</td>
-                      <td><button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#editModal">
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
-
-                    <tr>
-                      <td>10</td>
-                      <td>800mg</td>
-                      <td>2</td>
-                      <td>Comprimido</td>
-                      <td><button type="button" class="btn btn-success " >
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
-
-                    <tr>
-                      <td>Cetirizina</td>
-                      <td>10mg</td>
-                      <td>5</td>
-                      <td>Comprimido</td>
-                      <td><button type="button" class="btn btn-success ">
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
+              <tbody id = "tbody">
+                
                     
                   </tbody>
                 </table>
               </div>
-              <!-- End Table with stripped rows -->
+              <!-- FINAL DE TABLA -->
 
             </div>
           </div>
@@ -300,5 +91,155 @@
 
   <?php $VarComp->js(); ?>
 
+  <script src="assets/js/presentacion.js"></script> 
+
+
  
 </html>
+
+<!-- TODOS LOS MODAL -->
+
+<!-- MODAL AGERGAR -->
+<div class="modal fade " id="Agregar" tabindex="-1">
+  <div class="modal-dialog modal-xs ">
+    <div class="modal-content">
+      <div class="modal-header alert alert-success">
+        <h4 class="modal-title"> <strong>Registrar Presentación</strong> </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body ">
+
+        <form id = "agregarform">
+
+          <div class="form-group col-md-12">  
+            <div class="container-fluid">
+              <div class="row">
+
+                <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>U. Medida</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el RIF del proveedor"><i class="bi bi-card-text"></i></button> 
+                    <input class="form-control" id="medida" required="" placeholder="">
+                  </div>
+                </div>
+
+                <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>Cantidad</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca razon social"><i class="bi bi-people-fill"></i></button> 
+                    <input class="form-control"  id="cantidad" placeholder="">
+                  </div>
+                </div>
+
+                <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>Peso</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca razon social"><i class="bi bi-people-fill"></i></button> 
+                    <input class="form-control"  id="peso" placeholder="">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+         
+         
+
+        </div>
+
+        <p style="color:#ff0000;text-align: center;" id="error"><?php echo (isset($respuesta)) ? $respuesta : " "; ?></p>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success " id="registrar">Registrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- MODAL AGREGAR FINAL -->
+
+
+<!-- MODAL EDITAR -->
+<div class="modal fade" id="Editar" tabindex="-1">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header alert alert-success">
+        <h4 class="modal-title"> <strong>Editar Presentación</strong> </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body ">
+
+        <form id = "editarform">
+
+          <div class="form-group col-md-12">  
+            <div class="container-fluid">
+              <div class="row">
+
+               <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>U. Medida</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el RIF del proveedor"><i class="bi bi-card-text"></i></button> 
+                    <input class="form-control" id="medEdit" required="" placeholder="">
+                  </div>
+                </div>
+
+                <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>Cantidad</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca razon social"><i class="bi bi-people-fill"></i></button> 
+                    <input class="form-control"  id="cantEdit" placeholder="">
+                  </div>
+                </div>
+
+                <div class="form-group col-4">                          
+                  <label class="col-form-label"> <strong>Peso</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca razon social"><i class="bi bi-people-fill"></i></button> 
+                    <input class="form-control"  id="pesEdit" placeholder="">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          
+          
+          
+        </div>
+
+        <div style="color:#ff0000;text-align: center;" id="errorEdit"></div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="editar">Editar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- MODAL EDITAR FINAL --> 
+
+<!-- MODAL BORRAR -->
+<div class="modal fade" id="Borrar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" style="display: none; ">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Advertencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Desea borrar los datos de la presentación?
+      </div>
+      <div class="modal-footer">
+       
+        <button id="borrar" type="button" class="btn btn-danger">Borrar</button>
+      </div>
+    </div> 
+  </div>
+</div>
+              <!-- MODAL BORRAR FINAL-->

@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Método</title>
-   <?php $VarComp->header(); ?>
-    <link rel="stylesheet" href="assets/css/estiloInterno.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap5.min.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Método</title>
+  <?php $VarComp->header(); ?>
+  <link rel="stylesheet" href="assets/css/estiloInterno.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
-<!-- ======= Header ======= -->
+  <!-- ======= Header ======= -->
 
-      <?php 
-      
-        $header->Header();
-                
-      ?>
-      
-<!-- End Header -->
+  <?php 
+
+  $header->Header();
+
+  ?>
+
+  <!-- End Header -->
 
 
-<!-- ======= Sidebar ======= -->
+  <!-- ======= Sidebar ======= -->
 
-      <?php 
-      
-        $menu->Menu();
-                
-      ?>
-         
+  <?php 
+
+  $menu->Menu();
+
+  ?>
+
   <!-- End Sidebar-->
 
 
- <main class="main" id="main">
+  <main class="main" id="main">
     <div class="pagetitle">
-      
+
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><h1>Gestionar método de pago</h1></li>
@@ -43,90 +43,50 @@
 
     </div>
 
-  <div class="card">
-            <div class="card-body">
-            
-              <div class="row">
-                <div class="col-6">
-                  <h5 class="card-title">Método de pago</h5>
-                </div>
+    <div class="card">
+      <div class="card-body">
 
-                <div class="col-6 text-end mt-3">
-                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registrarModal">Agregar</button>
-
-                </div>
-              </div>
-
-
-         <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-
-                    <tr>
-                      <th scope="col">Tipos de pago</th>
-                      
-                      <th scope="col">Opciones</th>
-                    
-                    </tr>
-                  </thead>
-              
-                
-              <tbody>
-                    
-                    <tr>
-                      <td>Efectivo</td>
-                       
-                        
-                      <td>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"><i class="bi bi-pencil"></i></button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button></td>
-                    </tr>
-
-                    <tr>
-                      <td>Transferencia</td>
-                      
-                      <td>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target=""><i class="bi bi-pencil"></i></button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                        <i class="bi bi-trash3"></i>
-                      </button>
-                     
-                    </td>
-                    </tr>
-
-                    <tr>
-                      <td>Pago móvil</td>
-                  
-                      <td>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target=""><i class="bi bi-pencil"></i></button>
-
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash3"></i></button>
-
-                       
-                      </td>
-                    </tr>
-
-            </tbody>
-                </table>
-              </div>
-              <!-- End Table with stripped rows -->
-
-            </div>
+        <div class="row">
+          <div class="col-6">
+            <h5 class="card-title">Método de pago</h5>
           </div>
 
+          <div class="col-6 text-end mt-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registrarModal">Agregar</button>
 
-  </main>
+          </div>
+        </div>
 
 
-</body>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+            <thead>
+
+              <tr>
+                <th scope="col">Tipos de pago</th>
+
+                <th scope="col">Opciones</th>
+
+              </tr>
+            </thead>
+
+
+            <tbody>
+             
+           
+        </tbody>
+      </table>
+    </div>
+    <!-- End Table with stripped rows -->
+
+  </div>
+</div>
+
+
+</main>
 
 
 
-  <?php $VarComp->js();?>
-
- 
 
 </html>
 
@@ -140,45 +100,44 @@
 <div class="modal fade" id="registrarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      
+
       <div class="modal-header alert alert-success">
-                      <h3 class="modal-title"> <strong>Registrar Método de Pago</strong> </h3>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+        <h3 class="modal-title"> <strong>Registrar Método de Pago</strong> </h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
       <div class="modal-body">
-       
-                    <div class="modal-body ">
-                    <form>
 
-                    <div class="form-group col-md-11">  
-                      <div class="container-fluid">
-                        <div class="row">
+        <div class="modal-body ">
+          <form class="user" method="POST">
+            <div class="form-group col-md-11">  
+              <div class="container-fluid">
+                <div class="row">
 
-                           <div class="form-group col-lg-7">
-                              <label class="col-form-label"><strong>Métodos de Pago*</strong></label> 
-
-                              
-                             <div class="input-group">
-                    
-                              <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-credit-card"></i></button> 
-                              
-                              <input class="form-control" required="" placeholder="Métodos de Pago">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
+                 <div class="form-group col-lg-7">
+                  <label class="col-form-label"><strong>Método de Pago*</strong></label> 
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-credit-card"></i></button> 
+                    <input id="tipo" class="form-control" required="" placeholder="Método de Pago" >
                   </div>
-              <p style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+        <p id="error"style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+        <div class="modal-footer">
+          <button type="reset" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" id="enviar" class="btn btn-success">Registrar</button>
+
+        </div>
 
       </div>
-      <div class="modal-footer">
-        
-        <button type="sumit"class="btn btn-success">Registrar</button>
-      </div>
-
-    </div>
+    </form>
   </div>
- </div>
+</div>
 </div>
 
 
@@ -186,50 +145,53 @@
 <!-- Modal Editar-->
 <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-content">
+
+    <div class="modal-header alert alert-success">
+      <h3 class="modal-title"> <strong>Editar Método de Pago</strong> </h3>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+
+      <div class="modal-body ">
+        <form>
+
+
+        <div class="form-group col-md-12">  
+          <div class="container-fluid">
+            <div class="row">
+
+             <div class="form-group col-lg-6">
+              <label class="col-form-label"> <strong>Método de Pago*</strong> </label>
+              <div class="input-group">
+
+                <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-currency-exchange"></i></button> 
+
+                <input id="tipoEdit" class="form-control" required="" >
+
+              </div>
+
+            </div>
+          </div>
+        </div>
       
-      <div class="modal-header alert alert-success">
-                      <h3 class="modal-title"> <strong>Editar Método de Pago</strong> </h3>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-      <div class="modal-body">
-       
-
-                    <div class="modal-body ">
-                  
-
-                    <div class="form-group col-md-12">  
-                      <div class="container-fluid">
-                        <div class="row">
-
-                           <div class="form-group col-lg-6">
-                              <label class="col-form-label"> <strong>Método de Pago*</strong> </label>
-                                <div class="input-group">
-                    
-                              <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-credit-card"></i></button> 
-                            
-                                <input class="form-control" required="" value=Efectivo>
-
-                            </div>
-
-                        </div>
-                      </div>
-                    </div>
-                     
-
-                  </div>
-
 
       </div>
-      <div class="modal-footer">
-        
-        <button type="button" class="btn btn-success">Actualizar</button>
-      </div>
+
 
     </div>
-   </div>
+    <p id="error2" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+    <div class="modal-footer">
+    <button type="reset" id="closeEdit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <button type="button" id="enviarEdit"class="btn btn-success">Actualizar</button>
+    </div>
+
   </div>
- </div>
+  </form>
+</div>
+</div>
+</div>
 
 
 <!-- Modal Eliminar-->
@@ -245,10 +207,27 @@
         <h5>Los datos serán eliminados completamente del sistema</h5>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Borrar</button>
+        <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+        <button id="deletes" type="button" class="btn btn-danger">Borrar</button>
       </div>
     </div>
   </div>
 </div>
 
+<?php $VarComp->js(); ?>   
+<script src="assets/js/metodo.js"></script> 
+
+<!-- Development version -->
+<script src="assets/js/popper.js"></script>
+
+<!-- Production version -->
+<script src="assets/js/popper.min.js"></script>
+
+
+
+
+
+</body>
+
+</html>
