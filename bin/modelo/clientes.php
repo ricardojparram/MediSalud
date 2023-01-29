@@ -215,7 +215,7 @@ class clientes extends DBConnect{
 
     private function validarC(){
         try{
-          $new = $this->con->prepare("SELECT `cedula` FROM `usuario` WHERE `status` = 1 and `cedula` = ?");
+          $new = $this->con->prepare("SELECT `cedula` FROM `cliente` WHERE `status` = 1 and `cedula` = ?");
           $new->bindValue(1, $this->cedula);
           $new->execute();
           $data = $new->fetchAll();

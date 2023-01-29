@@ -14,12 +14,9 @@ $(document).ready(function(){
 					responsive: true,
 					data: data
 				});
-
 			}
 		})
 	}
-
-
 
 
 	$("#cedula").keyup(()=> {  let valid = validarCedula($("#cedula"),$("#error") ,"Error de cédula,") 
@@ -37,7 +34,7 @@ $(document).ready(function(){
 	$("#password").keyup(()=> {  validarContraseña($("#password"),$("#error") ,"Error de Contraseña,") });
 
 	$("#enviar").click((e)=>{
-
+		e.preventDefault();
 		$.ajax({
 			type:'POST',
 			url: '',
@@ -52,7 +49,7 @@ $(document).ready(function(){
 			},
 			success(result){
 				console.log(result);
-				e.preventDefault()
+				e.preventDefault();
 
 				let tipo, contra, correo, lastName, nombre, dni;
 				tipo = validarNumero($("#select"),$("#error") ,"Error de Nivel,") ;
@@ -77,20 +74,12 @@ $(document).ready(function(){
 				}else{
 					correo = true;
 				}
-				
-				if (result.resultado === 'Registrado correctamente.') {
-					Swal.fire({
-						title: 'Usuario Registrado!',
-						text: 'Los datos del usuario se ha registrado en la base de datos.',
-						icon: 'success',
-						timer: 1500
-					})
-					setTimeout(function(){
-						$("#cerrarRegis").click();
-						tabla.destroy();
-						refrescar();
-					}, 1600);
 
+				if (result.resultado === 'Registrado correctamente.') {
+					tabla.destroy();
+					$("#cerrarRegis").click();
+					Toast.fire({ icon: 'success', title: 'Cliente Registrado' })
+					refrescar();
 				}else{
 					e.preventDefault();
 				}
@@ -99,10 +88,10 @@ $(document).ready(function(){
 	})
 
 
-	let cedulaDel
+	let cedulaDel;
 	$(document).on('click', '.eliminar', function() {
 		cedulaDel = this.id;
-
+	});
 		$("#delete").click(() =>{
 			$.ajax({
 				type: "POST",
@@ -110,31 +99,23 @@ $(document).ready(function(){
 				dataType: 'json',
 				data: {eliminar: 'eliminar',
 				cedulaDel
-
 			},
 			success(data){
 				console.log(data);
 
 				if (data.resultado === "Eliminado") {
-					Swal.fire({
-						title: 'Usuario Eliminado!',
-						text: 'Los datos del usuario se han eliminado en la base de datos.',
-						icon: 'success',
-						timer: 1500
-					})
-					setTimeout(function(){
-						$("#cerrarModalDel").click();
-						tabla.destroy();
-						refrescar();
-					}, 1600);
+					tabla.destroy();
+					$("#cerrarModalDel").click();
+					Toast.fire({ icon: 'error', title: 'Usuario Eliminado' })
+					refrescar();
 				}else{
 					console.log("No se elimino")
 				}
 			}
 
+			})
 		})
-		})
-	});
+	
 
 	let id
 	$(document).on('click', '.editar', function(){
@@ -163,7 +144,7 @@ $(document).ready(function(){
 		$("#passwordEdit").keyup(()=> {  validarContraseña($("#passwordEdit"),$("#error2") ,"Error de Contraseña,") });
 
 		$("#enviarEdit").click((e)=>{
-
+			e.preventDefault();
 			let tipo = validarNumero($("#selectEdit"),$("#error2") ,"Error de Nivel,") ;
 			let contra = validarContraseña($("#passwordEdit"),$("#error2") ,"Error de Contraseña,");
 			let correo = validarCorreo($("#emailEdit"),$("#error2") ,"Error de Correo,") ;
@@ -186,19 +167,12 @@ $(document).ready(function(){
 				},
 				success(edit){
 					console.log(edit);
-
+					e.preventDefault();
 					if (edit.resultado === "Editado") {
-						Swal.fire({
-							title: 'Usuario Actualizado!',
-							text: 'Los datos del usuario se han actualizado en la base de datos.',
-							icon: 'success',
-							timer: 1500
-						})
-						setTimeout(function(){
-							$("#cerrarRegisEdit").click();
-							tabla.destroy();
-							refrescar();
-						}, 1600);
+						tabla.destroy();
+						$("#cerrarRegisEdit").click();
+						Toast.fire({ icon: 'success', title: 'Cliente Actualizado' })
+						refrescar();
 					}
 					else{
 						e.preventDefault();
@@ -216,7 +190,8 @@ $(document).ready(function(){
 					$("#cedula").attr("style","border-color: red;")
 					$("#cedula").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
 				}
-			})
+			}
+		)
 	}
 
 	function validarE(){
@@ -227,6 +202,7 @@ $(document).ready(function(){
 					$("#email").attr("style","border-color: red;")
 					$("#email").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);");
 				}
-			})
+			}
+		)
 	}
 }) 

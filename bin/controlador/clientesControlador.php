@@ -13,7 +13,7 @@
   }
 
   if(isset($_GET['cedula']) && isset($_GET['validar'])){
-      $obj_Model->getValidarC($_GET['cedula']);
+      $objModel->getValidarC($_GET['cedula']);
     }
 
   if(isset($_POST['nomClien']) && isset($_POST['apeClien'])&& isset($_POST['cedClien'])&& isset($_POST['direcClien']) && isset($_POST['telClien']) && isset($_POST['emailClien'])){
