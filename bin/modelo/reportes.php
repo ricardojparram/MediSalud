@@ -36,7 +36,7 @@
 							v.fecha, v.monto  FROM venta v 
 							INNER JOIN cliente c 
 							ON v.cedula_cliente = c.cedula
-							WHERE fecha BETWEEN ? AND ? AND c.status = 1
+							WHERE fecha BETWEEN CONCAT(?, ' 00:00:00') AND CONCAT(?, ' 23:59:59') AND c.status = 1
 							ORDER BY v.fecha";
 				break;
 				
