@@ -22,20 +22,20 @@ $(document).ready(function(){
 	/* --- AGREGAR --- */
 
 	// VALIDACIONES
-	function validarRif(){
-		$.post('',{rif: $("#rif").val(), validar: "rif"}, function(data){
+	function validarRif(input, div){
+		$.post('',{rif : input.val(), validar: "rif"}, function(data){
 			let mensaje = JSON.parse(data);
 			if(mensaje.resultado === "Error de rif"){
-				$("#error").text(mensaje.error);
-				$("#rif").attr("style","border-color: red;")
-				$("#rif").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+				div.text(mensaje.error);
+				input.attr("style","border-color: red;")
+				input.attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
 			}
 		})
 	}
 
 	$("#rif").keyup(()=> {  let valid = validarCedula($("#rif"),$("#error") ,"Error de RIF,");
 		if(valid){
-			validarRif();
+			validarRif($("#rif"), $("#error"));
 		}
 	});
 	$("#razon").keyup(()=> {  validarNombre($("#razon"),$("#error") , "Error de nombre,") });
@@ -72,12 +72,12 @@ $(document).ready(function(){
 					$("#error").text(data.error);
 					$("#rif").attr("style","border-color: red;")
 					$("#rif").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
-					throw new Error('Rif ya registrado.');
+					vrif = false;
 				}else{
 					vrif = true;
 				}
 
-				if(vrif ==true && vnombre ==true && vdireccion ==true && vtelefono ==true){
+				if(vrif && vnombre && vdireccion && vtelefono){
 
 					mostrar.destroy(); 
 					rellenar(); 
@@ -119,7 +119,11 @@ $(document).ready(function(){
 
 
     // VALIDACIONES
-	$("#rifEdit").keyup(()=> {  validarCedula($("#rifEdit"),$("#errorEdit") ,"Error de RIF,") });
+	$("#rifEdit").keyup(()=> {  let valid = validarCedula($("#rifEdit"),$("#errorEdit") ,"Error de RIF,") 
+		if(valid){
+			validarRif($("#rifEdit"), $("#errorEdit"));
+		}
+	});
 	$("#razonEdit").keyup(()=> {  validarNombre($("#razonEdit"),$("#errorEdit") , "Error de nombre,") });
 	$("#direccionEdit").keyup(()=> {  validarDireccion($("#direccionEdit"),$("#errorEdit") , "Error de direccion,") });
 	$("#telefonoEdit").keyup(()=> {  validarTelefono($("#telefonoEdit"),$("#errorEdit") ,"Error de telefono,") });
@@ -128,7 +132,7 @@ $(document).ready(function(){
 
 	$("#editar").click((e)=>{
 
-		e.preventDefault(e);
+		e.preventDefault();
     	//VALIDACIONES
     	let vrif, vnombre, vdireccion, vtelefono;
 		validarCedula($("#rifEdit"),$("#errorEdit") ,"Error de RIF,");
@@ -171,6 +175,11 @@ $(document).ready(function(){
 			})
 
 	})
+
+	$(document).on('click', '.cerrar', function() {
+		$('#agregarform').trigger('reset'); 
+		$('#editarform').trigger('reset');
+	});
 
 
 	$(document).on('click', '.borrar', function() {

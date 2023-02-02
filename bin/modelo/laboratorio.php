@@ -40,23 +40,23 @@
 
       public function getDatosLab($rif, $direccion, $razon, $telefono, $contacto){
 
-        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $rif) != 1){
-         echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
-         die();
-       }
-       if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $razon) != 1){
-        echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
-        die();
-      }
+        if(preg_match_all("/^[0-9]{7,10}$/", $rif) != 1){
+          echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
+          die();
+        }
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $razon) != 1){
+          echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
+          die();
+        }
 
-      if(preg_match_all("/[$%&|<>]/", $direccion) == 1){
-        echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
-        die();
-      }
-      if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
-        echo json_encode(['resultado' => 'Error de telefono','error' => 'Telefono inválido.']);
-        die();
-      }
+        if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#"/,.-]){7,50}$/', $direccion) == 1){
+          echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
+          die();
+        }
+        if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
+          echo json_encode(['resultado' => 'Error de telefono','error' => 'Telefono inválido.']);
+          die();
+        }
 
         $this->rif = $rif;
         $this->direccion = $direccion;
@@ -109,6 +109,12 @@
     }
 
     public function getRif($rif){
+
+      if(preg_match_all("/^[0-9]{7,10}$/", $rif) != 1){
+        echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
+        die();
+      }
+
       $this->rif = $rif;
 
       $this->validarRif();
@@ -136,9 +142,15 @@
 
     
     public function getItem($id){
-      $this->id = $id;
 
-      $this->selectItem();
+      if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
+       echo json_encode(['resultado' => 'Error de id','error' => 'Id inválida.']);
+       die();
+     }
+
+     $this->id = $id;
+
+     $this->selectItem();
     }
 
     private function selectItem(){
@@ -162,22 +174,26 @@
 
     public function getEditar($rif, $direccion, $razon, $telefono, $contacto, $id){
 
-      if(preg_match_all("/^[0-9]{7,20}$/", $rif) != 1){
-        echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
-        die();
+      if(preg_match_all("/^[0-9]{7,10}$/", $rif) != 1){
+         echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
+         die();
       }
-      if(preg_match_all("/^[a-zA-Z]{3,30}$/", $razon) != 1){
+      if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $razon) != 1){
         echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
         die();
       }
 
-      if(preg_match_all("/[$%&|<>]/", $direccion) == 1){
+      if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#"/,.-]){7,50}$/', $direccion) == 1){
         echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
         die();
       }
       if(preg_match_all("/^[0-9]{10,30}$/", $telefono) != 1){
         echo json_encode(['resultado' => 'Error de telefono','error' => 'Telefono inválido.']);
         die();
+      }
+      if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
+         echo json_encode(['resultado' => 'Error de id','error' => 'Id inválida.']);
+         die();
       }
 
       $this->rif = $rif;
@@ -234,7 +250,11 @@
 
 
     public function getEliminar($id){
-      
+      if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
+         echo json_encode(['resultado' => 'Error de id','error' => 'Id inválida.']);
+         die();
+      }
+
       $this->id = $id;
 
       $this->eliminarLaboratorio();
