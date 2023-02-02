@@ -7,10 +7,15 @@
 
   $objModel = new proveedor();
 
+
+  session_start();
+  if(!isset($_SESSION['cedula'])){
+    die('<script> window.location = "?url=login" </script>');
+  }
+
   if(isset($_POST['mostrar'])){
     $objModel->mostrarProveedorAjax();
   }
-
 
   if(isset($_POST['rif']) && isset($_POST['direccion']) && isset($_POST['razon']) && isset($_POST['telefono'])&& isset($_POST['contacto'])){
       

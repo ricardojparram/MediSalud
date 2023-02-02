@@ -7,6 +7,13 @@
   
   $objModel = new moneda();
 
+
+  session_start();
+  if(!isset($_SESSION['cedula'])){
+    die('<script> window.location = "?url=login" </script>');
+  }
+
+
   if (isset($_POST["mostrar"])) {
     $objModel->getMostrarMoneda();
   }

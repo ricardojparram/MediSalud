@@ -11,6 +11,11 @@
 
 	$objModel = new reportes();
 
+	session_start();
+	if(!isset($_SESSION['cedula'])){
+		die('<script> window.location = "?url=login" </script>');
+	}
+
 	if(isset($_POST['mostrar']) && isset($_POST['tipo']) && isset($_POST['fechaInicio']) && isset($_POST['fechaFinal'])){
 		$objModel->getMostrarReporte($_POST['tipo'], $_POST['fechaInicio'], $_POST['fechaFinal']);
 	}

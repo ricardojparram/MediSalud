@@ -6,6 +6,12 @@
   use modelo\productos as productos;
 
    $objModel = new productos();
+
+   session_start();
+   if(!isset($_SESSION['cedula'])){
+    die('<script> window.location = "?url=login" </script>');
+  }
+  
    
    if (isset($_POST['mostrar'])) {
      $mostrarProd = $objModel->MostrarProductos();

@@ -7,6 +7,11 @@
 	
 	$objModel = new clase();
 
+	session_start();
+	if(!isset($_SESSION['cedula'])){
+		die('<script> window.location = "?url=login" </script>');
+	}
+	
 	if(isset($_POST["clase"])) {
 		$objModel->getAgregarClase($_POST["clase"]);
 	}

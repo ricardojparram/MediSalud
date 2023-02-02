@@ -5,6 +5,11 @@
 
   $objModel = new login();
 
+  session_start();
+  if(isset($_SESSION['cedula'])){
+    die('<script>window.location = "?url=home" </script>');
+  }
+
   if(isset($_GET['cedula']) && isset($_GET['validar'])){
   	$objModel->getValidarC($_GET['cedula']);
   }
