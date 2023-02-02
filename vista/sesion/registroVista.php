@@ -97,7 +97,7 @@
                             <hr>
 
                             <div class="my-3 text-center asd">
-                              <span>¿Ya tienes cuenta? <a href="?url=login">Inciar sesión</a></span><br>
+                              <span>¿Ya tienes cuenta? <a href="?url=login">Iniciar sesión</a></span><br>
                               <span>¿Olvidaste tu contraseña? <a href="?url=recuperar">Recuperar Contraseña</a></span>
                             </div>
 
