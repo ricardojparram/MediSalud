@@ -21,12 +21,12 @@ class clientes extends DBConnect{
 
     public function getRegistrarClientes($nombre, $apellido, $cedula, $direccion, $telefono, $correo){
 
-        if(preg_match_all("/^[a-zA-Z]{0,30}$/", $nombre) == false){
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $nombre) == false){
             $resultado = ['resultado' => 'Error de nombre' , 'error' => 'Nombre inválido.'];
             echo json_encode($resultado);
             die();
         }
-        if(preg_match_all("/^[a-zA-Z]{0,30}$/", $apellido) == false){
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $apellido) == false){
             $resultado = ['resultado' => 'Error de apellido' , 'error' => 'Apellido inválido.'];
             echo json_encode($resultado);
             die();

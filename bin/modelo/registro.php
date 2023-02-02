@@ -19,12 +19,12 @@
 
       public function getRegistrarSistema($cedula,$name,$apellido,$email,$password,$repass){
 
-        if(preg_match_all("/^[a-zA-Z]{0,30}$/", $name) == false){
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $name) == false){
           $resultado = ['resultado' => 'Error de nombre' , 'error' => 'Nombre inválido.'];
           echo json_encode($resultado);
           die();
         }
-        if(preg_match_all("/^[a-zA-Z]{0,30}$/", $apellido) == false){
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $apellido) == false){
           $resultado = ['resultado' => 'Error de apellido' , 'error' => 'Apellido inválido.'];
           echo json_encode($resultado);
           die();

@@ -40,11 +40,11 @@
 
       public function getDatosLab($rif, $direccion, $razon, $telefono, $contacto){
 
-        if(preg_match_all("/^[0-9]{7,20}$/", $rif) != 1){
+        if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $rif) != 1){
          echo json_encode(['resultado' => 'Error de rif','error' => 'Rif inválido.']);
          die();
        }
-       if(preg_match_all("/^[a-zA-Z]{3,30}$/", $razon) != 1){
+       if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $razon) != 1){
         echo json_encode(['resultado' => 'Error de nombre','error' => 'Nombre inválido.']);
         die();
       }

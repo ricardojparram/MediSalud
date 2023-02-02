@@ -18,7 +18,7 @@ class moneda extends DBConnect{
    
    public function getAgregarMoneda($alcambio,$moneda){
 
-   	 if(preg_match_all("/^[a-zA-Z]{0,30}$/", $moneda) == false){
+   	 if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $moneda) == false){
             $resultado = ['resultado' => 'Error de moneda' , 'error' => 'moneda inválido.'];
             echo json_encode($resultado);
             die();
