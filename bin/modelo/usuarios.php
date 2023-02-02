@@ -165,7 +165,7 @@ private function eliminarUsuario(){
 
     private function seleccionarUnico(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `usuario` WHERE `usuario`.`cedula` = ?");
+        $new = $this->con->prepare("SELECT cedula, nombre, apellido, correo, nivel FROM `usuario` WHERE `usuario`.`cedula` = ?");
         $new->bindValue(1, $this->cedula);
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);

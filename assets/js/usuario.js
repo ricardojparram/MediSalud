@@ -132,7 +132,6 @@ $(document).ready(function(){
 				$("#nameEdit").val(data[0].nombre);
 				$("#apellidoEdit").val(data[0].apellido);
 				$("#emailEdit").val(data[0].correo);
-				$("#passwordEdit").val(data[0].password);
 				$("#selectEdit").val(data[0].nivel);
 			}
 		})
