@@ -34,16 +34,22 @@
 
 		private function loginSistema(){
 			try{
-				$new = $this->con->prepare("SELECT `cedula`,`password` FROM `usuario` WHERE `status` = 1 and `cedula` = ?"); 
+				$new = $this->con->prepare("SELECT * FROM `usuario` WHERE `status` = 1 and `cedula` = ?"); 
 				$new->bindValue(1 , $this->cedula);
 				$new->execute();
 				$data = $new->fetchAll();
 
 				if(isset($data[0]["password"])){
 					if($data[0]["password"] == $this->password){
+
+						$_SESSION['cedula'] = $data[0]['cedula'];
+						$_SESSION['nombre'] = $data[0]['nombre'];
+						$_SESSION['apellido'] = $data[0]['apellido'];
+						$_SESSION['correo'] = $data[0]['correo'];
+
 						
 						$resultado = ['resultado' => 'Logueado'];
-						echo json_encode($resultado);
+						echo json_encode($_SESSION);
 						die();
 
 						

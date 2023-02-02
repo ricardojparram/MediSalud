@@ -7,6 +7,12 @@
 
   $objModel = new metodo();
 
+
+  session_start();
+  if(!isset($_SESSION['cedula'])){
+    die('<script> window.location = "?url=login" </script>');
+  }
+
   if (isset($_POST["mostrar"])) {
     $objModel->getMostrarMetodo();
   }

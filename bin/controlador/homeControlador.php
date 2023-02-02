@@ -5,7 +5,12 @@
   use component\menuLateral as menuLateral;
   use modelo\home as home;
 
- $objModel = new home();
+  $objModel = new home();
+
+  session_start();
+  if(!isset($_SESSION['cedula'])){
+    die('<script> window.location = "?url=login" </script>');
+  }
 
   if (isset($_POST['clien'])) {
     $objModel->mostrarClientes();

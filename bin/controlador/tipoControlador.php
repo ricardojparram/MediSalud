@@ -7,6 +7,11 @@
 
 	$objModel = new tipo();
 
+	session_start();
+	if(!isset($_SESSION['cedula'])){
+		die('<script> window.location = "?url=login" </script>');
+	}
+	
 	if(isset($_POST["mostrar"])){
 		$objModel->getMostrarTipo();
 	}
@@ -20,15 +25,15 @@
 		$objModel->getAgregarTipo($_POST["tipo"]);
 
 	}
-if (isset($_POST["borrar"]) && isset($_POST["id"])){
-	$objModel->getEliminarTipo($_POST["id"]);
-}
- if (isset($_POST["editar"]) && isset($_POST["tipoedit"])){
- 	$objModel->mostrarlot($_POST["tipoedit"]);
- }
- if(isset($_POST["tipoEditar"]) && isset($_POST["tipoedit"])){
- 	$objModel->getEditarTipo($_POST["tipoEditar"], $_POST["tipoedit"]);
- }
+	if (isset($_POST["borrar"]) && isset($_POST["id"])){
+		$objModel->getEliminarTipo($_POST["id"]);
+	}
+	if (isset($_POST["editar"]) && isset($_POST["tipoedit"])){
+		$objModel->mostrarlot($_POST["tipoedit"]);
+	}
+	if(isset($_POST["tipoEditar"]) && isset($_POST["tipoedit"])){
+		$objModel->getEditarTipo($_POST["tipoEditar"], $_POST["tipoedit"]);
+	}
 
 	$VarComp = new initcomponents();
 	$header = new header();
