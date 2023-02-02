@@ -7,8 +7,6 @@
 
   $objModel = new laboratorio();
 
-
-  session_start();
   if(!isset($_SESSION['cedula'])){
     die('<script> window.location = "?url=login" </script>');
   }

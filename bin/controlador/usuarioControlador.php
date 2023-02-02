@@ -8,7 +8,6 @@ use modelo\usuarios as usuarios;
 $objModel = new usuarios();
 $mostrarN = $objModel->mostrarNivel();
 
-session_start();
 if(!isset($_SESSION['cedula'])){
 	die('<script> window.location = "?url=login" </script>');
 }

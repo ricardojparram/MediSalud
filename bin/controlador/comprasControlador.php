@@ -9,7 +9,6 @@
 	$header = new header();
 	$menu = new menuLateral();
 
-	session_start();
 	if(!isset($_SESSION['cedula'])){
 		die('<script> window.location = "?url=login" </script>');
 	}

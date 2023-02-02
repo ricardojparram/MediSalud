@@ -11,7 +11,6 @@
     $mostrarC = $objModel->getMostrarCliente();
     $mostrerM = $objModel->getMostrarMetodo();
 
-    session_start();
     if(!isset($_SESSION['cedula'])){
       die('<script> window.location = "?url=login" </script>');
     }

@@ -2,10 +2,10 @@
 
   use component\initcomponents as initcomponents;
   use modelo\login as login;
-
+  
   $objModel = new login();
 
-  session_start();
+  
   if(isset($_SESSION['cedula'])){
     die('<script>window.location = "?url=home" </script>');
   }
