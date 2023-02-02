@@ -7,7 +7,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <?php $VarComp->header(); ?>
-    <link href="assets/css/Login.css" rel="stylesheet">
+    <link href="assets/css/login.css" rel="stylesheet">
 
 </head>
 
