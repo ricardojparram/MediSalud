@@ -15,18 +15,9 @@
     $objModel->mostrarClientes();
   }
 
-  if(isset($_POST['fechas'])){
-    $objModel->getFechas();
+  if(isset($_POST['grafico'])){
+    $objModel->getGrafico();
   }
-
-  if(isset($_POST['grafico']) && isset($_POST['compra'])){
-    $objModel->getCompraG();
-  }
-
-  if(isset($_POST['grafico']) && isset($_POST['venta'])){
-    $objModel->getVentaG();
-  }
-
 
   if(isset($_POST['ventas']) && isset($_POST['opcionV'])){
     $objModel->getVentas($_POST['opcionV']);

@@ -148,7 +148,32 @@ private function compraFecha(){
     }
 }
 
-public function getFechas(){
+public function getGrafico(){
+
+    $compras;
+    $ventas;
+    $fechas;
+
+    try {
+
+        $new = $this->con->prepare("SELECT CAST(fecha AS DATE) as x, COUNT(num_fact) as y
+            FROM venta
+            WHERE CAST(fecha AS DATE) >= DATE_SUB(NOW(), INTERVAL 7 DAY) AND status = 1
+            GROUP BY CAST(fecha AS DATE)");
+        $new->execute();
+        $ventas = $new->fetchAll(\PDO::FETCH_OBJ);
+
+        $new = $this->con->prepare("SELECT CAST(fecha AS DATE) as x, COUNT(cod_compra) as y 
+            FROM compra WHERE CAST(fecha AS DATE) >= DATE_SUB(NOW(), INTERVAL 7 DAY) 
+            AND status = 1 GROUP BY CAST(fecha AS DATE)");
+        $new->execute();
+        $compras = $new->fetchAll(\PDO::FETCH_OBJ);
+
+
+    } catch (\PDOException $error) {
+        return $error;
+        
+    }
 
     date_default_timezone_set("america/caracas");
     $fecha = date("Y-m-d", strtotime("-7 day", time()));
@@ -158,49 +183,11 @@ public function getFechas(){
         $fechas[$i] = date("Y-m-d",strtotime("+".$a." day", strtotime($fecha)));
         $a++;
     }
-    echo json_encode($fechas);
+    $grafico = ['fechas' => $fechas,
+                'ventas' => $ventas,
+                'compras'=> $compras];
+    echo json_encode($grafico);
     die();
-
-}
-
-public function getCompraG(){
-
-    try {
-        $new = $this->con->prepare("SELECT CAST(fecha AS DATE) as x, COUNT(cod_compra) as y 
-            FROM compra WHERE CAST(fecha AS DATE) >= DATE_SUB(NOW(), INTERVAL 7 DAY) 
-            AND status = 1 GROUP BY CAST(fecha AS DATE)");
-        $new->execute();
-        $compraG = $new->fetchAll(\PDO::FETCH_OBJ);
-
-        echo json_encode($compraG);
-        die();
-
-    } catch (\PDOException $error) {
-        return $error;
-        
-    }
-
-}
-
-public function getVentaG(){
-
-    try {
-        $new = $this->con->prepare("SELECT CAST(fecha AS DATE) as x, COUNT(num_fact) as y
-            FROM venta
-            WHERE CAST(fecha AS DATE) >= DATE_SUB(NOW(), INTERVAL 7 DAY) AND status = 1
-            GROUP BY CAST(fecha AS DATE)");
-        $new->execute();
-        $ventaG = $new->fetchAll(\PDO::FETCH_OBJ);
-
-        echo json_encode($ventaG);
-        die();
-
-    } catch (\PDOException $error) {
-        return $error;
-        
-    }
-
-    
 
 }
 

@@ -24,7 +24,7 @@ $(document).ready(function(){
 	}
 	
 
-		function ventas(){
+	function ventas(){
 			let opcionV;
 
 		$(document).on('click', '.ventas', function(){
@@ -57,10 +57,10 @@ $(document).ready(function(){
 			}
 		})
 		})
-		}
+	}
 
-		function ventasHoy(){
-			$.ajax({
+	function ventasHoy(){
+		$.ajax({
 			method: 'POST',
 			url: '',
 			dataType: 'json',
@@ -72,48 +72,47 @@ $(document).ready(function(){
 				$('#valorV').text(ven[0].venta);
 			}
 		})
-		}
+	}
 
-		function compras(){
-			let opcionC;
+	function compras(){
+		let opcionC;
 
 		$(document).on('click', '.compras', function(){
 			opcionC = this.id;
 
-		switch(opcionC){
-			case 'hoy':
-			$('#compras').text("| Dia");
-			break;
+			switch(opcionC){
+				case 'hoy':
+				$('#compras').text("| Dia");
+				break;
 
-			case 'mensual':
-			$('#compras').text("| Mes");
-			break;
+				case 'mensual':
+				$('#compras').text("| Mes");
+				break;
 
-			case 'anual':
-			$('#compras').text("| Año");
-			break;
-			default: $('#compras').text('Tipo de reporte inválido.');	
-		}
-
-		$.ajax({
-			method: 'POST',
-			url: '',
-			dataType: 'json',
-			data: {
-				compras: 'lalo', opcionC
-			},
-			success(com){
-				$('#valorC').text(com[0].compra);
+				case 'anual':
+				$('#compras').text("| Año");
+				break;
+				default: $('#compras').text('Tipo de reporte inválido.');	
 			}
 
-		})
-
-
-		})
-		}
-
-		function comprasHoy(){
 			$.ajax({
+				method: 'POST',
+				url: '',
+				dataType: 'json',
+				data: {
+					compras: 'lalo', opcionC
+				},
+				success(com){
+					$('#valorC').text(com[0].compra);
+				}
+
+			});
+
+		})
+	}
+
+	function comprasHoy(){
+		$.ajax({
 			method: 'POST',
 			url: '',
 			dataType: 'json',
@@ -124,95 +123,89 @@ $(document).ready(function(){
 			success(com){
 				$('#valorC').text(com[0].compra);
 			}
-
-			})
-		}
-
-		    let ctx = document.getElementById('reportsChart').getContext('2d');
-
-		    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-		    gradient.addColorStop(0, 'rgba(94, 166, 48, 0.7)');
-		    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-		    let gradient2 = ctx.createLinearGradient(0, 0, 0, 400)
-		    gradient2.addColorStop(0, 'rgba(166, 74, 40, 0.7)');
-		    gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-		let ventasG, comprasG, fechas;
-
-		$.post('', {fechas:'asd'}, function(r){
-			fechas = JSON.parse(r);
-			$.post('',{grafico:'xd', venta:'xd'},function(data){
-				ventasG = JSON.parse(data);
-
-				$.post('',{grafico:'xd', compra:'xd'},function(response){
-					comprasG = JSON.parse(response);
-					new Chart(ctx, {
-						type: "line",
-						xAxisID: [0,5,10,15,20,25],
-						data: {
-							labels: fechas,
-							datasets: [{
-								label: "Ventas",
-								data: ventasG,
-								borderColor: "#5EA630",
-								borderRadius: 5,
-								backgroundColor:gradient,
-								pointBackgroundColor: "#5EA630",
-								fill: true
-							},
-							{
-								label: "Compras",
-								data: comprasG,
-								borderColor: "#A64A28",
-								pointBackgroundColor: "#A64A28",
-								backgroundColor: gradient2,
-								fill: true
-							}]
-						},
-						options: {
-							plugins: {
-								legend: {
-									display: true,
-									position: 'bottom',
-									labels: {
-										color: "black",
-										usePointStyle: true,
-										pointStyle: "circle",
-
-									}
-
-								}
-							},
-							interaction: {
-								intersect: false,
-								mode: 'nearest',
-							},
-							pointRadius: 4,
-							pointHoverRadius: 6,
-							pointBorderColor: "white",
-							pointBorderWidth: 2,
-							tension: 0.2,
-							borderWidth: 2.5,
-							borderCapStyle: "round",
-							responsive: true,
-							scales: {
-								x: {
-									grid: {
-										display: false
-									}
-								},
-								y: {
-									suggestedMin: 0,
-									suggestedMax: 15,
-									type: 'linear',
-									position: 'left'
-								}
-							},
-						}
-					});
-				})
-			})
 		})
+	}
+
+	let ctx = document.getElementById('reportsChart').getContext('2d');
+
+	let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+		gradient.addColorStop(0, 'rgba(94, 166, 48, 0.7)');
+		gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+	let gradient2 = ctx.createLinearGradient(0, 0, 0, 400);
+		gradient2.addColorStop(0, 'rgba(166, 74, 40, 0.7)');
+		gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+	let ventasG, comprasG, fechas;
+
+	$.post('', {grafico: 'xd'}, function(response){
+		data = JSON.parse(response);
+		
+		new Chart(ctx, {
+			type: "line",
+			xAxisID: [0,5,10,15,20,25],
+			data: {
+				labels: data.fechas,
+				datasets: [{
+					label: "Ventas",
+					data: data.ventas,
+					borderColor: "#5EA630",
+					borderRadius: 5,
+					backgroundColor:gradient,
+					pointBackgroundColor: "#5EA630",
+					fill: true
+				},
+				{
+					label: "Compras",
+					data: data.compras,
+					borderColor: "#A64A28",
+					pointBackgroundColor: "#A64A28",
+					backgroundColor: gradient2,
+					fill: true
+				}]
+			},
+			options: {
+				plugins: {
+					legend: {
+						display: true,
+						position: 'bottom',
+						labels: {
+							color: "black",
+							usePointStyle: true,
+							pointStyle: "circle",
+
+						}
+
+					}
+				},
+				interaction: {
+					intersect: false,
+					mode: 'nearest',
+				},
+				pointRadius: 4,
+				pointHoverRadius: 6,
+				pointBorderColor: "white",
+				pointBorderWidth: 2,
+				tension: 0.2,
+				borderWidth: 2.5,
+				borderCapStyle: "round",
+				responsive: true,
+				scales: {
+					x: {
+						grid: {
+							display: false
+						}
+					},
+					y: {
+						suggestedMin: 0,
+						suggestedMax: 15,
+						type: 'linear',
+						position: 'left'
+					}
+				},
+			}
+		});
+	});
 
 
-	})
+});
