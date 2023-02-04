@@ -120,12 +120,12 @@
               <div class="container-fluid">
                 <div class="row">
 
-                  <div class="form-group col-6">                          
+                  <div class="form-group col-md-6">                          
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Cliente</strong></label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca una cédula registrada en el sistema."><i class="bi bi-person-fill"></i></button>
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Seleccione una cédula registrada en el sistema."><i class="bi bi-person-fill"></i></button>
                       <select class="form-control select2" placeholder="Cédula" id="cedula">
-                        <option selected disabled>Clientes</option>
+                        <option value="0" selected disabled>Clientes</option>
                         <?php if(isset($mostrarC)){
                           foreach($mostrarC as $data){
                             ?> 
@@ -135,13 +135,14 @@
                         }else{"";}?>
                       </select> 
                     </div>
+                    <p style="color:#ff0000;text-align: center;" id="error1"></p>
                   </div>
 
-                  <div class="form-group col-6">                          
+                  <div class="form-group col-md-6">                          
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Pago</strong></label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca una cédula registrada en el sistema."><i class="bi bi-cash-coin"></i></button>
-                      <select class="form-control"  placeholder="Metodo de pago" name="metodo" id="metodo">
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Seleccione un metodo de pago al sistema."><i class="bi bi-cash-coin"></i></button>
+                      <select class="form-select"  placeholder="Metodo de pago" name="metodo" id="metodo">
                         <option selected disabled>Metodo a pagar</option>
                         <?php if(isset($mostrerM)){
                           foreach($mostrerM as $data){
@@ -152,6 +153,7 @@
                         }else{"";}?>
                       </select> 
                     </div>
+                    <p style="color:#ff0000;text-align: center;" id="error2"></p>
                   </div>
                 </div>
               </div>
@@ -161,22 +163,23 @@
               <div class="container-fluid">
                 <div class="row">
 
-                  <div class="form-group col-6">  
+                  <div class="form-group col-md-6">  
                     <label class="col-form-label" for="config_iva"><strong>IVA</strong></label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca la fecha de la compra">%</button> 
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca un IVA para la venta">%</button> 
                       <input class="form-control" type="text" id="config_iva" value="16"/>
 
                     </div>
                   </div>
 
 
-                  <div class="form-group col-6">                          
+                  <div class="form-group col-md-6">                          
                     <label class="col-form-label"> <strong>Monto</strong> </label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el monto total de la compra"><i class="bi bi-envelope"></i></button> 
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Monto total de la compra"><i class="bi-currency-dollar"></i></button> 
                       <input type="number" class="form-control" disabled="disabled" id="monto" >
                     </div>
+                    <p style="color:#ff0000;text-align: center;" id="error3"></p>
                   </div>
 
                 </div>
@@ -281,7 +284,7 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal" id="cerrarDetalles">Close</button>
+        <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal" id="cerrarDetalles">Cerrar</button>
       </div>
     </div>
   </div>

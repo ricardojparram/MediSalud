@@ -17,6 +17,8 @@
        parent::__construct();
      }
 
+     //---------------------------------AGREGAR VENTAS--------------------------------
+
      public function getAgregarVenta($cedula,$montoT,$metodo){
 
      if(preg_match_all("/^[0-9]{3,30}$/", $cedula) != 1){
@@ -66,6 +68,8 @@
    }
  }
 
+  //---------------------------------AGREGAR VENTA POR PRODUCTO--------------------------------
+
    public function AgregarVentaXProd($producto,$precio,$cantidad,$idVenta){
     
       if(preg_match_all("/^[0-9]{1,15}$/", $producto) != 1){
@@ -95,27 +99,78 @@
      $new->bindValue(3, $this->cantidad);
      $new->bindValue(4, $this->precio);
      $new->execute();
-     die();
+     $this->actualizarStock($this->codigoP , $this->cantidad);
 
     }catch(\PDOexection $error){
       return $error;
     }
 
    }
-   
 
-    public function eliminarVenta($id){
+    //---------------------------------ACTUALIZAR STOCK--------------------------------
+
+   private function actualizarStock($codigoP , $cantidad){
+    try{
+     $new = $this->con->prepare("SELECT stock FROM producto p WHERE p.cod_producto = ? and status = 1");
+     $new->bindValue(1, $codigoP);
+     $new->execute();
+     $data = $new->fetchAll();
+
+     $stockAct = $data[0]['stock'];
+
+     $newStock = $stockAct - $cantidad;
+
+     $new = $this->con->prepare("UPDATE producto p SET stock = ? WHERE p.cod_producto = ? and status = 1");
+     $new->bindValue(1, $newStock);
+     $new->bindValue(2, $codigoP);
+     $new->execute();
+
+    }catch(\PDOexection $error){
+      return $error;
+    }
+   }
+
+
+   
+    //---------------------------------ELIMINAR VENTA--------------------------------
+
+   public function eliminarVenta($id){
      try{
       $this->id = $id;
+
+      $new = $this->con->prepare("SELECT p.cod_producto , vp.cantidad , p.stock FROM venta_producto vp INNER JOIN producto p ON p.cod_producto = vp.cod_producto WHERE vp.num_fact = ?");
+      
+      $new->bindValue(1, $this->id);
+      $new->execute();
+      $result = $new->fetchAll(\PDO::FETCH_OBJ);
+
+      foreach ($result as $data){
+
+        $stockAct = $data->stock;
+        $cantidad = $data->cantidad;
+        $codigoP = $data->cod_producto;
+
+        $NewStock = $cantidad + $stockAct;
+
+        $new = $this->con->prepare("UPDATE producto p SET stock = ? WHERE p.cod_producto = ? and status = 1");
+        $new->bindValue(1, $NewStock);
+        $new->bindValue(2, $codigoP);
+        $new->execute();
+        
+      }
+
       $new = $this->con->prepare("UPDATE `venta` SET `status`= 0 WHERE num_fact = ?");
       $new->bindValue(1, $this->id);
       $new->execute();
       $data = $new->fetchAll(\PDO::FETCH_OBJ);
-      }
-      catch(\PDOexection $error){
-      return $error;
-      }
     }
+    catch(\PDOexection $error){
+      return $error;
+    }
+    
+  }
+    
+    //---------------------------------MOSTRAR VENTA--------------------------------
 
     public function getMostrarVentas(){
       try{
@@ -133,6 +188,8 @@
      }  
     }
 
+     //---------------------------------DETALLES PRODUCTOS POR VENTA--------------------------------
+
     public function getDetalleV($id){
       try{
         $this->id = $id;
@@ -148,9 +205,11 @@
       }
     }
 
+     //---------------------------------MOSTRAR PRODUCTO--------------------------------
+
     public function getMostrarProducto(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `producto` WHERE status = 1");
+        $new = $this->con->prepare("SELECT * FROM producto WHERE status = 1 and stock > 0");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         echo json_encode($data);
@@ -163,6 +222,7 @@
 
      }   
     }
+     //---------------------------------MOSTRA CANTIDAD Y PRECIO DE PRODUCTO--------------------------------
 
     public function productoDetalle($id){
       $this->producto = $id;
@@ -180,6 +240,7 @@
         return $e;
       }
     }
+     //---------------------------------MOSTRAR METODO DE PAGO--------------------------------
 
     public function getMostrarMetodo(){
       try{
@@ -194,7 +255,8 @@
 
      }   
     }
-
+    
+     //---------------------------------MOSTRAR CLIENTE--------------------------------
     
     public function getMostrarCliente(){
       try{
