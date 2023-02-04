@@ -86,112 +86,342 @@
 
   <!-- Modal Registrar-->
 
-  <div class="modal fade" id="basicModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header alert alert-success">
-          <h3 class="modal-title"> <strong>Registrar Producto</strong> </h3>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+        <div class="modal fade" id="basicModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header alert alert-success">
+                <h3 class="modal-title"> <strong>Registrar Producto</strong> </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
 
-        <div class="modal-body ">
-          <form id="agregarform">
+              <div class="modal-body ">
+                <form id="agregarform">
 
-            <div class="form-group col-md-12">  
-              <div class="container-fluid">
-                <div class="row">
+                  <div class="form-group col-md-12">  
+                    <div class="container-fluid">
+                      <div class="row">
 
-                  <div class="form-group col-lg-8">
-                    <label class="col-form-label"> <strong>Descripcion del Producto *</strong> </label>
-                    <div class="input-group">
-                     <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-fill"></i></button> 
-                     <input id="descripcion" class="form-control" placeholder="descripcion del producto">
+                        <div class="form-group col-lg-8">
+                          <label class="col-form-label"> <strong>Descripcion del Producto *</strong> </label>
+                          <div class="input-group">
+                           <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-fill"></i></button> 
+                           <input id="descripcion" class="form-control" placeholder="descripcion del producto">
+                         </div>
+                       </div>
+
+                       <div class="form-group col-lg-4">
+                        <label class="col-form-label"> <strong>Vencimiento*</strong> </label>
+                        <div class="input-group">
+                         <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" Descripción "><i class="bi bi-calendar"></i></button> 
+                         <input type="date" id="fecha" class="form-control">
+                       </div>
+                     </div>
+
                    </div>
+                 </div>
+               </div>
+
+
+               <div class="form-group col-md-12">  
+                <div class="container-fluid">
+                  <div class="row">
+
+
+
+                    <div class="form-group col-lg-4">
+                      <label class="col-form-label"> <strong>Composición del producto*</strong> </label>
+                      <div class="input-group">
+                       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-line"></i></button>
+                       <input class="form-control" id="composición" placeholder="Composición del producto">
+                     </div>
+                   </div>
+
+                   <div class="form-group col-lg-4">
+                    <label class="col-form-label"> <strong>Posología*</strong> </label>
+                    <div class="input-group">
+                     <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-clock"></i></button>
+                     <input class="form-control" id="posologia" placeholder="posologia">
+                   </div> 
                  </div>
 
                  <div class="form-group col-lg-4">
-                  <label class="col-form-label"> <strong>Vencimiento*</strong> </label>
+                  <label class="col-form-label"> <strong>Ubicación*</strong> </label>
                   <div class="input-group">
-                   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" Descripción "><i class="bi bi-calendar"></i></button> 
-                   <input type="date" id="fecha" class="form-control">
-                 </div>
-               </div>
+                   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-map-2-line"></i></button>
+                   <select class="form-control" aria-label="Default select example" id="ubicación">
+                    <option value="" selected="" >Seleccione una opción</option>
+                    <option value="Pasillo 1">Pasillo 1</option>
+                    <option value="Pasillo 2">Pasillo 2</option>
+                    <option value="Pasillo 3">Pasillo 3</option>
 
-             </div>
-           </div>
-         </div>
-         
-         
-         <div class="form-group col-md-12">  
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-group col-md-12">  
           <div class="container-fluid">
             <div class="row">
 
-              
-
-              <div class="form-group col-lg-4">
-                <label class="col-form-label"> <strong>Composición del producto*</strong> </label>
+              <div class="form-group col-lg-3">
+                <label class="col-form-label"> <strong>Laboratorio*</strong> </label>
                 <div class="input-group">
-                 <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-line"></i></button>
-                 <input class="form-control" id="composición" placeholder="Composición del producto">
-               </div>
-             </div>
+                 <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-flask-fill"></i></button>
+                 <select class="form-control" aria-label="Default select example" id="laboratorio">
+                  <option selected disabled>Seleccione una opción</option>
+                  <?php if(isset($mostraLab)){
+                   foreach($mostraLab as $data){
+                     ?> 
+                     <option value="<?php echo $data->cod_lab; ?>" class="opcion"><?php echo $data->razon_social; ?></option>
+                     <?php
+                   }
+                 }else{"";}?>
 
-             <div class="form-group col-lg-4">
-              <label class="col-form-label"> <strong>Posología*</strong> </label>
-              <div class="input-group">
-               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-clock"></i></button>
-               <input class="form-control" id="posologia" placeholder="posologia">
-             </div> 
+               </select>
+             </div>
            </div>
 
-           <div class="form-group col-lg-4">
-            <label class="col-form-label"> <strong>Ubicación*</strong> </label>
+
+           <div class="form-group col-lg-3">
+            <label class="col-form-label"> <strong>Presentación*</strong> </label>
             <div class="input-group">
-             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-map-2-line"></i></button>
-             <select class="form-control" aria-label="Default select example" id="ubicación">
-              <option value="" selected="" >Seleccione una opción</option>
-              <option value="Pasillo 1">Pasillo 1</option>
-              <option value="Pasillo 2">Pasillo 2</option>
-              <option value="Pasillo 3">Pasillo 3</option>
-              
-            </select>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
+             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
+             <select class="form-control" aria-label="Default select example" id="presentación">
+               <option selected disabled>Seleccione una opción</option>
+               <?php if(isset($mostraPres)){
+                 foreach($mostraPres as $data){
+                   ?> 
+                   <option value="<?php echo $data->cod_pres; ?>" class="opcion"><?php echo $data->cantidad; ?></option>
+                   <?php
+                 }
+               }else{"";}?>
 
-  
+             </select>
+           </div> 
+         </div>
 
-  <div class="form-group col-md-12">  
-    <div class="container-fluid">
-      <div class="row">
-
-        <div class="form-group col-lg-3">
-          <label class="col-form-label"> <strong>Laboratorio*</strong> </label>
+         <div class="form-group col-lg-3">
+          <label class="col-form-label"> <strong>Tipo de producto*</strong> </label>
           <div class="input-group">
-           <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-flask-fill"></i></button>
-           <select class="form-control" aria-label="Default select example" id="laboratorio">
+            <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx bxs-bong"></i></button>
+            <select class="form-control" aria-label="Default select example" id="tipoP">
+              <option selected disabled>Seleccione una opción</option>
+              <?php if(isset($mostraTipo)){
+               foreach($mostraTipo as $data){
+                 ?> 
+                 <option value="<?php echo $data->cod_tipo; ?>" class="opcion"><?php echo $data->des_tipo; ?></option>
+                 <?php
+               }
+             }else{"";}?>
+
+           </select>
+         </div>
+       </div>
+
+       <div class="form-group col-lg-3">
+         <label class="col-form-label"> <strong>Clase*</strong> </label>
+         <div class="input-group">
+          <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
+          <select class="form-control" aria-label="Default select example" id="clase">
             <option selected disabled>Seleccione una opción</option>
-            <?php if(isset($mostraLab)){
-             foreach($mostraLab as $data){
+            <?php if(isset($mostrarClase)){
+             foreach($mostrarClase as $data){
                ?> 
-               <option value="<?php echo $data->cod_lab; ?>" class="opcion"><?php echo $data->razon_social; ?></option>
+               <option value="<?php echo $data->cod_clase; ?>" class="opcion"><?php echo $data->des_clase; ?></option>
                <?php
              }
            }else{"";}?>
+
+         </select>
+       </div> 
+      </div>
+
+      </div>
+      </div>
+      </div>
+
+
+      <div class="form-group col-md-12">  
+        <div class="container-fluid">
+          <div class="row">
+
+
+
+            <div class="form-group col-lg-4">
+              <label class="col-form-label"><strong>Contraindicaciones*</strong></label>
+              <div class="input-group">
+               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bx-no-entry"></i></button>
+               <input class="form-control" id="contraIn" placeholder="text">
+             </div>
+           </div>
+
+           <div class="form-group col-lg-4">
+            <label class="col-form-label"> <strong>Cantidad*</strong> </label>
+            <div class="input-group">
+             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-sort-up"></i></button>
+             <input type="number" class="form-control" id="cantidad" placeholder="cantidad">
+           </div>
+         </div> 
+
+         <div class="form-group col-lg-4">
+           <label class="col-form-label"> <strong> Precio de venta*</strong></label>
+           <div class="input-group">
+            <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-cash-coin"></i></button>
+            <input  class="form-control" id="precioV" placeholder="Precio de venta">
+          </div>
+        </div>
+
+      </div>
+      </div>
+      </div>
+
+      </div>
+      <p id="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+      <div class="modal-footer">
+        <button id="cerrar" type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
+        <button id="boton" type="button" class="btn btn-success">Registrar</button>
+    </div>
+   </form>
+  </div>
+ </div>
+</div>
+
+<!-- Modal Registrar Final-->
+
+    <!-- Modal Editar-->
+
+    <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header alert alert-success">
+            <h3 class="modal-title"> <strong>Editar Producto</strong> </h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body ">
+            <form id="editarform">
+
+              <div class="form-group col-md-12">  
+                <div class="container-fluid">
+                  <div class="row">
+
+                    <div class="form-group col-lg-8">
+                      <label class="col-form-label"> <strong>Descripcion del Producto *</strong> </label>
+                      <div class="input-group">
+                       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-fill"></i></button> 
+                       <input name="descripcionEd" id="descripcionEd" class="form-control" placeholder="descripcion del producto">
+                     </div>
+                   </div>
+
+                   <div class="form-group col-lg-4">
+                    <label class="col-form-label"> <strong>Vencimiento*</strong> </label>
+                    <div class="input-group">
+                     <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" Descripción "><i class="bi bi-calendar"></i></button> 
+                     <input type="date" name="fechaEd" id="fechaEd" class="form-control">
+                   </div>
+                 </div>
+
+               </div>
+             </div>
+           </div>
            
+           
+           <div class="form-group col-md-12">  
+            <div class="container-fluid">
+              <div class="row">
+
+                
+
+                <div class="form-group col-lg-4">
+                  <label class="col-form-label"> <strong>Composición del producto*</strong> </label>
+                  <div class="input-group">
+                   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-line"></i></button>
+                   <input class="form-control" name="composicionEd" id="composicionEd" placeholder="Composición del producto">
+                 </div>
+               </div>
+
+               <div class="form-group col-lg-4">
+                <label class="col-form-label"> <strong>Posología*</strong> </label>
+                <div class="input-group">
+                 <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-clock"></i></button>
+                 <input class="form-control" name="posologiaEd" id="posologiaEd" placeholder="posologia">
+               </div> 
+             </div>
+
+             <div class="form-group col-lg-4">
+              <label class="col-form-label"> <strong>Ubicación*</strong> </label>
+              <div class="input-group">
+               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-map-2-line"></i></button>
+               <select class="form-control" aria-label="Default select example" id="ubicaciónEd">
+                <option value="" selected="" >Seleccione una opción</option>
+                <option value="Pasillo 1">Pasillo 1</option>
+                <option value="Pasillo 2">Pasillo 2</option>
+                <option value="Pasillo 3">Pasillo 3</option>
+
+              </select>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group col-md-12">  
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="form-group col-lg-3">
+            <label class="col-form-label"> <strong>Laboratorio*</strong> </label>
+            <div class="input-group">
+             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-flask-fill"></i></button>
+             <select class="form-control" aria-label="Default select example" name="laboratorioEd" id="laboratorioEd">
+              <option selected disabled>Seleccione una opción</option>
+              <?php if(isset($mostraLab)){
+               foreach($mostraLab as $data){
+                 ?> 
+                 <option value="<?php echo $data->cod_lab; ?>" class="opcion"><?php echo $data->razon_social; ?></option>
+                 <?php
+               }
+             }else{"";}?>
+             
+           </select>
+         </div>
+       </div>
+
+
+
+       <div class="form-group col-lg-3">
+        <label class="col-form-label"> <strong>Tipo de producto*</strong> </label>
+        <div class="input-group">
+          <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx bxs-bong"></i></button>
+          <select class="form-control" aria-label="Default select example" name="tipoEd" id="tipoEd">
+            <option selected disabled>Seleccione una opción</option>
+            <?php if(isset($mostraTipo)){
+             foreach($mostraTipo as $data){
+               ?> 
+               <option value="<?php echo $data->cod_tipo; ?>" class="opcion"><?php echo $data->des_tipo; ?></option>
+               <?php
+             }
+           }else{"";}?>
+
          </select>
        </div>
      </div>
+
      
 
      <div class="form-group col-lg-3">
       <label class="col-form-label"> <strong>Presentación*</strong> </label>
       <div class="input-group">
        <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
-       <select class="form-control" aria-label="Default select example" id="presentación">
+       <select class="form-control" aria-label="Default select example" name="presentaciónEd" id="presentaciónEd">
          <option selected disabled>Seleccione una opción</option>
          <?php if(isset($mostraPres)){
            foreach($mostraPres as $data){
@@ -203,307 +433,75 @@
          
        </select>
      </div> 
-   </div>
+    </div>
 
-   <div class="form-group col-lg-3">
-    <label class="col-form-label"> <strong>Tipo de producto*</strong> </label>
-    <div class="input-group">
-      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx bxs-bong"></i></button>
-      <select class="form-control" aria-label="Default select example" id="tipoP">
-        <option selected disabled>Seleccione una opción</option>
-        <?php if(isset($mostraTipo)){
-         foreach($mostraTipo as $data){
-           ?> 
-           <option value="<?php echo $data->cod_tipo; ?>" class="opcion"><?php echo $data->des_tipo; ?></option>
-           <?php
-         }
-       }else{"";}?>
-
-     </select>
-   </div>
- </div>
- 
- <div class="form-group col-lg-3">
-  <label class="col-form-label"> <strong>Clase*</strong> </label>
-  <div class="input-group">
-   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
-   <select class="form-control" aria-label="Default select example" id="clase">
-     <option selected disabled>Seleccione una opción</option>
-     <?php if(isset($mostrarClase)){
-       foreach($mostrarClase as $data){
-         ?> 
-         <option value="<?php echo $data->cod_clase; ?>" class="opcion"><?php echo $data->des_clase; ?></option>
-         <?php
-       }
-     }else{"";}?>
-     
-   </select>
- </div> 
-</div>
-
-
-</div>
-</div>
-</div>
-
-
-
-<div class="form-group col-md-12">  
-  <div class="container-fluid">
-    <div class="row">
-
-      
-      
-      <div class="form-group col-lg-4">
-        <label class="col-form-label"><strong>Contraindicaciones*</strong></label>
-        <div class="input-group">
-         <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bx-no-entry"></i></button>
-         <input class="form-control" id="contraIn" placeholder="text">
-       </div>
-     </div>
-
-     <div class="form-group col-lg-4">
-      <label class="col-form-label"> <strong>Cantidad*</strong> </label>
+    <div class="form-group col-lg-3">
+      <label class="col-form-label"> <strong>Clase*</strong> </label>
       <div class="input-group">
-       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-sort-up"></i></button>
-       <input type="number" class="form-control" id="cantidad" placeholder="cantidad">
-     </div>
-   </div> 
-   
-   <div class="form-group col-lg-4">
-     <label class="col-form-label"> <strong> Precio de venta*</strong></label>
-     <div class="input-group">
-      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-cash-coin"></i></button>
-      <input  class="form-control" id="precioV" placeholder="Precio de venta">
-    </div>
-  </div>
-
-</div>
-</div>
-</div>
-
-</div>
-<p id="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
-<div class="modal-footer">
-  <button id="cerrar" type="reset" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
-  <button id="boton" type="button" class="btn btn-success">Registrar</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-
-<!-- Modal Registrar Final-->
-
-<!-- Modal Editar-->
-
-<div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header alert alert-success">
-        <h3 class="modal-title"> <strong>Editar Producto</strong> </h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body ">
-        <form id="editarform" method="POST">
-
-          <div class="form-group col-md-12">  
-            <div class="container-fluid">
-              <div class="row">
-
-                <div class="form-group col-lg-8">
-                  <label class="col-form-label"> <strong>Descripcion del Producto *</strong> </label>
-                  <div class="input-group">
-                   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-fill"></i></button> 
-                   <input name="descripcionEd" id="descripcionEd" class="form-control" placeholder="descripcion del producto">
-                 </div>
-               </div>
-
-               <div class="form-group col-lg-4">
-                <label class="col-form-label"> <strong>Vencimiento*</strong> </label>
-                <div class="input-group">
-                 <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" Descripción "><i class="bi bi-calendar"></i></button> 
-                 <input type="date" name="fechaEd" id="fechaEd" class="form-control">
-               </div>
-             </div>
-
-           </div>
-         </div>
-       </div>
-       
-       
-       <div class="form-group col-md-12">  
-        <div class="container-fluid">
-          <div class="row">
-
-            
-
-            <div class="form-group col-lg-4">
-              <label class="col-form-label"> <strong>Composición del producto*</strong> </label>
-              <div class="input-group">
-               <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="ri-capsule-line"></i></button>
-               <input class="form-control" name="composicionEd" id="composicionEd" placeholder="Composición del producto">
-             </div>
-           </div>
-
-           <div class="form-group col-lg-4">
-            <label class="col-form-label"> <strong>Posología*</strong> </label>
-            <div class="input-group">
-             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-clock"></i></button>
-             <input class="form-control" name="posologiaEd" id="posologiaEd" placeholder="posologia">
-           </div> 
-         </div>
-
-         <div class="form-group col-lg-4">
-          <label class="col-form-label"> <strong>Ubicación*</strong> </label>
-          <div class="input-group">
-           <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-map-2-line"></i></button>
-           <select class="form-control" aria-label="Default select example" id="ubicaciónEd">
-            <option value="" selected="" >Seleccione una opción</option>
-            <option value="Pasillo 1">Pasillo 1</option>
-            <option value="Pasillo 2">Pasillo 2</option>
-            <option value="Pasillo 3">Pasillo 3</option>
-
-          </select>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-</div>
-
-
-
-<div class="form-group col-md-12">  
-  <div class="container-fluid">
-    <div class="row">
-
-      <div class="form-group col-lg-3">
-        <label class="col-form-label"> <strong>Laboratorio*</strong> </label>
-        <div class="input-group">
-         <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class=" ri-flask-fill"></i></button>
-         <select class="form-control" aria-label="Default select example" name="laboratorioEd" id="laboratorioEd">
-          <option selected disabled>Seleccione una opción</option>
-          <?php if(isset($mostraLab)){
-           foreach($mostraLab as $data){
+       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
+       <select class="form-control" aria-label="Default select example" id="claseEd">
+         <option selected disabled>Seleccione una opción</option>
+         <?php if(isset($mostrarClase)){
+           foreach($mostrarClase as $data){
              ?> 
-             <option value="<?php echo $data->cod_lab; ?>" class="opcion"><?php echo $data->razon_social; ?></option>
+             <option value="<?php echo $data->cod_clase; ?>" class="opcion"><?php echo $data->des_clase; ?></option>
              <?php
            }
          }else{"";}?>
          
        </select>
+      </div> 
+     </div>
+
+
      </div>
    </div>
-
-
-
-   <div class="form-group col-lg-3">
-    <label class="col-form-label"> <strong>Tipo de producto*</strong> </label>
-    <div class="input-group">
-      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx bxs-bong"></i></button>
-      <select class="form-control" aria-label="Default select example" name="tipoEd" id="tipoEd">
-        <option selected disabled>Seleccione una opción</option>
-        <?php if(isset($mostraTipo)){
-         foreach($mostraTipo as $data){
-           ?> 
-           <option value="<?php echo $data->cod_tipo; ?>" class="opcion"><?php echo $data->des_tipo; ?></option>
-           <?php
-         }
-       }else{"";}?>
-
-     </select>
-   </div>
- </div>
-
- 
-
- <div class="form-group col-lg-3">
-  <label class="col-form-label"> <strong>Presentación*</strong> </label>
-  <div class="input-group">
-   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
-   <select class="form-control" aria-label="Default select example" name="presentaciónEd" id="presentaciónEd">
-     <option selected disabled>Seleccione una opción</option>
-     <?php if(isset($mostraPres)){
-       foreach($mostraPres as $data){
-         ?> 
-         <option value="<?php echo $data->cod_pres; ?>" class="opcion"><?php echo $data->cantidad; ?></option>
-         <?php
-       }
-     }else{"";}?>
-     
-   </select>
- </div> 
-</div>
-
-<div class="form-group col-lg-3">
-  <label class="col-form-label"> <strong>Clase*</strong> </label>
-  <div class="input-group">
-   <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bxs-capsule"></i></button>
-   <select class="form-control" aria-label="Default select example" id="claseEd">
-     <option selected disabled>Seleccione una opción</option>
-     <?php if(isset($mostrarClase)){
-       foreach($mostrarClase as $data){
-         ?> 
-         <option value="<?php echo $data->cod_clase; ?>" class="opcion"><?php echo $data->des_clase; ?></option>
-         <?php
-       }
-     }else{"";}?>
-     
-   </select>
- </div> 
-</div>
-
-
-</div>
-</div>
-</div>
-
-
-<div class="form-group col-md-12">  
-  <div class="container-fluid">
-    <div class="row">
-
-      
-      
-      <div class="form-group col-lg-4">
-        <label class="col-form-label"><strong>Contraindicaciones*</strong></label>
-        <div class="input-group">
-         <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bx-no-entry"></i></button>
-         <input class="form-control" name="contraInEd" id="contraInEd" placeholder="text">
-       </div>
-     </div>
-
-     <div class="form-group col-lg-4">
-      <label class="col-form-label"> <strong>Cantidad*</strong> </label>
-      <div class="input-group">
-       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-sort-up"></i></button>
-       <input type="number" class="form-control" name="cantidadEd" id="cantidadEd" placeholder="cantidad">
-     </div>
-   </div> 
-
-   <div class="form-group col-lg-4">
-     <label class="col-form-label"> <strong> Precio de venta*</strong></label>
-     <div class="input-group">
-      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-cash-coin"></i></button>
-      <input  class="form-control" name="VentaEd" id="VentaEd" placeholder="Precio de venta">
-    </div>
   </div>
 
-</div>
-</div>
-</div>
 
-</div>
-<p id="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
-<div class="modal-footer">
-  <button id="Cancelar" type="reset" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
-  <button id="actualizar" type="button" class="btn btn-success">Actualizar</button>
-</div>
-</form>
-</div>
-</div>
+    <div class="form-group col-md-12">  
+      <div class="container-fluid">
+        <div class="row">
+
+          
+          
+          <div class="form-group col-lg-4">
+            <label class="col-form-label"><strong>Contraindicaciones*</strong></label>
+            <div class="input-group">
+             <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bx  bx-no-entry"></i></button>
+             <input class="form-control" name="contraInEd" id="contraInEd" placeholder="text">
+           </div>
+         </div>
+
+         <div class="form-group col-lg-4">
+          <label class="col-form-label"> <strong>Cantidad*</strong> </label>
+          <div class="input-group">
+           <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-sort-up"></i></button>
+           <input type="number" class="form-control" name="cantidadEd" id="cantidadEd" placeholder="cantidad">
+         </div>
+       </div> 
+
+       <div class="form-group col-lg-4">
+         <label class="col-form-label"> <strong> Precio de venta*</strong></label>
+         <div class="input-group">
+          <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="  Descripción "><i class="bi bi-cash-coin"></i></button>
+          <input  class="form-control" name="VentaEd" id="VentaEd" placeholder="Precio de venta">
+        </div>
+      </div>
+
+        </div>
+       </div>
+      </div>
+
+       </div>
+       <p id="error" class="error" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+       <div class="modal-footer">
+        <button id="Cancelar" type="reset" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
+         <button id="actualizar" type="button" class="btn btn-success">Actualizar</button>
+         </div>
+     </form>
+    </div>
+  </div>
 </div>
 
 <!-- Modal Editar Final-->

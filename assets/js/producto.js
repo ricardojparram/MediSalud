@@ -22,12 +22,27 @@ $(document).ready(function(){
       }
 
 
-    $('#descripcion').keyup(()=> {validarString($("#descripcion"),$("#error"),"Error de descripcion") });
-    $('#composición').keyup(()=> {validarString($("#composición"),$("#error"),"Error de Composición") });
-    $('#posologia').keyup(()=> {validarString($("#posologia"),$("#error"),"Error de posologia") });
-    $('#contraIn').keyup(()=> {validarString($("#contraIn"),$("#error"),"Error elige ubicación") });
-    $('#cantidad').keyup(()=> {validarNumero($("#cantidad"),$("#error"),"Error de cantidad") });
-    $('#precioV').keyup(()=> {validarNumero($("#precioV"),$("#error"),"Error de precio venta") });
+      $('#descripcion').keyup(()=> {validarString($("#descripcion"),$("#error"),"Error de descripcion") });
+      $('#composición').keyup(()=> {validarString($("#composición"),$("#error"),"Error de Composición") });
+      $('#posologia').keyup(()=> {validarString($("#posologia"),$("#error"),"Error de posologia") });
+      $('#laboratorio').change(function(){
+        validarNumero($("#laboratorio"),$("#error"),"Error elige laboratorio");
+      })
+      $('#clase').change(function(){
+       validarNumero($("#clase"),$("#error"),"Error elige clase");
+     })
+      $('#tipoP').change(function(){
+        validarNumero($("#tipoP"),$("#error"),"Error elige tipo producto");
+      })
+      $('#presentación').change(function(){
+       validarNumero($("#presentación"),$("#error"),"Error elige presentación");
+     })
+      $('#ubicación').change(function(){
+        validarString($("#ubicación"),$("#error"),"Error elige ubicación");
+      })
+      $('#contraIn').keyup(()=> {validarString($("#contraIn"),$("#error"),"Error elige ubicación") });
+      $('#cantidad').keyup(()=> {validarNumero($("#cantidad"),$("#error"),"Error de cantidad") });
+      $('#precioV').keyup(()=> {validarNumero($("#precioV"),$("#error"),"Error de precio venta") });
    
 
     /* --- AGREGAR --- */
@@ -42,7 +57,7 @@ $(document).ready(function(){
       let clase = validarNumero($("#clase"),$("#error"),"Error elige clase");
       let presentación = validarNumero($("#presentación"),$("#error"),"Error elige presentación");
       let ubicación = validarString($("#ubicación"),$("#error"),"Error elige ubicación");
-      let contraIn = validarString($("#contraIn"),$("#error"),"Error elige ubicación");
+      let contraIn = validarString($("#contraIn"),$("#error"),"Error elige contraindicaciones");
       let cantidad = validarNumero($("#cantidad"),$("#error"),"Error de cantidad");
       let precioV = validarNumero($("#precioV"),$("#error"),"Error de precio venta");
 
@@ -83,17 +98,24 @@ $(document).ready(function(){
       },
       success(data){
         
+        let fecha = false;
         let vfecha = false;
 
-        if(data.resultado === "Error de fecha"){
+        if(data.resultado === "Error fecha"){
           $("#error").text(data.error);
           $("#fecha").attr("style","border-color: red;")
         }else{
            $("#fecha").attr("style","border-color: none;")
+          fecha = true;
+         }
+
+        if(data.resultado === "Error de fecha"){
+          $("#error").text(data.error);
+        }else{
           vfecha = true;
          }
 
-        if(descripcion && composición && posologia && laboratorio && tipo && presentación && ubicación && contraIn && cantidad && precioV && vfecha){
+        if(descripcion && composición && posologia && laboratorio && tipo && presentación && ubicación && contraIn && cantidad && precioV && vfecha && fecha){
           tablaMostrar.destroy()
           rellenar();  // FUNCIÓN PARA RELLENAR
           $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
@@ -107,6 +129,14 @@ $(document).ready(function(){
     
 
   });
+
+  /* --- CERRAR REGISTRAR --- */
+
+   $('#cerrar').click(()=>{
+     $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
+     $('#error').text('');
+      fechaHoy($('#fecha'));
+  })
 
    /* --- EDITAR --- */
    let id;
@@ -141,7 +171,22 @@ $(document).ready(function(){
       $('#descripcionEd').keyup(()=> {validarString($("#descripcionEd"),$("#error"),"Error de descripcion") });
       $('#composicionEd').keyup(()=> {validarString($("#composicionEd"),$("#error"),"Error de Composición") });
       $('#posologiaEd').keyup(()=> {validarString($("#posologiaEd"),$("#error"),"Error de posologia") });
-      $('#contraInEd').keyup(()=> {validarString($("#contraInEd"),$("#error"),"Error elige ubicación") });
+      $('#laboratorioEd').change(function(){
+        validarNumero($("#laboratorioEd"),$("#error"),"Error seleccione laboratorio");
+      })
+      $('#claseEd').change(function(){
+       validarNumero($("#claseEd"),$("#error"),"Error seleccione clase");
+     })
+      $('#tipoEd').change(function(){
+        validarNumero($("#tipoEd"),$("#error"),"Error seleccione tipo producto");
+      })
+      $('#presentaciónEd').change(function(){
+       validarNumero($("#presentaciónEd"),$("#error"),"Error seleccione presentación");
+     })
+      $('#ubicaciónEd').change(function(){
+        validarString($("#ubicaciónEd"),$("#error"),"Error seleccione ubicación");
+      })
+      $('#contraInEd').keyup(()=> {validarString($("#contraInEd"),$("#error"),"Error elige contraindicaciones") });
       $('#cantidadEd').keyup(()=> {validarNumero($("#cantidadEd"),$("#error"),"Error de cantidad") });
       $('#VentaEd').keyup(()=> {validarNumero($("#VentaEd"),$("#error"),"Error de precio venta") });
 
@@ -158,12 +203,11 @@ $(document).ready(function(){
     let claseE = validarNumero($("#claseEd"),$("#error"),"Error elige clase");
     let presentaciónE = validarNumero($("#presentaciónEd"),$("#error"),"Error elige presentación");
     let ubicaciónE = validarString($("#ubicaciónEd"),$("#error"),"Error elige ubicación");
-    let contraInE = validarString($("#contraInEd"),$("#error"),"Error elige ubicación");
+    let contraInE = validarString($("#contraInEd"),$("#error"),"Error de contraindicaciones");
     let cantidadE = validarNumero($("#cantidadEd"),$("#error"),"Error de cantidad");
     let VentaE = validarNumero($("#VentaEd"),$("#error"),"Error de precio venta");
    
 
-  if(descripcionE == true && composicionE == true && posologiaE == true && laboratorioE == true && tipoE == true && claseE == true  && presentaciónE == true && ubicaciónE == true && contraInE == true && cantidadE == true && VentaE == true){ 
       
       //  ENVÍO DE DATOS
         $.ajax({
@@ -185,22 +229,29 @@ $(document).ready(function(){
         VentaEd : $('#VentaEd').val() ,
         id 
         },
-        success(result){
-        console.log(result);
+        success(data){
+         
+        let fecha = false;
+
+        if(data.resultado === "Error fecha"){
+          $(".error").text(data.error);
+          $("#fechaEd").attr("style","border-color: red;")
+        }else{
+           $("#fechaEd").attr("style","border-color: none;")
+          fecha = true;
+         }
+
+         if(descripcionE == true && fecha == true && composicionE == true && posologiaE == true && laboratorioE == true && tipoE == true && claseE == true  && presentaciónE == true && ubicaciónE == true && contraInE == true && cantidadE == true && VentaE == true){ 
          tablaMostrar.destroy();
           rellenar();  // FUNCIÓN PARA RELLENAR
           $('#editarform').trigger('reset');
           $('#Cancelar').click();
           Toast.fire({ icon: 'success', title: 'Producto Actualizado' });
         }
+       } 
       }) 
         e.preventDefault();
-           
-      }else{
-        console.log('error');
-       e.preventDefault();
-      }
-    
+
   })
 
 

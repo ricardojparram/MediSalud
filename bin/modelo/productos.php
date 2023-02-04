@@ -31,7 +31,9 @@
       return "Error de nombre!";
     }
     if(preg_match_all("/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/", $fechaV) !== 1){
-      return "Error de fecha vencimiento !";
+      $result = ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
+      echo json_encode($result);
+      die();
     }
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $composicionP)){
       return "Error de composicion de productos!";
@@ -162,7 +164,9 @@
       return "Error de nombre!";
     }
     if(preg_match_all("/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/", $fechaEd) !== 1){
-      return "Error de fecha vencimiento !";
+      $result = ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
+      echo json_encode($result);
+      die();
     }
     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $composicionEd)){
       return "Error de composicion de productos!";
@@ -294,7 +298,7 @@
 
     public function mostrarLaboratorio(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `laboratorio`");
+        $new = $this->con->prepare("SELECT * FROM laboratorio l WHERE l.status = 1");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         return $data;
@@ -308,7 +312,7 @@
    
     public function mostrarTipo(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `tipo`");
+        $new = $this->con->prepare("SELECT * FROM tipo t WHERE t.status = 1");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         return $data;
@@ -321,7 +325,7 @@
 
     public function mostrarPresentacion(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `presentacion`");
+        $new = $this->con->prepare("SELECT * FROM presentacion p WHERE p.status = 1");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         return $data;
@@ -334,7 +338,7 @@
 
     public function mostrarClase(){
       try{
-        $new = $this->con->prepare("SELECT * FROM `clase`");
+        $new = $this->con->prepare("SELECT * FROM clase c WHERE c.status = 1");
         $new->execute();
         $data = $new->fetchAll(\PDO::FETCH_OBJ);
         return $data;
