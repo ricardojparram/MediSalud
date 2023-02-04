@@ -68,7 +68,6 @@ body{
     background: transparent;
     border: none;
     width: 100%;
-    border-width: 1px;
 }
 
 .iconos{
@@ -103,4 +102,25 @@ body{
     border: none;
     width: 25px;
 }
+/*  SELECT BOOTSTRAP5  */
+.form-select:focus {
+    border-color: #a7b754;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(167 183 84) !important ;
+}
 
+/*  SELECT2 BOOTSTRAP5  */
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection {
+    border: solid 1px#a7b754 !important;  
+    box-shadow: 0 0 0 0.25rem rgb(167 183 84) !important ;
+}
+
+.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--highlighted {
+  background-color: #a7b754 !important;
+  color: #ffffff !important;
+}
+
+.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected{
+    background-color: #a7b754 !important;
+    color: #ffffff !important;
+}

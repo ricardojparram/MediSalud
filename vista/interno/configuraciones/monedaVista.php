@@ -102,7 +102,7 @@
        
     
                     <div class="modal-body ">
-                    <form class="user" method="POST">
+                    <form class="user">
                     <div class="form-group col-md-11">  
                       <div class="container-fluid">
                         <div class="row">

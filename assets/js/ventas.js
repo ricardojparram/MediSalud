@@ -147,8 +147,8 @@
       $(input).keyup(()=>{
         stock = Number(max);
         num = Number(input.val());
-        if(num > stock || num == 0){
-          input.css({"border" : "solid", "border-color" : "red"})
+        if(num > stock || num === 0){
+          input.css({"border" : "solid 1px", "border-color" : "red"})
           input.attr("valid", "false")
         }else{
           input.css({'border': 'none'})
@@ -216,21 +216,30 @@
      })
      
      // REGISTRAR VENTA
-     
-
-     $('#cedula').keyup(()=> {validarCedula($("#cedula"),$("#error"),"Error de Cedula") });
-     $('#metodo').keyup(()=> {validarNumero($("#metodo"),$("#error"),"Error de metodo de pago") });
-     $('#monto').keyup(()=> {validarNumero($("#monto"),$("#error"),"Error de monto") });
-
+ 
+     $('#metodo').change(function(){
+      let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
+    })
 
      $("#registrar").click((e)=>{
        e.preventDefault();
 
-       
+       let cedula = validarSelec2($(".select2"),$(".select2-selection"),$("#error1"),"Error de Cedula");
 
-       let cedula =validarCedula($("#cedula"),$("#error"),"Error de Cedula");
-       let metodo = validarNumero($("#metodo"),$("#error"),"Error de metodo de pago");
-       let montoT = validarNumero($("#monto"),$("#error"),"Error de monto");
+       $('.select2').change(function(){
+         let select2 = $(this).val() 
+         if(select2 == " " || select2 == null ){
+          return cedula = false
+        }else{
+         $('#error1').text(" ");
+         $(".select2-selection").attr("style","border-color: none;")
+         $(".select2-selection").attr("style","backgraund-image: none;");
+         return cedula = true;
+       }
+     })
+     
+       let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
+       let montoT = validarNumero($("#monto"),$("#error3"),"Error de monto");
 
        let vproductos = true;
 
@@ -239,40 +248,45 @@
         if(producto == "" || producto == null){
          vproductos = false;
          $('#error').text('No debe haber productos vacíos.')
-        }
-      })
+       }
+     })
+
        let vstock = true;
        if($('.stock').is('[valid="false"]')){
         vstock  = false
         $('#error').text('Cantidad inválida.')
+      }else if($('.stock').val() == "" || $('.stock').val() === '0'){
+        vstock = false
+        $('#error').text('Seleccione un producto');
       }
 
 
-       if(cedula == true && metodo == true && montoT == true && vproductos == true && vstock == true){
+      if(cedula == true && metodo == true && montoT == true && vproductos == true && vstock == true){
 
-         console.log("Enviando ...");
+       console.log("Enviando ...");
 
-         $.post('',{
-          cedula: $('#cedula').val(),
-          metodo: $('#metodo').val(),
-          montoT: $('#monto').val()
-        },
-        function(data){
-         let idVenta = JSON.parse(data);
-         console.log(idVenta);
-         enviarProductos(idVenta.id);
-         tablaMostrar.destroy();
+       $.post('',{
+        cedula: $('#cedula').val(),
+        metodo: $('#metodo').val(),
+        montoT: $('#monto').val()
+      },
+      function(data){
+       let idVenta = JSON.parse(data);
+       console.log(idVenta);
+       enviarProductos(idVenta.id);
+       tablaMostrar.destroy();
             rellenar();  // FUNCIÓN PARA RELLENAR
-            $('.select2').val(null).trigger('change'); // LIMPIA EL SELECT2
+            $('.select2').val(0).trigger('change'); // LIMPIA EL SELECT2
             $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
             $('.cerrar').click(); // CERRAR EL MODAL
             $('.removeRow').click(); 
+            $('#error').text('');
             filaN()
             Toast.fire({ icon: 'success', title: 'Venta registrada' }) // ALERTA 
 
           })
-       }
-     })
+     }
+   })
 
   //función para enviar productos uno por uno
   function enviarProductos(id){
@@ -287,9 +301,10 @@
   }
 
   $('#cerrar').click(()=>{
-     $('.select2').val(null).trigger('change'); // LIMPIA EL SELECT2
+     $('.select2').val(0).trigger('change'); // LIMPIA EL SELECT2
      $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
      $('.removeRow').click(); // LIMPIAR FILAS 
+     $('#error').text('');
      filaN() // 
   })
 
@@ -310,7 +325,7 @@
             tablaMostrar.destroy();
             rellenar();
             $('.cerrar').click();
-              Toast.fire({ icon: 'error', title: 'Venta eliminada' }) // ALERTA 
+              Toast.fire({ icon: 'success', title: 'Venta eliminada' }) // ALERTA 
             }
           })
        })
