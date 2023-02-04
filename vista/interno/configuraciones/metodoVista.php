@@ -72,72 +72,72 @@
 
 
             <tbody>
-             
-           
-        </tbody>
-      </table>
-    </div>
-    <!-- End Table with stripped rows -->
-
-  </div>
-</div>
 
 
-</main>
+            </tbody>
+          </table>
+        </div>
+        <!-- End Table with stripped rows -->
 
-
-
-
-</html>
-
-
-
-
-
-
-
-<!-- Modal Registrar-->
-<div class="modal fade" id="registrarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header alert alert-success">
-        <h3 class="modal-title"> <strong>Registrar Método de Pago</strong> </h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+    </div>
 
-        <div class="modal-body ">
-          <form class="user" method="POST">
-            <div class="form-group col-md-11">  
-              <div class="container-fluid">
-                <div class="row">
 
-                 <div class="form-group col-lg-7">
-                  <label class="col-form-label"><strong>Método de Pago*</strong></label> 
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-credit-card"></i></button> 
-                    <input id="tipo" class="form-control" required="" placeholder="Método de Pago" >
+  </main>
+
+
+
+
+  </html>
+
+
+
+
+
+
+
+  <!-- Modal Registrar-->
+  <div class="modal fade" id="registrarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header alert alert-success">
+          <h3 class="modal-title"> <strong>Registrar Método de Pago</strong> </h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="modal-body ">
+            <form class="user">
+              <div class="form-group col-md-11">  
+                <div class="container-fluid">
+                  <div class="row">
+
+                   <div class="form-group col-lg-7">
+                    <label class="col-form-label"><strong>Método de Pago*</strong></label> 
+                    <div class="input-group">
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-credit-card"></i></button> 
+                      <input id="tipo" class="form-control" type="text" placeholder="Método de Pago" >
+                    </div>
+
                   </div>
-                  
                 </div>
               </div>
             </div>
+
+
           </div>
-          
+          <p id="error"style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+          <div class="modal-footer">
+            <button type="reset" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" id="enviar" class="btn btn-success">Registrar</button>
+
+          </div>
 
         </div>
-        <p id="error"style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
-        <div class="modal-footer">
-          <button type="reset" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" id="enviar" class="btn btn-success">Registrar</button>
-
-        </div>
-
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 
@@ -158,36 +158,36 @@
         <form>
 
 
-        <div class="form-group col-md-12">  
-          <div class="container-fluid">
-            <div class="row">
+          <div class="form-group col-md-12">  
+            <div class="container-fluid">
+              <div class="row">
 
-             <div class="form-group col-lg-6">
-              <label class="col-form-label"> <strong>Método de Pago*</strong> </label>
-              <div class="input-group">
+               <div class="form-group col-lg-6">
+                <label class="col-form-label"> <strong>Método de Pago*</strong> </label>
+                <div class="input-group">
 
-                <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-currency-exchange"></i></button> 
+                  <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=""><i class="bi bi-currency-exchange"></i></button> 
 
-                <input id="tipoEdit" class="form-control" required="" >
+                  <input id="tipoEdit" class="form-control" required="" >
+
+                </div>
 
               </div>
-
             </div>
           </div>
+
+
         </div>
-      
+
 
       </div>
-
+      <p id="error2" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
+      <div class="modal-footer">
+        <button type="reset" id="closeEdit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" id="enviarEdit"class="btn btn-success">Actualizar</button>
+      </div>
 
     </div>
-    <p id="error2" style="color:#ff0000;text-align: center;"><?php echo (isset($respuesta))? $respuesta : " " ?></p>
-    <div class="modal-footer">
-    <button type="reset" id="closeEdit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      <button type="button" id="enviarEdit"class="btn btn-success">Actualizar</button>
-    </div>
-
-  </div>
   </form>
 </div>
 </div>

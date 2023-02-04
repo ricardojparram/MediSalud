@@ -22,6 +22,7 @@ $(document).ready(function(){
 
    let ytipo;
    $("#enviar").click((e)=>{
+     e.preventDefault();
 
      ytipo = validarString($("#tipo"),$("#error"),"Error de tipo de pago");
 
@@ -108,6 +109,7 @@ $(document).ready(function(){
 
   let ctipo; 
   $("#enviarEdit").click((e)=>{
+    e.preventDefault();
      ctipo = validarString($("#tipoEdit"),$("#error2") ,"Error de Tipo de Moneda,");
 
      $.ajax({
