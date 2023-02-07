@@ -4,11 +4,11 @@
   use component\header as header;
   use component\menuLateral as menuLateral;
 
-   $VarComp = new initcomponents();
-   $header = new header();
-   $menu = new menuLateral();
+  $VarComp = new initcomponents();
+  $header = new header();
+  $menu = new menuLateral();
 
-   if(!isset($_SESSION['cedula'])){
+  if(!isset($_SESSION['nivel'])){
     die('<script> window.location = "?url=login" </script>');
   }
 

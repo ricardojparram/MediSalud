@@ -7,7 +7,7 @@
 
   $objModel = new home();
 
-  if(!isset($_SESSION['cedula'])){
+  if(!isset($_SESSION['nivel'])){
     die('<script> window.location = "?url=login" </script>');
   }
 

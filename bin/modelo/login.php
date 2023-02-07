@@ -46,6 +46,7 @@
 						$_SESSION['nombre'] = $data[0]['nombre'];
 						$_SESSION['apellido'] = $data[0]['apellido'];
 						$_SESSION['correo'] = $data[0]['correo'];
+						$_SESSION['nivel'] = $data[0]['nivel'];
 
 						
 						$resultado = ['resultado' => 'Logueado'];
