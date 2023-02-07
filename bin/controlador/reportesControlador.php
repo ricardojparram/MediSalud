@@ -13,7 +13,7 @@
 
 
 	if(isset($_SESSION['nivel'])){
-		if($_SESSION['nivel'] != 1 || $_SESSION['nivel'] != 2){
+		if($_SESSION['nivel'] != 1 && $_SESSION['nivel'] != 2){
 			die('<script> window.location = "?url=home" </script>');
 		}
 	}else{
