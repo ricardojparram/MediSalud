@@ -52,7 +52,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
+              <h2><?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?></h2>
               <h3></h3>
             </div>
           </div>
@@ -83,39 +83,27 @@
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">Sobre mi</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
 
                   <h5 class="card-title">Detalles del Perfil</h5>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
-                    <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Trabajo</div>
-                    <div class="col-lg-9 col-md-8">Diseñador Web</div>
+                    <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
+                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['puesto']}"; ?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Cedula</div>
-                    <div class="col-lg-9 col-md-8">30.349.137</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Direccion</div>
-                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Telefono</div>
-                    <div class="col-lg-9 col-md-8">0412-5468799</div>
+                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['cedula']}"; ?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['correo']}"; ?></div>
                   </div>
 
                 </div>
@@ -129,7 +117,7 @@
                       <div class="col-md-8 col-lg-9">
                         <img src="assets/img/profile-img.jpg" alt="Profile">
                         <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <input type="file" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></input>
                           <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
                       </div>
@@ -138,54 +126,33 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre Completo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mi</label>
+                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto de trabajo</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Trabajo</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="Diseñador Web">
+                        <input type="text" class="form-control" id="puesto" value="<?= $_SESSION['puesto']; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Cedula</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="30.349.137">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Direccion</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="0412-5468799">
+                        <input type="text" class="form-control" id="cedula" value="<?= $_SESSION['cedula']; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <input name="email" type="email" class="form-control" id="Email" value="<?= $_SESSION['correo']; ?>">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <a type="" class="btn btn-success">Guardar Cambios</a>
+                      <button type="submit" class="btn btn-success" id="guardar">Guardar Cambios</a>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -261,4 +228,6 @@
 </main>
 </body>
 <?php $VarComp->js(); ?>
+
+<script src="assets/js/perfil.js"></script>
 </html>

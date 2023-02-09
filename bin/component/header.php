@@ -31,7 +31,7 @@
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
         <li class="dropdown-header">
           <h6>'.$_SESSION["nombre"].' '.$_SESSION['apellido'].'</h6>
-          <span>Diseñador web</span>
+          <span>'.$_SESSION["puesto"].'</span>
         </li>
         <li>
           <hr class="dropdown-divider">
