@@ -86,6 +86,9 @@
 
 		private function exportarReporte(){
 			$reporte = $this->obtenerReporte();
+			if(empty($reporte)){
+				die(json_encode(['Error' => 'Reporte vacío.']));
+			}
 			$fechaI = date('d-m-Y', strtotime($this->fechaInicio));
 			$fechaF = date('d-m-Y', strtotime($this->fechaFinal));
 			$nombre = ($this->tipo == 'compra') ? 'compras_'.$fechaI.'_'.$fechaF.'.pdf' : 'ventas_'.$fechaI.'_'.$fechaF.'.pdf';

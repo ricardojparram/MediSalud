@@ -78,6 +78,11 @@ $(document).ready(function(){
 	function exportarReporte(){
 			$.post('',{exportar: 'reporte', tipo, fechaInicio, fechaFinal},function(e){
 				data = JSON.parse(e);
+				console.log(data);
+				if(data.Error == "Reporte vacío."){
+					Toast.fire({ icon: 'error', title: 'No se puede exportar un reporte vacío.' });
+					throw new Error('Reporte vacío.');
+				}
 				if(data.respuesta == "Archivo guardado"){
 					Toast.fire({ icon: 'success', title: 'Exportado correctamente.' });
 					descargarArchivo(data.ruta);

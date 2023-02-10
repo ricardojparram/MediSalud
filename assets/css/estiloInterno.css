@@ -42,9 +42,8 @@ body{
     color: #198754;
 }
 .active>.page-link{
-    z-index: 999;
-    background-color: #198754;
-    border-color: #198754;
+    background-color: #198754 !important;
+    border-color: #198754 !important;
 }
 
 @media screen and (max-width: 600px){

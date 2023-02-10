@@ -49,7 +49,7 @@
           die();
         }
 
-        if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#"/,.-]){7,50}$/', $direccion) == 1){
+        if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#,.-]){7,50}$/', $direccion) == 1){
           echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
           die();
         }
@@ -124,21 +124,24 @@
 
       try {
 
-       $new = $this->con->prepare("SELECT rif FROM laboratorio WHERE status = 1 and rif = ?");
-       $new->bindValue(1, $this->rif);
-       $new->execute();
-       $data = $new->fetchAll();
+        $new = $this->con->prepare("SELECT rif FROM laboratorio WHERE status = 1 and rif = ?");
+        $new->bindValue(1, $this->rif);
+        $new->execute();
+        $data = $new->fetchAll();
 
-       if(isset($data[0]['rif'])){
-        echo json_encode(['resultado' => 'Error de rif', 'error' => 'El rif ya está registrado.']);
-        die();
+        if(isset($data[0]['rif'])){
+          echo json_encode(['resultado' => 'Error de rif', 'error' => 'El rif ya está registrado.']);
+          die();
+        }else{
+          echo json_encode(['resultado' => 'Rif válido.']);
+          die();
+        }
+
+      } catch (PDOException $e) {
+        return $e;
       }
 
-    } catch (PDOException $e) {
-      return $e;
     }
-
-  }
 
     
     public function getItem($id){

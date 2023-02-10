@@ -4,7 +4,6 @@ $(document).ready(function() {
 	fechaHoy($('#fecha'));
 
 	rellenar();
-// 	Rellena la tabla con las compras registradas
 	let tablaMostrar;
 	function rellenar(){ 
 		$.ajax({
@@ -22,7 +21,6 @@ $(document).ready(function() {
 
 	}
 
-// 	Rellena los detalles de compra con los productos de la compra indicada
 	$(document).on('click', '.detalleCompra', function() {
 		id = this.id; 
 		$.post('', {detalleCompra: 'xd', id}, function(data){
@@ -79,7 +77,7 @@ $(document).ready(function() {
 
 
 	}
-//  rellena los select de las filas de productos
+
 	function selectOptions(){
 		$.ajax({
 			url:'',
@@ -114,7 +112,6 @@ $(document).ready(function() {
 	let producto;
 	let select;
 
-// 	Selecciona cada producto
 	cambio();
 	function cambio(){
 		$('.select-productos').change(function(){
@@ -124,7 +121,6 @@ $(document).ready(function() {
 		})
 	}
 
-// 	Rellena los inputs con el precio y cantidad de cada producto
 	function fillData(val){
 		$.getJSON('', {producto, fill: 'data'}, function(data){
 			if(producto == val){
@@ -137,7 +133,6 @@ $(document).ready(function() {
 		})	
 	}
 
-//  fila que se inserta
 	let newRow = `<tr>
 					<td width="1%"><a class="removeRow a-asd" href="#"><i class="bi bi-trash-fill"></i></a></td>
 					<td width='30%'> 
@@ -151,45 +146,101 @@ $(document).ready(function() {
 					<td width='10%' class="sum"></td>
 				  </tr>`;
 
+
+	function validarValores(){
+		$('.amount input').keyup(function(){ validarStock($(this)) });
+		$('.rate input').keyup(function(){ validarPrecio($(this)) });
+	}
+	validarValores();
 	function filaN(){
 		$('#ASD').append(newRow);
 		selectOptions();
 		cambio();
+		validarValores();
 	}
-//  Agrega fila para insertar producto
 	$('.newRow').on('click',function(e){
 		filaN()
 	});
 
-//  Elimina fila 
 	$('body').on('click','.removeRow',function(e){
 		$(this).closest('tr').remove();
 	});
 
-//  Evento keyup para que funcione calculate()
 	$('.table-body').on('keyup','input',function(){
 		calculate();
 	});
 
-// 	configuración de IVA
 	$('#config_iva').on('keyup',function(){
 		iva = parseFloat($(this).val());
+		console.log(iva);
 
-		if (iva < 0 || iva > 100){
+		if (iva < 0 || iva > 100 || isNaN(iva)){
 			iva = 0;
 		}
 		calculate();
 	});
 
-// 	validaciones keyup
+	
+	
+	function validarStock(input){
+		
+		let valor = Math.abs(input.val());
+		if(valor == 0 || isNaN(valor)){
+			$('#error').text('Cantidad inválida.');
+			input.css({'border': 'solid 2px', 'border-color':'red'})
+			input.attr('valid','false')
+			return false
+		}else{
+			$('#error').text('');
+			input.css({'border': 'none'});
+			input.attr('valid','true');
+			return true;
+		}
+
+	}
+	function validarPrecio(input){
+		let valor = Math.abs(input.val());
+		if(valor == 0 || isNaN(valor)){
+			$('#error').text('Precio inválido.');
+			input.css({'border': 'solid 2px', 'border-color':'red'})
+			input.attr('valid','false')
+			return false;
+		}else{
+			$('#error').text('');
+			input.css({'border': 'none'});
+			input.attr('valid','true');
+			return true;
+		}
+	}
+
 	$('#orden').keyup(()=>{	validarNumero($('#orden'), $('#error'), "Error de Orden,")	})
 
-//	regristro de la compra
+	
+	let click = 0;
+	setInterval(()=>{ click = 0; }, 2000); 
+
 	$('#registrar').click((e)=>{
 		e.preventDefault()
 
-		let vorden = validarNumero($('#orden'), $('#error'), "Error de Orden,");
-		let vproductos = true;
+		if(click >= 1) throw new Error('Spam de clicks');
+
+		let vorden, vproductos, vstock = true, vprecio = true;
+		vorden = validarNumero($('#orden'), $('#error'), "Error de Orden,");
+
+		$('.amount input').each(function(){ validarStock($(this)) });
+		$('.rate input').each(function(){ validarPrecio($(this)) });
+		
+		if($('.amount input').is('[valid="false"]')){
+			console.log(false);
+			$('#error').text('Cantidad inválida.');
+			vstock = false;
+		}
+		if($('.rate input').is('[valid="false"]')){
+			$('#error').text('Precio inválido.');
+			vprecio = false;
+		}
+
+
 
 		$('.table-body tbody tr').each(function(){
 			let producto = $(this).find('.select-productos').val();
@@ -198,10 +249,11 @@ $(document).ready(function() {
 				$('#error').text('No debe haber productos vacíos.');
 			}else{
 				$('#error').text('');
+				vproductos = true;
 			}
 		})
 
-		if(vorden && vproductos){
+		if(vorden && vproductos && vstock && vprecio){
 
 			$.post('',{
 				proveedor : $('#proveedor').val(),
@@ -223,15 +275,14 @@ $(document).ready(function() {
 			})
 
 		}
-
+		click++;
 	})
 
-	//función para enviar productos uno por uno
 	function enviarProductos(id){
 		$('.table-body tbody tr').each(function(){
 			let producto = $(this).find('.select-productos').val();
-			let cantidad = $(this).find('.amount input').val();
-			let precio = $(this).find('.rate input').val();
+			let cantidad = Math.abs($(this).find('.amount input').val());
+			let precio = Math.abs($(this).find('.rate input').val());
 
 			$.post('',{cantidad, precio, producto, id})
 
@@ -243,6 +294,9 @@ $(document).ready(function() {
     });
 
 	$('#borrar').click(()=>{
+
+		if(click >= 1) throw new Error('Spam de clicks');
+
 		$.ajax({
 			type : 'post',
 			url : '',
@@ -254,6 +308,7 @@ $(document).ready(function() {
 				rellenar();
 			}
 		})
+		click++;
 	})
 
 	$('#cancelar').click(()=>{
