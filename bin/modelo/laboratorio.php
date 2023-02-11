@@ -49,7 +49,7 @@
           die();
         }
 
-        if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#,.-]){7,50}$/', $direccion) == 1){
+        if(preg_match_all('/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#"/,.-]){7,50}$/', $direccion) == 1){
           echo json_encode(['resultado' => 'Error de direccion','error' => 'Direccion inválida.']);
           die();
         }

@@ -97,7 +97,7 @@ $(document).ready(function() {
 						$(this).chosen({
 							width: '100%',
 							no_results_text: 'No hay resultados para',
-							placeholder_text_single: "Selecciona un producto",
+							placeholder_text_single: "Selecciona producto",
 							allow_single_deselect: true,
 						});
 
@@ -213,7 +213,22 @@ $(document).ready(function() {
 		}
 	}
 
-	$('#orden').keyup(()=>{	validarNumero($('#orden'), $('#error'), "Error de Orden,")	})
+	function validarOrden(input, div){
+		$.post('',{orden : input.val(), validar: "orden"}, function(data){
+			let mensaje = JSON.parse(data);
+			if(mensaje.resultado === "Error de orden"){
+				div.text(mensaje.error);
+				input.attr("style","border-color: red;")
+				input.attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+			}
+		})
+	}
+
+	$('#orden').keyup(()=>{	let valid = validarNumero($('#orden'), $('#error'), "Error de Orden,");
+		if(valid){
+			validarOrden($('#orden'), $('#error'));
+		}
+	})
 
 	
 	let click = 0;
@@ -231,7 +246,6 @@ $(document).ready(function() {
 		$('.rate input').each(function(){ validarPrecio($(this)) });
 		
 		if($('.amount input').is('[valid="false"]')){
-			console.log(false);
 			$('#error').text('Cantidad inválida.');
 			vstock = false;
 		}
@@ -261,9 +275,17 @@ $(document).ready(function() {
 				fecha : $('#fecha').val(),
 				montoT : $('#monto').val()
 			},
-			function(data){
-				let idCompra = JSON.parse(data);
-				enviarProductos(idCompra.id);
+			function(response){
+				let data = JSON.parse(response);
+
+				if(data.resultado === "Error de orden"){
+					$('#error').text(data.error);
+					$('#orden').attr("style","border-color: red;")
+					$('#orden').attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
+					throw new Error('Orden de compra repetida.');
+				}
+
+				enviarProductos(data.id);
 				tablaMostrar.destroy();
 				rellenar();
 				$('#agregarform').trigger('reset');
@@ -314,6 +336,8 @@ $(document).ready(function() {
 	$('#cancelar').click(()=>{
 		$('#agregarform').trigger('reset');
 		$('.removeRow').click(); 
+		$('#Agregar input').attr("style","border-color: none; background-image: none;")
+		$('#error').text('');
 		filaN()
 		fechaHoy($('#fecha'));
 	})

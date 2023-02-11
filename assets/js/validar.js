@@ -4,7 +4,7 @@
 const expresiones = {
 	nombre: /^[a-zA-ZÀ-ÿ]{0,30}$/,
 	correo: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-	direccion: /^[a-zA-ZÀ-ÿ0-9"\.\-\s\,]{7,50}$/,
+	direccion: /^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s#/,.-]){7,50}$/,
 	cedula: /^[0-9]{7,10}$/
 }
 
@@ -30,7 +30,7 @@ function validarNombre(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");	
+		input.attr("style","background-image: none;");	
 		return true
 	}			             
 }	
@@ -51,7 +51,7 @@ function validarDireccion(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}	
 }
@@ -71,7 +71,7 @@ function validarString(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}			             
 }
@@ -91,7 +91,7 @@ function validarNumero(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}			             
 }
@@ -116,7 +116,7 @@ function validarTelefono(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}			             
 }						
@@ -141,7 +141,7 @@ function validarCedula(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}			             
 }	
@@ -161,7 +161,7 @@ function validarContraseña(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}			             
 }
@@ -182,7 +182,7 @@ function validarRepContraseña(input, div, inputDos){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;");
+		input.attr("style","background-image: none;");
 		return true
 	}
 } 
@@ -206,7 +206,7 @@ function validarCorreo(input, div, mensaje){
 	}else{
 		div.text(" ");
 		input.attr("style","border-color: none;")
-		input.attr("style","backgraund-image: none;")
+		input.attr("style","background-image: none;")
 		return true
 	}
 }	

@@ -27,6 +27,10 @@
 		$objModel->productoDetalle($_GET['producto']);
 	}
 
+	if(isset($_POST['orden']) && isset($_POST['validar'])){
+		$objModel->getOrden($_POST['orden']);
+	}
+
 	if(isset($_POST['proveedor']) && isset($_POST['orden']) && isset($_POST['fecha']) && isset($_POST['montoT'])){
 		$objModel->getCompras($_POST['proveedor'], $_POST['orden'], $_POST['fecha'], $_POST['montoT']);
 	}

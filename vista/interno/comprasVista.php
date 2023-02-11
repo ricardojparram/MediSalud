@@ -100,7 +100,7 @@
     <!-- MODAL DE REGISTRAR -->
 
 <div class="modal fade" id="Agregar" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg ">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header alert alert-success">
         <h4 class="modal-title"> <strong>Registrar Compra</strong> </h4>
@@ -137,7 +137,7 @@
                 <div class="form-group col-6">                          
                   <label class="col-form-label"> <strong>Orden Compra</strong> </label>
                   <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el orden de compra correspondiente"><i class="bi bi-people-fill"></i></button> 
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el orden de compra correspondiente"><i class="bi bi-envelope"></i></button> 
                     <input class="form-control"  id="orden" placeholder="">
                   </div>
                 </div>
@@ -153,7 +153,7 @@
                 <div class="form-group col-6">                          
                   <label class="col-form-label"> <strong>Fecha</strong> </label>
                   <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca la fecha de la compra"><i class="bi bi-telephone-fill"></i></button> 
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca la fecha de la compra"><i class="bi bi-calendar"></i></button> 
                     <input type="date"class="form-control"  id="fecha" required="" placeholder="">
                   </div>
                 </div>
@@ -161,7 +161,7 @@
                 <div class="form-group col-6">                          
                   <label class="col-form-label"> <strong>Monto</strong> </label>
                   <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el monto total de la compra"><i class="bi bi-envelope"></i></button> 
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el monto total de la compra"><i class="bi bi-cash"></i></button> 
                     <input type="number" class="form-control" disabled="disabled" id="monto" >
                   </div>
                 </div>
@@ -173,7 +173,7 @@
           <div class="form-group col-md-12">  
             <div class="container-fluid">
               <div class="row">
-                <div class="table-body form-group col-12">
+                <div class="table-body table-responsive-sm form-group col-12">
 
                   <table class="table table-striped">
                     <thead>
@@ -202,12 +202,12 @@
                     </tbody>
                   </table>
                   <a class="newRow a-asd" href="#"><i class="bi bi-plus-circle-fill"></i> Nueva fila</a> <br>
-                  <div class="text-end">
+                  <br>
+                </div>
+                <div class="text-end">
                     <p id="montos"></p>
                     <p id="montos2"></p>
                   </div>
-                </div>
-
               </div>
             </div>
           </div>
@@ -226,105 +226,6 @@
 </div>
 <!-- FINAL DE MODAL DE REGISTRAR -->
 
-<!-- MODAL DE EDITAR -->
-
-<div id="Editar" class="modal fade ">
-  <div class="modal-dialog modal-md ">
-    <div class="modal-content">
-      <div class="modal-header alert alert-success">
-        <h4 class="modal-title"> <strong>Editar Compra</strong> </h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body ">
-
-        <form id = "agregarform">
-
-          <div class="form-group col-md-12">  
-            <div class="container-fluid">
-              <div class="row">
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Producto</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el RIF del Laboratorio"><i class="bi bi-card-text"></i></button> 
-                    <select class="form-control" id="productoEdit"> </select>
-                  </div>
-                </div>
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Orden Compra</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el nombre del Laboratorio"><i class="bi bi-people-fill"></i></button> 
-                    <input class="form-control"  id="ordenEdit" placeholder="">
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">  
-            <div class="container-fluid">
-              <div class="row">
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Laboratorio</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca la direccion del Laboratorio"><i class="bi bi-card-image"></i></button> 
-                    <select class="form-control"  id="laboratorioEdit"> </select>
-                  </div>
-                </div>
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Droguería</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca la direccion del Laboratorio"><i class="bi bi-card-image"></i></button> 
-                    <select class="form-control"  id="drogueriaEdit" > </select>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group col-md-12">  
-            <div class="container-fluid">
-              <div class="row">
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Fecha</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el número telefónico del Laboratorio"><i class="bi bi-telephone-fill"></i></button> 
-                    <input type="date"class="form-control"  id="fechaEdit" required="" placeholder="">
-                  </div>
-                </div>
-
-                <div class="form-group col-6">                          
-                  <label class="col-form-label"> <strong>Monto</strong> </label>
-                  <div class="input-group">
-                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca otro tipo de contacto del Laboratorio"><i class="bi bi-envelope"></i></button> 
-                    <input type="number" class="form-control"  id="montoEdit" >
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <p style="color:#ff0000;text-align: center;" id="error"></p>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success " id="editar">Editar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- FINAL DE MODAL DE EDITAR -->
 
 <!-- MODAL DE ELIMINAR -->
 

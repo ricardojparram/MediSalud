@@ -178,6 +178,10 @@ $(document).ready(function(){
 	$(document).on('click', '.cerrar', function() {
 		$('#agregarform').trigger('reset'); 
 		$('#editarform').trigger('reset');
+		$('#agregarform input').attr('style', 'border-color: none; background-image: none;');
+		$('#editarform input').attr('style', 'border-color: none; background-image: none;');
+		$('#error').text('');
+		$('#errorEdit').text('');
 	});
 
 	$(document).on('click', '.borrar', function() {

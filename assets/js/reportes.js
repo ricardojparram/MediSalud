@@ -4,15 +4,28 @@ $(document).ready(function(){
 
 	let tabla, tipo, fechaInicio, fechaFinal;
 
-	$('#generar').click(()=>{
+	let click = 0;
+	setInterval(()=>{ click = 0 }, 3000);
+
+	$('#generar').click(function(){
+		if(click >= 1) throw new Error('Spam de clicks');
+
 		generarReporte();
+
+		click++;
 	});
 
-	$('#exportar').click(()=>{
+	$('#exportar').click(function(){
+		if(click >= 1) throw new Error('Spam de clicks');
+
 		exportarReporte();
+
+		click++;
 	})
 
+
 	function generarReporte(){
+
 		tipo = $('#tipoReporte').val();
 		fechaInicio = $('#fecha').val();
 		fechaFinal = $('#fecha2').val();
@@ -76,20 +89,20 @@ $(document).ready(function(){
 	}
 
 	function exportarReporte(){
-			$.post('',{exportar: 'reporte', tipo, fechaInicio, fechaFinal},function(e){
-				data = JSON.parse(e);
-				console.log(data);
-				if(data.Error == "Reporte vacío."){
-					Toast.fire({ icon: 'error', title: 'No se puede exportar un reporte vacío.' });
-					throw new Error('Reporte vacío.');
-				}
-				if(data.respuesta == "Archivo guardado"){
-					Toast.fire({ icon: 'success', title: 'Exportado correctamente.' });
-					descargarArchivo(data.ruta);
-				}else{
-					Toast.fire({ icon: 'error', title: 'No se pudo exportar el reporte.' });
-				}
-			})
+		$.post('',{exportar: 'reporte', tipo, fechaInicio, fechaFinal},function(e){
+			data = JSON.parse(e);
+			console.log(data);
+			if(data.Error == "Reporte vacío."){
+				Toast.fire({ icon: 'error', title: 'No se puede exportar un reporte vacío.' });
+				throw new Error('Reporte vacío.');
+			}
+			if(data.respuesta == "Archivo guardado"){
+				Toast.fire({ icon: 'success', title: 'Exportado correctamente.' });
+				descargarArchivo(data.ruta);
+			}else{
+				Toast.fire({ icon: 'error', title: 'No se pudo exportar el reporte.' });
+			}
+		})
 	}
 
 	function descargarArchivo(ruta){
