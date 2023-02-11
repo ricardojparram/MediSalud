@@ -21,7 +21,11 @@ $(document).ready(function() {
 
 	}
 
+	let click = 0;
+	setInterval(()=>{ click = 0; }, 2000); 
+
 	$(document).on('click', '.detalleCompra', function() {
+		if(click >= 1) throw new Error('Spam clicks');
 		id = this.id; 
 		$.post('', {detalleCompra: 'xd', id}, function(data){
 			let lista = JSON.parse(data);
@@ -38,7 +42,7 @@ $(document).ready(function() {
 			$('#compraNombre').text(`Orden de compra #${lista[0].orden_compra}.`);
 			$('#bodyDetalle').html(tabla);
 		})
-
+		click++;
 	});
 
     var iva = parseFloat($('#config_iva').val());
@@ -181,7 +185,6 @@ $(document).ready(function() {
 	});
 
 	
-	
 	function validarStock(input){
 		
 		let valor = Math.abs(input.val());
@@ -230,9 +233,6 @@ $(document).ready(function() {
 		}
 	})
 
-	
-	let click = 0;
-	setInterval(()=>{ click = 0; }, 2000); 
 
 	$('#registrar').click((e)=>{
 		e.preventDefault()
