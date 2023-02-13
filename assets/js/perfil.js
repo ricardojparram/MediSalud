@@ -31,7 +31,6 @@ $(document).ready(function(){
 
 	$("#enviarDatos").click((e)=>{
 
-		console.log("click")
 		e.preventDefault();
 
 		name = validarNombre($("#nameEdit"),$("#error") ,"Error de nombre,");
@@ -40,35 +39,27 @@ $(document).ready(function(){
 		email = validarCorreo($("#emailEdit"),$("#error") ,"Error de email,");
 
 		if(name && lastname && id && email) {
+
+			let form = new FormData($('#formEditar')[0]);
+			console.log(form);
+
 			$.ajax({
-				method: "post",
+				type: "POST",
 				url: '',
 				dataType: 'JSON',
-				data: {
-					nombre: $("#nameEdit").val(),
-					apellido: $("#apeEdit").val(),
-					dni: $("#cedulaEdit").val(),
-					correo: $("#emailEdit").val()
-				},
+				data: form,
 				success(pr){
-					if (pr.resultado === "Editado") {
-						rellenar();
-						Toast.fire({ icon: 'success', title: 'Usuario Actualizado' });
-						$("#perfil").click();
-					}
+					console.log(pr)
+					// if (pr.resultado === "Editado") {
+					// 	rellenar();
+					// 	Toast.fire({ icon: 'success', title: 'Usuario Actualizado' });
+					// 	$("#perfil").click();
+					// }
 				}
 			})
 
-		}else {
-			e.preventDefault();
 		}
 
-
-
-
-
-
-
-
 	})
+
 })

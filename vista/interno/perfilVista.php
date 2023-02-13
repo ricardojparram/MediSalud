@@ -111,24 +111,50 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form id="formEditar" enctype="multipart/form-data">
+
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="row">
+                          <div class="col-lg-5 col-md-4 col-sm-4 col-xs-3">
+                            <img src="assets/img/profile-img.jpg" alt="Profile">
+                          </div>
+                          <div class="col-lg-7 col-md-8 col-sm-8 col-xs-9 row">
+                            <div class="col-12 mt-3">
+
+                              <input type="file" name="foto" class="form-control " title="Sube tu nueva foto de perfil"></input>
+
+                            </div>
+
+                            <div class="col-12 mt-2">
+                              <a href="" class="btn btn-danger" id="borrarFoto" title="Eliminar foto de perfil">Eliminar <i class="bi bi-trash"></i></a>
+                            </div>
+                          </div>
+
+                        </div>
+                        
+                        
+                      </div>
+                    </div>
+
                     
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="text" type="text" class="form-control" id="nameEdit" >
+                        <input name="nombre" type="text" class="form-control" id="nameEdit" >
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="text" type="text" class="form-control" id="apeEdit" >
+                        <input name="apellido" type="text" class="form-control" id="apeEdit" >
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Cedula</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="cedulaEdit" >
+                        <input name="cedula" type="text" class="form-control" id="cedulaEdit" >
                       </div>
                     </div>
 

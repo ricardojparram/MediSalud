@@ -19,8 +19,11 @@
     $objModel->mostrarDatos($_SESSION['cedula']);
   }
 
-  if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['dni']) && isset($_POST['correo']) && isset($_SESSION['cedula'])) {
-
+  if (isset($_FILES['foto']) && isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['cedula']) && isset($_POST['correo']) && isset($_SESSION['cedula'])) {
+    if(isset($_FILES['foto']['name'])){
+      echo $_FILES['foto']['name'];
+      die();
+    }
     $objModel->getEditar($_POST['nombre'], $_POST['apellido'], $_POST['dni'], $_POST['correo'], $_SESSION['cedula']);
   }
 
