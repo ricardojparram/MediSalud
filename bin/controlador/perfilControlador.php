@@ -15,13 +15,22 @@
     die('<script> window.location = "?url=login" </script>');
   }
 
-  if(isset($_POST['user']) && isset($_POST['cedula']) && isset($_POST['cedula'])){
-    $objModel->getUser($_POST['cedula']);
+  if(isset($_SESSION['cedula']) && isset($_POST['mostrar'])) {
+    $objModel->mostrarDatos($_SESSION['cedula']);
+  }
+
+  if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['dni']) && isset($_POST['correo']) && isset($_SESSION['cedula'])) {
+
+    $objModel->getEditar($_POST['nombre'], $_POST['apellido'], $_POST['dni'], $_POST['correo'], $_SESSION['cedula']);
+  }
+
+  if(isset($_SESSION['cedula']) && isset($_POST['passwordAct']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewR'])) {
+    $objModel->getCambioContra($_SESSION['cedula'], $_POST['passwordAct'], $_POST['passwordNew'], $_POST['passwordNewR']);
   }
 
   if(file_exists("vista/interno/perfilVista.php")){
-    require_once("vista/interno/perfilVista.php");
-  } 
+   require_once("vista/interno/perfilVista.php");
+ } 
 
 
 ?>

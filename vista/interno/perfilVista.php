@@ -52,7 +52,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2><?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?></h2>
+              <h2> <?php echo $_SESSION["nombre"].' '.$_SESSION['apellido']?></h2>
               <h3></h3>
             </div>
           </div>
@@ -68,7 +68,7 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Ver Perfil</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" id="perfil">Ver Perfil</button>
                 </li>
 
                 <li class="nav-item">
@@ -88,22 +88,22 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
-                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?></div>
+                    <div class="col-lg-9 col-md-8" id="name"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
-                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['puesto']}"; ?></div>
+                    <div class="col-lg-3 col-md-4 label">Trabajo</div>
+                    <div class="col-lg-9 col-md-8" id="nivel"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Cedula</div>
-                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['cedula']}"; ?></div>
+                    <div class="col-lg-9 col-md-8" id="cedula"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8"><?= "{$_SESSION['correo']}"; ?></div>
+                    <div class="col-lg-3 col-md-4 label">Correo</div>
+                    <div class="col-lg-9 col-md-8" id="email"></div>
                   </div>
 
                 </div>
@@ -112,47 +112,35 @@
 
                   <!-- Profile Edit Form -->
                   <form>
+                    
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="assets/img/profile-img.jpg" alt="Profile">
-                        <div class="pt-2">
-                          <input type="file" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></input>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                        </div>
+                        <input name="text" type="text" class="form-control" id="nameEdit" >
                       </div>
                     </div>
-
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre Completo</label>
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?= "{$_SESSION['nombre']} {$_SESSION['apellido']}"; ?>">
+                        <input name="text" type="text" class="form-control" id="apeEdit" >
                       </div>
                     </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto de trabajo</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input type="text" class="form-control" id="puesto" value="<?= $_SESSION['puesto']; ?>">
-                      </div>
-                    </div>
-
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Cedula</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" class="form-control" id="cedula" value="<?= $_SESSION['cedula']; ?>">
+                        <input name="job" type="text" class="form-control" id="cedulaEdit" >
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<?= $_SESSION['correo']; ?>">
+                        <input name="email" type="email" class="form-control" id="emailEdit" >
                       </div>
                     </div>
-
+                    <p id="error" style="color:#ff0000;text-align: center;"></p>
                     <div class="text-center">
-                      <button type="submit" class="btn btn-success" id="guardar">Guardar Cambios</a>
+                      <button type="submit" class="btn btn-success" id="enviarDatos">Guardar Cambios</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -183,9 +171,9 @@
                         <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
-
+                    <p id="error2" style="color:#ff0000;text-align: center;"></p>
                     <div class="text-center">
-                      <a type="" class="btn btn-success">Cambiar Contraseña</a>
+                      <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                     </div>
                   </form><!-- End Change Password Form -->
 
@@ -228,6 +216,5 @@
 </main>
 </body>
 <?php $VarComp->js(); ?>
-
-<script src="assets/js/perfil.js"></script>
+<script type="text/javascript" src="assets/js/perfil.js"></script>
 </html>
