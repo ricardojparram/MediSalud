@@ -34,7 +34,7 @@
 
 		private function loginSistema(){
 			try{
-				$new = $this->con->prepare("SELECT u.cedula, u.nombre, u.apellido, u.correo, u.password, u.nivel as nivel, n.nombre as puesto FROM usuario u 
+				$new = $this->con->prepare("SELECT u.cedula, u.nombre, u.apellido, u.correo, u.password, u.img, u.nivel as nivel, n.nombre as puesto FROM usuario u 
 					INNER JOIN nivel n
 					ON n.cod_nivel = u.nivel
 					WHERE u.cedula = ?"); 
@@ -51,6 +51,7 @@
 						$_SESSION['correo'] = $data[0]['correo'];
 						$_SESSION['nivel'] = $data[0]['nivel'];
 						$_SESSION['puesto'] = $data[0]['puesto'];
+						$_SESSION['fotoPerfil'] = $data[0]['img'];
 
 						
 						$resultado = ['resultado' => 'Logueado'];

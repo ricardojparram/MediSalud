@@ -5,11 +5,12 @@ Use config\connect\DBConnect as DBConnect;
 
 class perfil extends DBConnect{
 
-	private $cedula;
-	private $dni;
+	private $cedulaVieja;
+	private $cedulaNueva;
 	private $nombre;
 	private $apellido;
 	private $correo;
+	private $foto;
 
 	private $passwordAct;
 	private $passwordNew;
@@ -38,19 +39,19 @@ class perfil extends DBConnect{
         }
     }
 
-    public function getEditar($nombre, $apellido, $dni, $correo, $cedula){
+    public function getEditar($foto, $nombre, $apellido, $cedulaNueva, $correo, $cedulaVieja){
 
-	    if(preg_match_all("/^[a-zA-Z]{3,30}$/", $nombre) == false){
+	    if(preg_match_all("/^[a-zA-ZÀ-ÿ]{3,30}$/", $nombre) == false){
 	      $resultado = ['resultado' => 'Error de nombre' , 'error' => 'Nombre invalido.'];
 	      echo json_encode($resultado);
 	      die();
 	    }
-	    if(preg_match_all("/^[a-zA-Z]{3,30}$/", $apellido) == false){
+	    if(preg_match_all("/^[a-zA-ZÀ-ÿ]{3,30}$/", $apellido) == false){
 	      $resultado = ['resultado' => 'Error de apellido' , 'error' => 'Apellido invalido.'];
 	      echo json_encode($resultado);
 	      die();
 	    }
-	    if(preg_match_all("/^[0-9]{7,10}$/", $dni) == false){
+	    if(preg_match_all("/^[0-9]{7,10}$/", $cedulaNueva) == false){
 	      $resultado = ['resultado' => 'Error de cedula' , 'error' => 'Cédula invalida.'];
 	      echo json_encode($resultado);
 	      die();
@@ -61,11 +62,12 @@ class perfil extends DBConnect{
 	      die();
 	    }
 
+	    $this->foto = $foto;
 	    $this->nombre = $nombre;
 	    $this->apellido = $apellido;
-	    $this->dni = $dni;
+	    $this->cedulaNueva = $cedulaNueva;
 	    $this->correo = $correo;
-	    $this->cedula = $cedula;
+	    $this->cedulaVieja = $cedulaVieja;
 
 	    $this->editarDatos();
 	}
@@ -73,18 +75,63 @@ class perfil extends DBConnect{
 	private function editarDatos(){
 		try {
 			$new = $this->con->prepare("UPDATE `usuario` SET `cedula`= ?,`nombre`= ?,`apellido`= ?,`correo`= ? WHERE cedula = ?");
-            $new->bindValue(1, $this->dni);
+            $new->bindValue(1, $this->cedulaNueva);
             $new->bindValue(2, $this->nombre);
             $new->bindValue(3,$this->apellido);
             $new->bindValue(4, $this->correo);
-            $new->bindValue(5, $this->cedula);
+            $new->bindValue(5, $this->cedulaVieja);
             $new->execute();
-            $resultado = ['resultado' => 'Editado'];
-            echo json_encode($resultado);
+            $resultadoEdit = ['respuesta' => 'Editado correctamente'];
+            $resultadoFoto;
+
+            if(isset($this->foto['name'])){
+            	$resultadoFoto = $this->subirImagen();
+            }
+
+            $_SESSION['cedula'] = $this->cedulaNueva;
+            $_SESSION['nombre'] = $this->nombre;
+            $_SESSION['apellido'] = $this->apellido;
+            $_SESSION['correo'] = $this->correo;
+
+            echo json_encode(['edit' => $resultadoEdit, 'foto' => $resultadoFoto]);
             die();
+
 		} catch (\PDOException $error) {
 			return $error;
 		}
+	}
+	private function subirImagen(){
+		if($this->foto['error'] > 0){
+			return ['respuesta' => 'Error de foto.'];
+		}
+		if($this->foto['type'] != 'image/jpeg' && $this->foto['type'] != 'image/jpg' && $this->foto['type'] != 'image/png'){
+			return ['error' => 'tipo', 'respuesta' => 'Tipo de imagen inválido.'];
+		}
+		$repositorio = "assets/img/perfil/";
+		$extension = explode('.', $this->foto['name']);
+		$tipo = end($extension);
+		$nombre =  $repositorio.$this->cedulaNueva.'.'.$tipo;
+
+		if(move_uploaded_file($this->foto['tmp_name'], $nombre)){
+			try {
+
+				$new = $this->con->prepare('UPDATE usuario SET img = ? WHERE cedula = ?');
+				$new->bindValue(1, $nombre);
+				$new->bindValue(2, $this->cedulaNueva);
+				$new->execute();
+
+				$_SESSION['fotoPerfil'] = $nombre;
+
+				return ['respuesta' => 'Imagen guardada.', 'url' => $nombre];
+
+			} catch (\PDOException $error) {
+				return $error;
+			}
+		}else{
+			return ['respuesta' => 'No se guardó la imagen.'];
+		}
+
+		
 	}
 
 	public function getCambioContra($cedula, $passwordAct, $passwordNew, $passwordNewR){

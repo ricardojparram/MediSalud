@@ -51,8 +51,8 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2> <?php echo $_SESSION["nombre"].' '.$_SESSION['apellido']?></h2>
+              <img class="fotoPerfil" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile" class="rounded-circle">
+              <h2 class="nombreCompleto"> </h2>
               <h3></h3>
             </div>
           </div>
@@ -118,17 +118,17 @@
                       <div class="col-md-8 col-lg-9">
                         <div class="row">
                           <div class="col-lg-5 col-md-4 col-sm-4 col-xs-3">
-                            <img src="assets/img/profile-img.jpg" alt="Profile">
+                            <img class="fotoPerfil" id="imgEditar" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile">
                           </div>
                           <div class="col-lg-7 col-md-8 col-sm-8 col-xs-9 row">
                             <div class="col-12 mt-3">
 
-                              <input type="file" name="foto" class="form-control " title="Sube tu nueva foto de perfil"></input>
+                              <input type="file" name="foto" id="foto" class="form-control " title="Sube tu nueva foto de perfil"></input>
 
                             </div>
 
                             <div class="col-12 mt-2">
-                              <a href="" class="btn btn-danger" id="borrarFoto" title="Eliminar foto de perfil">Eliminar <i class="bi bi-trash"></i></a>
+                              <a href="#" class="btn btn-danger" id="borrarFoto" title="Eliminar foto de perfil">Eliminar <i class="bi bi-trash"></i></a>
                             </div>
                           </div>
 

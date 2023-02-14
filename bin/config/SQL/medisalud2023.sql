@@ -62,6 +62,7 @@ CREATE TABLE `usuario`(
     `correo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
     `password` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
     `nivel` int NOT NULL,
+    `img` varchar(50) COLLATE utf8_spanish2_ci,
     `status` int NOT NULL,
     FOREIGN KEY (`nivel`) REFERENCES `nivel`(`cod_nivel`) ON DELETE CASCADE ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
