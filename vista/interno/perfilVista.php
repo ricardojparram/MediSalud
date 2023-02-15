@@ -51,8 +51,8 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
+              <img class="fotoPerfil" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile" class="rounded-circle">
+              <h2 class="nombreCompleto"> </h2>
               <h3></h3>
             </div>
           </div>
@@ -68,7 +68,7 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Ver Perfil</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" id="perfil">Ver Perfil</button>
                 </li>
 
                 <li class="nav-item">
@@ -83,39 +83,27 @@
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">Sobre mi</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
 
                   <h5 class="card-title">Detalles del Perfil</h5>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
-                    <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                    <div class="col-lg-9 col-md-8" id="name"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Trabajo</div>
-                    <div class="col-lg-9 col-md-8">Diseñador Web</div>
+                    <div class="col-lg-9 col-md-8" id="nivel"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Cedula</div>
-                    <div class="col-lg-9 col-md-8">30.349.137</div>
+                    <div class="col-lg-9 col-md-8" id="cedula"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Direccion</div>
-                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Telefono</div>
-                    <div class="col-lg-9 col-md-8">0412-5468799</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                    <div class="col-lg-3 col-md-4 label">Correo</div>
+                    <div class="col-lg-9 col-md-8" id="email"></div>
                   </div>
 
                 </div>
@@ -123,69 +111,62 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form id="formEditar" enctype="multipart/form-data">
+
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="assets/img/profile-img.jpg" alt="Profile">
-                        <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                        <div class="row">
+                          <div class="col-lg-5 col-md-4 col-sm-4 col-xs-3">
+                            <img class="fotoPerfil" id="imgEditar" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile">
+                          </div>
+                          <div class="col-lg-7 col-md-8 col-sm-8 col-xs-9 row">
+                            <div class="col-12 mt-3">
+
+                              <input type="file" name="foto" id="foto" class="form-control " title="Sube tu nueva foto de perfil"></input>
+
+                            </div>
+
+                            <div class="col-12 mt-2">
+                              <a href="#" class="btn btn-danger" id="borrarFoto" title="Eliminar foto de perfil">Eliminar <i class="bi bi-trash"></i></a>
+                            </div>
+                          </div>
+
                         </div>
+                        
+                        
                       </div>
                     </div>
 
+                    
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre Completo</label>
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                        <input name="nombre" type="text" class="form-control" id="nameEdit" >
                       </div>
                     </div>
-
                     <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mi</label>
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                        <input name="apellido" type="text" class="form-control" id="apeEdit" >
                       </div>
                     </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Trabajo</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="Diseñador Web">
-                      </div>
-                    </div>
-
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Cedula</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="30.349.137">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Direccion</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="0412-5468799">
+                        <input name="cedula" type="text" class="form-control" id="cedulaEdit" >
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <input name="email" type="email" class="form-control" id="emailEdit" >
                       </div>
                     </div>
-
+                    <p id="error" style="color:#ff0000;text-align: center;"></p>
                     <div class="text-center">
-                      <a type="" class="btn btn-success">Guardar Cambios</a>
+                      <button type="submit" class="btn btn-success" id="enviarDatos">Guardar Cambios</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -216,9 +197,9 @@
                         <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
-
+                    <p id="error2" style="color:#ff0000;text-align: center;"></p>
                     <div class="text-center">
-                      <a type="" class="btn btn-success">Cambiar Contraseña</a>
+                      <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                     </div>
                   </form><!-- End Change Password Form -->
 
@@ -261,4 +242,5 @@
 </main>
 </body>
 <?php $VarComp->js(); ?>
+<script type="text/javascript" src="assets/js/perfil.js"></script>
 </html>

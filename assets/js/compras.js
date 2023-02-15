@@ -168,6 +168,7 @@ $(document).ready(function() {
 
 	$('body').on('click','.removeRow',function(e){
 		$(this).closest('tr').remove();
+		calculate();
 	});
 
 	$('.table-body').on('keyup','input',function(){
