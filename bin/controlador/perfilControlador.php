@@ -19,11 +19,14 @@
     $objModel->mostrarDatos($_SESSION['cedula']);
   }
 
+  if (isset($_FILES['foto'], $_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['email'], $_SESSION['cedula'])) {
 
+    if(isset($_POST['borrar'])){
+      $objModel->getEditar($_FILES['foto'], $_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['email'], $_SESSION['cedula'], $_POST['borrar']);
+    }
 
-  if (isset($_FILES['foto']) && isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['cedula']) && isset($_POST['email']) && isset($_SESSION['cedula'])) {
-    
     $objModel->getEditar($_FILES['foto'], $_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['email'], $_SESSION['cedula']);
+
   }
 
   if(isset($_SESSION['cedula']) && isset($_POST['passwordAct']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewR'])) {
@@ -31,8 +34,8 @@
   }
 
   if(file_exists("vista/interno/perfilVista.php")){
-   require_once("vista/interno/perfilVista.php");
- } 
+    require_once("vista/interno/perfilVista.php");
+  } 
 
 
 ?>

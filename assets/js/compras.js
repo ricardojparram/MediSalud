@@ -164,6 +164,7 @@ $(document).ready(function() {
 //  Elimina fila 
 	$('body').on('click','.removeRow',function(e){
 		$(this).closest('tr').remove();
+		calculate();
 	});
 
 //  Evento keyup para que funcione calculate()

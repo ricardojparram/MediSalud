@@ -11,6 +11,7 @@ class perfil extends DBConnect{
 	private $apellido;
 	private $correo;
 	private $foto;
+	private $borrar;
 
 	private $passwordAct;
 	private $passwordNew;
@@ -39,7 +40,7 @@ class perfil extends DBConnect{
         }
     }
 
-    public function getEditar($foto, $nombre, $apellido, $cedulaNueva, $correo, $cedulaVieja){
+    public function getEditar($foto, $nombre, $apellido, $cedulaNueva, $correo, $cedulaVieja, $borrar = false){
 
 	    if(preg_match_all("/^[a-zA-ZÀ-ÿ]{3,30}$/", $nombre) == false){
 	      $resultado = ['resultado' => 'Error de nombre' , 'error' => 'Nombre invalido.'];
@@ -68,8 +69,21 @@ class perfil extends DBConnect{
 	    $this->cedulaNueva = $cedulaNueva;
 	    $this->correo = $correo;
 	    $this->cedulaVieja = $cedulaVieja;
+	    $this->borrar = $borrar;
 
-	    $this->editarDatos();
+
+
+	    if(isset($this->foto['name'])){
+	    	$resultadoFoto = $this->subirImagen();
+	    }
+	    if($this->borrar != false){
+	    	$resultadoFoto = $this->borrarImagen();
+	    }
+
+	    $resultadoEdit = $this->editarDatos();
+
+	    echo json_encode(['edit' => $resultadoEdit, 'foto' => $resultadoFoto]);
+	    die();
 	}
 
 	private function editarDatos(){
@@ -81,36 +95,45 @@ class perfil extends DBConnect{
             $new->bindValue(4, $this->correo);
             $new->bindValue(5, $this->cedulaVieja);
             $new->execute();
-            $resultadoEdit = ['respuesta' => 'Editado correctamente'];
-            $resultadoFoto;
-
-            if(isset($this->foto['name'])){
-            	$resultadoFoto = $this->subirImagen();
-            }
 
             $_SESSION['cedula'] = $this->cedulaNueva;
             $_SESSION['nombre'] = $this->nombre;
             $_SESSION['apellido'] = $this->apellido;
             $_SESSION['correo'] = $this->correo;
 
-            echo json_encode(['edit' => $resultadoEdit, 'foto' => $resultadoFoto]);
-            die();
+            return ['respuesta' => 'Editado correctamente'];;
 
 		} catch (\PDOException $error) {
 			return $error;
 		}
 	}
 	private function subirImagen(){
+
 		if($this->foto['error'] > 0){
-			return ['respuesta' => 'Error de foto.'];
+			return ['respuesta' => 'Imagen Error', 'error' => 'Error de imágen'];
 		}
 		if($this->foto['type'] != 'image/jpeg' && $this->foto['type'] != 'image/jpg' && $this->foto['type'] != 'image/png'){
-			return ['error' => 'tipo', 'respuesta' => 'Tipo de imagen inválido.'];
+			return ['respuesta' => 'Error', 'error' => 'Tipo de imagen inválido.'];
 		}
+
+		switch($this->foto['type']){
+			case 'image/jpeg' : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
+			break;
+			case 'image/png' : $foto = imagecreatefrompng($this->foto['tmp_name']);
+			break;
+			default : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
+		}
+
+		$ancho = imagesx($foto);
+		$largo = imagesy($foto);
+
+		if($ancho > 1080 || $largo > 1080){
+			return ['respuesta' => 'Error', 'error' => 'La imagen no puede ser mayor de 1080 x 1080'];
+		}
+
 		$repositorio = "assets/img/perfil/";
-		$extension = explode('.', $this->foto['name']);
-		$tipo = end($extension);
-		$nombre =  $repositorio.$this->cedulaNueva.'.'.$tipo;
+		$extension = pathinfo($this->foto['name'], PATHINFO_EXTENSION);
+		$nombre =  $repositorio.$this->cedulaNueva.'.'.$extension;
 
 		if(move_uploaded_file($this->foto['tmp_name'], $nombre)){
 			try {
@@ -130,8 +153,33 @@ class perfil extends DBConnect{
 		}else{
 			return ['respuesta' => 'No se guardó la imagen.'];
 		}
-
 		
+	}
+
+	private function borrarImagen(){
+
+		$imagenPorDefecto = 'assets/img/profile_photo.jpg';
+
+		try {
+			
+			$new = $this->con->prepare("UPDATE usuario SET img = ? WHERE cedula = ?");
+			$new->bindValue(1, $imagenPorDefecto);
+			$new->bindValue(2, $this->cedulaNueva);
+			$new->execute();
+
+			$fotoActual == $_SESSION['fotoPerfil'];
+			if($fotoActual != $imagenPorDefecto){
+				unlink($fotoActual);				
+			}
+
+			$_SESSION['fotoPerfil'] = $imagenPorDefecto;
+
+			return ['respuesta' => 'Imagen eliminada.', 'url' => $imagenPorDefecto];
+
+		} catch (\PDOException $e) {
+			return $e;
+		}
+
 	}
 
 	public function getCambioContra($cedula, $passwordAct, $passwordNew, $passwordNewR){

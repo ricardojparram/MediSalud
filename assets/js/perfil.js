@@ -31,7 +31,17 @@ $(document).ready(function(){
 
 	$('#borrarFoto').click(()=>{
 		$('#imgEditar').attr('src', 'assets/img/profile_photo.jpg');
-		// $('#foto').
+	})
+
+	$('#foto').change(function(){
+		let imagen = $('#foto')[0].files[0];
+
+		if(imagen == null || imagen == ""){
+			throw new Error('Imagen inválida');
+		}
+
+		let url = URL.createObjectURL(imagen);
+		$('#imgEditar').attr('src', url)
 	})
 
 	$("#enviarDatos").click((e)=>{
@@ -43,9 +53,16 @@ $(document).ready(function(){
 		id = validarCedula($("#cedulaEdit"),$("#error") ,"Error de cedula,");
 		email = validarCorreo($("#emailEdit"),$("#error") ,"Error de email,");
 
+
+
 		if(name && lastname && id && email) {
 
 			let form = new FormData($('#formEditar')[0]);
+
+			let borrar = $('#imgEditar').is('[src="assets/img/profile_photo.jpg"]');
+			if(borrar){
+				form.append("borrar", "borrarImg");
+			}
 
 			$.ajax({
 				type: "POST",
@@ -56,7 +73,11 @@ $(document).ready(function(){
 				processData: false,
 				success(data){
 					
-					if(data.foto.respuesta == 'Imagen guardada.'){
+					if(data.foto.respuesta == 'Error'){
+						$('#error').text(data.foto.error);
+						throw new Error('Error de foto.');
+					}
+					if(data.foto.respuesta == 'Imagen guardada.' || data.foto.respuesta == 'Imagen eliminada.'){
 						$('.fotoPerfil').attr('src', data.foto.url);
 					}
 					if (data.edit.respuesta == "Editado correctamente") {
