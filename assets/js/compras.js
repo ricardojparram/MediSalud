@@ -71,8 +71,8 @@ $(document).ready(function() {
 			row.find('.tax').text( tax.toFixed(2) );   
 
 		});
-		let precioTotal = (total_price + total_tax).toFixed(2);
-		let ivatotal = total_tax.toFixed(2);
+		let precioTotal = Math.abs((total_price + total_tax).toFixed(2));
+		let ivatotal = Math.abs(total_tax.toFixed(2));
 		let total = total_price.toFixed(2);
 
 		$('#montos').text(`IVA: ${ivatotal} - Total: ${total}`)
@@ -218,7 +218,7 @@ $(document).ready(function() {
 	}
 
 	function validarOrden(input, div){
-		$.post('',{orden : input.val(), validar: "orden"}, function(data){
+		$.post('',{orden : Math.abs(input.val()), validar: "orden"}, function(data){
 			let mensaje = JSON.parse(data);
 			if(mensaje.resultado === "Error de orden"){
 				div.text(mensaje.error);
@@ -286,7 +286,10 @@ $(document).ready(function() {
 					throw new Error('Orden de compra repetida.');
 				}
 
-				enviarProductos(data.id);
+				if(typeof data.id != 'undefined'){
+					enviarProductos(data.id);
+				}
+
 				tablaMostrar.destroy();
 				rellenar();
 				$('#agregarform').trigger('reset');

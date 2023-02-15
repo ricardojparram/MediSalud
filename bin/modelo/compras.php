@@ -93,9 +93,9 @@
 
 		public function getOrden($orden){
 			if(preg_match_all("/^[0-9]{1,30}$/", $orden) != 1){
-				die(json_encode(['error' => 'Orden inválida']));
+				die(json_encode(['resultado' => 'Error de orden', 'error' => 'Orden inválida']));
 			}
-			$this->orden = $orden;
+			$this->orden = abs($orden);
 
 			$this->validarOrden();
 		}
@@ -130,14 +130,14 @@
 			if(preg_match_all("/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/", $fecha) != 1){
 				die(json_encode(['error' => 'Fecha inválida.']));
 			}
-			if(preg_match_all("/^[0-9]{1,30}$/", $montoT) != 1){
+			if(!is_numeric($montoT)){
 				die(json_encode(['error' => 'Monto inválido.']));
 			}
 
-			$this->proveedor = $prove;
-			$this->orden = $orden;
+			$this->proveedor = abs($prove);
+			$this->orden = abs($orden);
 			$this->fecha = $fecha;
-			$this->montoT = $montoT;
+			$this->montoT = abs($montoT);
 
 			$this->registrarCompras();
 		}
@@ -174,7 +174,7 @@
 
 		public function getProducto($cantidad, $precio, $producto, $idcompra){
 			if(!is_numeric($cantidad) || !is_numeric($precio) || !is_numeric($producto) || !is_numeric($idcompra)){
-				die(['error' => 'Registro de producto inválido.']);
+				die(['error' => 'Parámetros de producto inválido.']);
 			}
 			$this->cantidad = $cantidad;
 			$this->precio = $precio;
@@ -216,11 +216,16 @@
 
 		}
 
-		public function detalleCompra($id){
+		public function getDetalleCompra($id){
 			if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
 				die(json_encode(['error' => 'Id inválida.']));
 			}
 			$this->id = $id;
+
+			$this->detalleCompra();
+		}
+
+		private function detalleCompra(){
 			try {
 				$new = $this->con->prepare('SELECT cp.cantidad, cp.precio_compra, c.orden_compra, p.descripcion FROM compra_producto cp 
 											INNER JOIN producto p 
@@ -240,19 +245,49 @@
 
 		}
 
-		public function eliminarCompra($id){
+		public function getEliminarCompra($id){
 			if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
 				die(json_encode(['error' => 'Id inválida.']));
 			}
 			$this->id = $id;
 
+			$this->eliminarCompra();
+		}
+
+		private function eliminarCompra(){
 			try {
 				
+
+				$query="SELECT cp.cod_producto AS producto, cp.cantidad, p.stock FROM compra_producto cp
+						INNER JOIN producto p
+						ON cp.cod_producto = p.cod_producto
+						WHERE cp.cod_compra = ?";
+
+				$new = $this->con->prepare($query);
+				$new->bindValue(1, $this->id);
+				$new->execute();
+				$compra = $new->fetchAll(\PDO::FETCH_OBJ);
+
+				foreach ($compra as $producto) {
+					
+					$cantidad = $producto->cantidad;
+					$stock = $producto->stock;
+					$id = $producto->producto;
+
+					$newStock = $stock - $cantidad ;
+
+					$new = $this->con->prepare("UPDATE producto SET stock = ? WHERE cod_producto = ?");
+					$new->bindValue(1, $newStock);
+					$new->bindValue(2, $id);
+					$new->execute();
+
+				}
+
 				$new = $this->con->prepare('UPDATE compra SET status = 0 WHERE cod_compra = ?');
 				$new->bindValue(1, $this->id);
 				$new->execute();
 
-				die();
+				die(json_encode(['resultado' => 'Compra anulada.']));
 
 			} catch (\PDOException $e) {
 				return $e;
