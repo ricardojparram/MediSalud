@@ -51,7 +51,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img class="fotoPerfil" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile" class="rounded-circle">
+              <img class="fotoPerfil rounded-circle" src="<?= $_SESSION['fotoPerfil']; ?>" alt="Profile">
               <h2 class="nombreCompleto"> </h2>
               <h3></h3>
             </div>

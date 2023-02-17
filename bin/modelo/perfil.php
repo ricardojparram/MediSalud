@@ -167,7 +167,7 @@ class perfil extends DBConnect{
 			$new->bindValue(2, $this->cedulaNueva);
 			$new->execute();
 
-			$fotoActual == $_SESSION['fotoPerfil'];
+			$fotoActual = $_SESSION['fotoPerfil'];
 			if($fotoActual != $imagenPorDefecto){
 				unlink($fotoActual);				
 			}

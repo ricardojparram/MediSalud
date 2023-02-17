@@ -23,7 +23,7 @@
     <li class="nav-item dropdown pe-3">
 
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-        <img class="fotoPerfil" src="'.$_SESSION['fotoPerfil'].'" alt="Profile" class="rounded-circle">
+        <img class="fotoPerfil rounded-circle" src="'.$_SESSION['fotoPerfil'].'" alt="Profile">
         <span class="d-none d-md-block dropdown-toggle ps-2 nombreCompleto">'.$_SESSION["nombre"].' '.$_SESSION['apellido'].'</span>
       </a><!-- End Profile Iamge Icon -->
 
