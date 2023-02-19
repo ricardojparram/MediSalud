@@ -19,6 +19,10 @@
     $objModel->mostrarDatos($_SESSION['cedula']);
   }
 
+  if(isset($_POST['password'], $_POST['validarContraseña'])){
+    $objModel->getValidarContraseña($_POST['password'], $_SESSION['cedula']);
+  }
+
   if (isset($_FILES['foto'], $_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['email'], $_SESSION['cedula'])) {
 
     if(isset($_POST['borrar'])){
@@ -30,9 +34,10 @@
   }
 
   if(isset($_SESSION['cedula']) && isset($_POST['passwordAct']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewR'])) {
+
     $objModel->getCambioContra($_SESSION['cedula'], $_POST['passwordAct'], $_POST['passwordNew'], $_POST['passwordNewR']);
   }
-
+  
   if(file_exists("vista/interno/perfilVista.php")){
     require_once("vista/interno/perfilVista.php");
   } 

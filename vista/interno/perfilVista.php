@@ -173,33 +173,33 @@
                 </div>
 
                 
-                <div class="tab-pane fade pt-3" id="profile-change-password">
+                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form >
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input  type="password" class="form-control" id="password">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input type="password" class="form-control" id="newPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repita Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        <input type="password" class="form-control" id="rePassword">
                       </div>
                     </div>
                     <p id="error2" style="color:#ff0000;text-align: center;"></p>
                     <div class="text-center">
-                      <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
+                      <button type="button" class="btn btn-success" id="editContra">Cambiar Contraseña</button>
                     </div>
                   </form><!-- End Change Password Form -->
 

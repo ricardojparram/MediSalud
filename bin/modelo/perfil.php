@@ -12,6 +12,8 @@ class perfil extends DBConnect{
 	private $correo;
 	private $foto;
 	private $borrar;
+	private $imagenPorDefecto = 'assets/img/profile_photo.jpg';
+
 
 	private $passwordAct;
 	private $passwordNew;
@@ -38,6 +40,45 @@ class perfil extends DBConnect{
     	} catch(\PDOexection $error){
             return $error;
         }
+    }
+
+    public function getValidarContraseña($pass, $cedula){
+    	if(preg_match_all("/^[A-Za-z0-9 *?=&_!¡()@#]{8,30}$/", $pass) == false) {
+    		$resultado = ['resultado' => 'Error de contraseña' , 'error' => 'Correo inválida.'];
+    		echo json_encode($resultado);
+    		die();
+    	}
+    	if(preg_match_all("/^[0-9]{7,10}$/", $cedula) == false){
+	      $resultado = ['resultado' => 'Error de cedula' , 'error' => 'Cédula invalida.'];
+	      echo json_encode($resultado);
+	      die();
+	    }
+
+	    $this->cedulaVieja = $cedula;
+    	$this->passwordAct = $pass;
+
+    	$this->validarContraseña();
+
+    }
+
+    private function validarContraseña(){
+    	try {
+
+    		$new = $this->con->prepare("SELECT password FROM usuario WHERE cedula = ? AND status = 1");
+    		$new->bindValue(1, $this->cedulaVieja);
+    		$new->execute();
+    		$data = $new->fetchAll(\PDO::FETCH_OBJ);
+    		
+    		if(password_verify($this->passwordAct, $data[0]->password)){
+    			die(json_encode(['resultado' => 'Contraseña válida.']));
+    		}else{
+    			die(json_encode(['resultado' => 'Error de contraseña', 'error' => 'Contraseña incorrecta.']));
+    		}
+
+    	} catch (\PDOException $e){
+    		return $e;
+    	}
+
     }
 
     public function getEditar($foto, $nombre, $apellido, $cedulaNueva, $correo, $cedulaVieja, $borrar = false){
@@ -73,14 +114,14 @@ class perfil extends DBConnect{
 
 
 
+	    $resultadoEdit = $this->editarDatos();
+
 	    if(isset($this->foto['name'])){
 	    	$resultadoFoto = $this->subirImagen();
 	    }
 	    if($this->borrar != false){
 	    	$resultadoFoto = $this->borrarImagen();
 	    }
-
-	    $resultadoEdit = $this->editarDatos();
 
 	    echo json_encode(['edit' => $resultadoEdit, 'foto' => $resultadoFoto]);
 	    die();
@@ -133,10 +174,24 @@ class perfil extends DBConnect{
 
 		$repositorio = "assets/img/perfil/";
 		$extension = pathinfo($this->foto['name'], PATHINFO_EXTENSION);
-		$nombre =  $repositorio.$this->cedulaNueva.'.'.$extension;
+		$date = date('m/d/Yh:i:sa', time());
+		$rand = rand(1000,9999);
+		$imgName = $date.$rand;
+		$nameEnc = md5($imgName);
+		$nombre =  $repositorio.$nameEnc.'.'.$extension;
 
 		if(move_uploaded_file($this->foto['tmp_name'], $nombre)){
 			try {
+
+				$new = $this->con->prepare('SELECT img FROM usuario WHERE cedula = ?');
+				$new->bindValue(1, $this->cedulaNueva);
+				$new->execute();
+				$data = $new->fetchAll(\PDO::FETCH_OBJ);
+				$fotoActual = $data[0]->img;
+
+				if($fotoActual != $this->imagenPorDefecto){
+					unlink($fotoActual);				
+				}
 
 				$new = $this->con->prepare('UPDATE usuario SET img = ? WHERE cedula = ?');
 				$new->bindValue(1, $nombre);
@@ -158,8 +213,6 @@ class perfil extends DBConnect{
 
 	private function borrarImagen(){
 
-		$imagenPorDefecto = 'assets/img/profile_photo.jpg';
-
 		try {
 			
 			$new = $this->con->prepare("UPDATE usuario SET img = ? WHERE cedula = ?");
@@ -168,13 +221,13 @@ class perfil extends DBConnect{
 			$new->execute();
 
 			$fotoActual = $_SESSION['fotoPerfil'];
-			if($fotoActual != $imagenPorDefecto){
+			if($fotoActual != $this->imagenPorDefecto){
 				unlink($fotoActual);				
 			}
 
-			$_SESSION['fotoPerfil'] = $imagenPorDefecto;
+			$_SESSION['fotoPerfil'] = $this->imagenPorDefecto;
 
-			return ['respuesta' => 'Imagen eliminada.', 'url' => $imagenPorDefecto];
+			return ['respuesta' => 'Imagen eliminada.', 'url' => $this->imagenPorDefecto];
 
 		} catch (\PDOException $e) {
 			return $e;
@@ -184,28 +237,54 @@ class perfil extends DBConnect{
 
 	public function getCambioContra($cedula, $passwordAct, $passwordNew, $passwordNewR){
 
-		if(preg_match_all("/^[A-Za-z0-9 *?=&_!¡()@#]{3,30}$/", $passwordNew) == false) {
-          $resultado = ['resultado' => 'Error de contraseña' , 'error' => 'Correo inválida.'];
-          echo json_encode($resultado);
-          die();
-        }
-        if($passwordNew != $passwordNewR) {
-          $resultado = ['resultado' => 'Error de repass' , 'error' => 'Las contraseñas no coinciden.'];
-          echo json_encode($resultado);
-          die();
-        }
+		if(preg_match_all("/^[A-Za-z0-9 *?=&_!¡()@#]{8,30}$/", $passwordNew) == false) {
+			$resultado = ['resultado' => 'Error de contraseña' , 'error' => 'Correo inválida.'];
+			echo json_encode($resultado);
+			die();
+		}
+		if($passwordNew != $passwordNewR) {
+			$resultado = ['resultado' => 'Error de repass' , 'error' => 'Las contraseñas no coinciden.'];
+			echo json_encode($resultado);
+			die();
+		}
 
 		$this->cedula = $cedula;
 		$this->passwordAct = $passwordAct;
 		$this->passwordNew = $passwordNew;
 
 		$this->cambioContra();
+
 	}
 
 	private function cambioContra(){
+		try {
+			$this->hash = password_hash($this->passwordNew, PASSWORD_BCRYPT);
+
+			$new = $this->con->prepare("SELECT password FROM usuario WHERE cedula = ?");
+			$new->bindValue(1, $this->cedula);
+			$new->execute();
+			$data = $new->fetchAll();
+
+			if (password_verify($this->passwordAct, $data[0]['password'])) {
+				
+				$new = $this->con->prepare("UPDATE usuario SET password= ? WHERE cedula = ?");
+				$new->bindValue(1, $this->hash);
+				$new->bindValue(2, $this->cedula);
+				$new->execute();
+				$resultado = ['resultado' => 'Editada Contraseña'];
+				echo json_encode($resultado);
+				die();
+			}else{
+				$resultado = ['resultado' => 'Error de contraseña' , 'error' => 'Contraseña incorrecta.'];
+				echo json_encode($resultado);
+				die();
+			}
+		} catch (\PDOException $error) {
+			return $error;
+		}
 
 	}
 
 }
 
- ?>
+?>
