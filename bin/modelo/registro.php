@@ -78,7 +78,9 @@
             
             if(!isset($data[0]["correo"])){
 
-              $new = $this->con->prepare("INSERT INTO `usuario`(`cedula`, `nombre`, `apellido`, `correo`, `password`, `nivel`, `status`) VALUES (?,?,?,?,?,2,1)");
+              $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+
+              $new = $this->con->prepare("INSERT INTO `usuario`(`cedula`, `nombre`, `apellido`, `correo`, `password`, `nivel`, `status`) VALUES (?,?,?,?,?,3,1)");
               $new->bindValue(1, $this->cedula);
               $new->bindValue(2, $this->name); 
               $new->bindValue(3, $this->apellido);

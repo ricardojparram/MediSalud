@@ -60,7 +60,7 @@ CREATE TABLE `usuario`(
     `nombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
     `apellido` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
     `correo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-    `password` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+    `password` varchar(70) COLLATE utf8_spanish2_ci NOT NULL,
     `nivel` int NOT NULL,
     `img` varchar(50) COLLATE utf8_spanish2_ci,
     `status` int NOT NULL,

@@ -33,6 +33,7 @@
 		}
 
 		private function loginSistema(){
+
 			try{
 				$new = $this->con->prepare("SELECT u.cedula, u.nombre, u.apellido, u.correo, u.password, u.img, u.nivel as nivel, n.nombre as puesto FROM usuario u 
 					INNER JOIN nivel n
@@ -43,7 +44,7 @@
 				$data = $new->fetchAll();
 
 				if(isset($data[0]["password"])){
-					if($data[0]["password"] == $this->password){
+					if(password_verify($this->password, $data[0]['password'])){
 
 						$_SESSION['cedula'] = $data[0]['cedula'];
 						$_SESSION['nombre'] = $data[0]['nombre'];
@@ -51,7 +52,7 @@
 						$_SESSION['correo'] = $data[0]['correo'];
 						$_SESSION['nivel'] = $data[0]['nivel'];
 						$_SESSION['puesto'] = $data[0]['puesto'];
-						$_SESSION['fotoPerfil'] = $data[0]['img'];
+						$_SESSION['fotoPerfil'] = (isset($data[0]['img'])) ? $data[0]['img'] : 'assets/img/profile_photo.jpg';
 
 						
 						$resultado = ['resultado' => 'Logueado'];
