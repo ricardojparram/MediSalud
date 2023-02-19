@@ -68,7 +68,7 @@ class perfil extends DBConnect{
     		$new->bindValue(1, $this->cedulaVieja);
     		$new->execute();
     		$data = $new->fetchAll(\PDO::FETCH_OBJ);
-    		
+
     		if(password_verify($this->passwordAct, $data[0]->password)){
     			die(json_encode(['resultado' => 'Contraseña válida.']));
     		}else{
@@ -216,7 +216,7 @@ class perfil extends DBConnect{
 		try {
 			
 			$new = $this->con->prepare("UPDATE usuario SET img = ? WHERE cedula = ?");
-			$new->bindValue(1, $imagenPorDefecto);
+			$new->bindValue(1, $this->imagenPorDefecto);
 			$new->bindValue(2, $this->cedulaNueva);
 			$new->execute();
 
