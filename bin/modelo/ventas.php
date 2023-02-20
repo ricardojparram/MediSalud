@@ -240,6 +240,24 @@
         return $e;
       }
     }
+
+    public function getMostrarMoneda(){
+     try{
+      $new = $this->con->prepare("SELECT * FROM moneda WHERE status = 1");
+      $new->execute();
+      $data = $new->fetchAll(\PDO::FETCH_OBJ);
+
+      echo json_encode($data);
+      die();
+
+    }catch(\PDOexection $error){
+
+     return $error;   
+
+   } 
+ }
+
+
      //---------------------------------MOSTRAR METODO DE PAGO--------------------------------
 
     public function getMostrarMetodo(){

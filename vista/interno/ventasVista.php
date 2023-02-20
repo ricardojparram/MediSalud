@@ -120,7 +120,7 @@
               <div class="container-fluid">
                 <div class="row">
 
-                  <div class="form-group col-md-6">                          
+                  <div class="form-group col-lg-6">                          
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Cliente</strong></label>
                     <div class="input-group">
                       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Seleccione una cédula registrada en el sistema."><i class="bi bi-person-fill"></i></button>
@@ -135,14 +135,14 @@
                         }else{"";}?>
                       </select> 
                     </div>
-                    <p style="color:#ff0000;text-align: center;" id="error1"></p>
+                    <p class="error" style="color:#ff0000;text-align: center;" id="error1"></p>
                   </div>
 
-                  <div class="form-group col-md-6">                          
+                  <div class="form-group col-lg-6">                          
                     <label for="inputText" class="col-sm-3 col-form-label"><strong>Pago</strong></label>
                     <div class="input-group">
                       <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Seleccione un metodo de pago al sistema."><i class="bi bi-cash-coin"></i></button>
-                      <select class="form-select"  placeholder="Metodo de pago" name="metodo" id="metodo">
+                      <select class="form-select select"  placeholder="Metodo de pago" name="metodo" id="metodo">
                         <option selected disabled>Metodo a pagar</option>
                         <?php if(isset($mostrerM)){
                           foreach($mostrerM as $data){
@@ -153,7 +153,7 @@
                         }else{"";}?>
                       </select> 
                     </div>
-                    <p style="color:#ff0000;text-align: center;" id="error2"></p>
+                    <p class="error" style="color:#ff0000;text-align: center;" id="error2"></p>
                   </div>
                 </div>
               </div>
@@ -163,23 +163,33 @@
               <div class="container-fluid">
                 <div class="row">
 
-                  <div class="form-group col-md-6">  
-                    <label class="col-form-label" for="config_iva"><strong>IVA</strong></label>
+                   <div class="form-group col-md-4">                          
+                    <label class="col-form-label"> <strong>Moneda</strong> </label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca un IVA para la venta">%</button> 
-                      <input class="form-control" type="text" id="config_iva" value="16"/>
-
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Evaluara el Total al valor de la moneda Seleccionada"><i class="bi bi-currency-exchange"></i></button> 
+                      <select class="form-select select2M" id="moneda">
+                        <option selected disabled>Moneda</option>
+                      </select>
                     </div>
                   </div>
 
+                  <div class="form-group col-md-4">  
+                    <label class="col-form-label" for="config_iva"><strong>IVA</strong></label>
+                    <div class="input-group">
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca un IVA para la venta">%</button> 
+                      <input class="form-control iva" type="text" id="config_iva" value="16"/>
+                    </div>
+                    <p class="error" style="color:#ff0000;text-align: center;" id="error4"></p>
+                  </div>
 
-                  <div class="form-group col-md-6">                          
+
+                  <div class="form-group col-md-4">                          
                     <label class="col-form-label"> <strong>Monto</strong> </label>
                     <div class="input-group">
-                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Monto total de la compra"><i class="bi-currency-dollar"></i></button> 
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Monto total de la venta"><i class="bi bi-cash"></i></button> 
                       <input type="number" class="form-control" disabled="disabled" id="monto" >
                     </div>
-                    <p style="color:#ff0000;text-align: center;" id="error3"></p>
+                    <p class="error" style="color:#ff0000;text-align: center;" id="error3"></p>
                   </div>
 
                 </div>
@@ -189,7 +199,7 @@
             <div class="form-group col-md-12">  
               <div class="container-fluid">
                 <div class="row">
-                  <div class="table-body form-group col-12">
+                  <div class="table-responsive table-body form-group col-12">
 
                     <table class="table table-striped">
                       <thead>
@@ -219,8 +229,9 @@
                     </table>
                     <a class="newRow a-asd" href="#"><i class="bi bi-plus-circle-fill"></i> Nueva fila</a> <br>
                     <div class="text-end">
-                      <p id="montos"></p>
-                      <p id="montos2"></p>
+                      <p class="text-end" id="montos"></p>
+                      <p class="text-end" id="montos2"></p>
+                      <p class="text-end"id="cambio"></p>
                     </div>
                   </div>
 
@@ -230,7 +241,7 @@
 
           </div>
 
-          <p style="color:#ff0000;text-align: center;" id="error"></p>
+          <p class="error" style="color:#ff0000;text-align: center;" id="error"></p>
           
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary cerrar" id="cerrar" data-bs-dismiss="modal">Cancelar</button>

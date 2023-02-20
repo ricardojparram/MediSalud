@@ -48,15 +48,16 @@
 
      
      // FUNCION CALCULATE PARA PRECIOS
-
+      selectMoneda()
       var iva = parseFloat($('#config_iva').val());
+      var moneda = parseFloat($('.select2M').val());
       selectOptions();
       calculate();
 
       function calculate(){
        let total_price = 0,
        total_tax = 0;
-
+    // console.log('Calculando moneda:'+moneda);
     // console.log('Calculando IVA:'+iva);
 
     $('.table-body tbody tr').each( function(){
@@ -78,12 +79,42 @@
       let precioTotal = (total_price + total_tax).toFixed(2);
       let ivatotal = total_tax.toFixed(2);
       let total = total_price.toFixed(2);
-
-      $('#montos').text(`IVA: ${ivatotal} - Total: ${total}`)
+      let cambio = (total / moneda).toFixed(2);
+      if(isNaN(cambio)){
+       cambio = "0"
+      }
+      $('#montos').text(`IVA: ${ivatotal} - subTotal: ${total}`)
       $('#montos2').text(`Total + IVA: ${precioTotal}`)
+      $('#cambio').text(`Al cambio: ${cambio}`)
       $('#monto').val(precioTotal)
 
      }
+ //  rellena los select de moneda
+     
+     function selectMoneda(){
+       $.ajax({
+        url: '',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          selectM : 'moneda'
+        },
+        success(data){
+          let option = ""
+          data.forEach((row)=>{
+           option += `<option value="${row.cambio}">${row.nombre} ${row.cambio}</option>`
+         })
+          $('.select2M').each(function(){
+            if(this.children.length == 1){
+              $(this).append(option);
+              
+            }
+          })
+        }
+      })
+     }
+
+
 
  //  rellena los select de las filas de productos
     function selectOptions(){
@@ -147,7 +178,7 @@
       $(input).keyup(()=>{
         stock = Number(max);
         num = Number(input.val());
-        if(num > stock || num === 0){
+        if(num > stock || num == 0 || num < 1 || !Number.isInteger(num)){
           input.css({"border" : "solid 1px", "border-color" : "red"})
           input.attr("valid", "false")
         }else{
@@ -156,10 +187,7 @@
         }
       })
     }
-  
-
-      
-
+   
     
     //  SELECT2 CON BOOTSTRAP-5 
     $(".select2").select2({
@@ -186,6 +214,7 @@
       $('#ASD').append(newRow);
       selectOptions();
       cambio();
+      validarRepetido()
     }
 
     // Agregar fila para insertar producto
@@ -196,6 +225,7 @@
     // ELiminar fila
      $('body').on('click','.removeRow', function(e){
         $(this).closest('tr').remove();
+        calculate()
      });
 
     //Evento keyup para que funcione calculate()
@@ -214,15 +244,69 @@
       calculate();
 
      })
-     
+
+     //configuracion de Moneda
+     $('.select2M').on('change', function(){
+       moneda = parseFloat($(this).val())
+       calculate()
+      })
+       
+    //Validar que no se repita 
+    function validarRepetido(){
+      $('.select-productos').change(function(){
+        let producto;
+
+        $('.select-productos').each(function(){
+
+          producto = $(this).val();
+          let count = 0;
+          $('.select-productos').each(function(){
+
+            if(producto != ''){
+              if(producto == $(this).val()){
+                count++
+                if(count >=2){
+                  $(this).closest('tr').attr('style', 'border-color: red;')
+                  $(this).attr('valid', 'false');
+                  $('#error').text('No pueden haber productos repetidos');
+                }else{
+                  $(this).attr('valid', 'true');
+                }
+              }
+            }
+
+          });
+
+        })
+        $('.select-productos').each(function(){
+          if($(this).is('[valid="true"]')){
+            $(this).closest('tr').attr('style', 'border-color: none;');
+          }
+          
+        })
+        if(!$('.select-productos').is('[valid="false"]')){
+         $('#error').text('');
+       }
+       
+     })
+      
+    }
+    
+   
      // REGISTRAR VENTA
- 
+
      $('#metodo').change(function(){
       let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
     })
+     $('.iva').keyup(()=> {validarNumero($(".iva"),$("#error4"),"Error de iva") });
+
+     let click = 0;
+     setInterval(()=>{click = 0}, 2000);
 
      $("#registrar").click((e)=>{
        e.preventDefault();
+
+       if(click >= 1){ throw new Error('Spam de clicks');}
 
        let cedula = validarSelec2($(".select2"),$(".select2-selection"),$("#error1"),"Error de Cedula");
 
@@ -237,9 +321,10 @@
          return cedula = true;
        }
      })
-     
+
        let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
        let montoT = validarNumero($("#monto"),$("#error3"),"Error de monto");
+       let iva = validarNumero($(".iva"),$("#error4"),"Error de iva");
 
        let vproductos = true;
 
@@ -251,6 +336,13 @@
        }
      })
 
+       let repetidos = true 
+       if($('.select-productos').is('[valid="false"]')){
+        repetidos = false
+       }else if(!$('.select-productos').is('[valid="false"]')){
+        repetidos = true
+       }
+
        let vstock = true;
        if($('.stock').is('[valid="false"]')){
         vstock  = false
@@ -261,7 +353,7 @@
       }
 
 
-      if(cedula == true && metodo == true && montoT == true && vproductos == true && vstock == true){
+      if(cedula && metodo && montoT && vproductos && vstock && iva && repetidos){
 
        console.log("Enviando ...");
 
@@ -286,6 +378,7 @@
 
           })
      }
+     click++;
    })
 
   //función para enviar productos uno por uno
@@ -303,8 +396,10 @@
   $('#cerrar').click(()=>{
      $('.select2').val(0).trigger('change'); // LIMPIA EL SELECT2
      $('#agregarform').trigger('reset'); // LIMPIAR EL FORMULARIO
+     $('#Agregar select').attr("style","borden-color:none;","borden-color:none;");
+     $('#Agregar input').attr("style","borden-color:none;","borden-color:none;");
+     $('.error').text(" ");
      $('.removeRow').click(); // LIMPIAR FILAS 
-     $('#error').text('');
      filaN() // 
   })
 
@@ -316,6 +411,7 @@
       })   
        
        $("#delete").click(()=>{ 
+        if(click >= 1){ throw new Error('Spam de clicks');}
          console.log(id);
          $.ajax({
           type: "POST",
@@ -328,6 +424,7 @@
               Toast.fire({ icon: 'success', title: 'Venta eliminada' }) // ALERTA 
             }
           })
+         click++
        })
   
 
