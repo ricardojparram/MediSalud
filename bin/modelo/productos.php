@@ -27,39 +27,37 @@
 
     public function getRegistraProd($descripcion, $fechaV ,$composicionP,$posologia,$laboratorio,$tipoP,$clase,$presentación,$ubicación,$contraIn,$cantidad,$precioV){
       
-     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $descripcion)){
-      return "Error de nombre!";
+     if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $descripcion) !== 1){
+      return "Error de descripcion!";
     }
     if(preg_match_all("/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/", $fechaV) !== 1){
-      $result = ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
-      echo json_encode($result);
-      die();
+      return ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $composicionP)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $composicionP) !== 1){
       return "Error de composicion de productos!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $posologia)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $posologia) !== 1){
       return "Error de pasologia!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $laboratorio)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $laboratorio) !== 1){
       return "Error de laboratorio!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $tipoP)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $tipoP) !== 1){
       return "Error de tipo producto!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $clase)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $clase) !== 1){
       return "Error de clase!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $presentación)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $presentación) !== 1){
       return "Error de presentación!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $ubicación)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $ubicación) !== 1){
       return "Error de ubicación!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $contraIn)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $contraIn) !== 1){
       return "Error de Contraindicaciones!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $cantidad)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $cantidad) !== 1){
       return "Error de cantidad!";
     }
     if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $precioV) !== 1){
@@ -160,39 +158,37 @@
 
    public function getEditarProd($descripcionEd, $fechaEd ,$composicionEd,$posologiaEd,$laboratorioEd,$tipoEd,$claseEd,$presentaciónEd,$ubicaciónEd,$contraInEd,$cantidadEd,$VentaEd,$id){
  
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $descripcionEd)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $descripcionEd) !== 1){
       return "Error de nombre!";
     }
     if(preg_match_all("/^([0-9]{4}\-[0-9]{2}\-[0-9]{2})$/", $fechaEd) !== 1){
-      $result = ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
-      echo json_encode($result);
-      die();
+      return ['resultado' => 'Error fecha', 'error' => 'Error de fecha vencimiento !'];
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $composicionEd)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $composicionEd) !== 1){
       return "Error de composicion de productos!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $posologiaEd)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $posologiaEd) !== 1){
       return "Error de pasologia!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $laboratorioEd)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $laboratorioEd) !== 1){
       return "Error de laboratorio!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $tipoEd)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $tipoEd) !== 1){
       return "Error de tipo producto!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $claseEd)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $claseEd) !== 1){
       return "Error de clase!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $presentaciónEd)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $presentaciónEd) !== 1){
       return "Error de presentación!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $ubicaciónEd)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $ubicaciónEd) !== 1){
       return "Error de ubicación!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $contraInEd)){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]+([a-zA-ZÀ-ÿ0-9\s,.-]){3,50}$/", $contraInEd) !== 1){
       return "Error de Contraindicaciones!";
     }
-    if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $cantidadEd)){
+    if(preg_match_all("/^[0-9]{1,10}$/", $cantidadEd) !== 1){
       return "Error de cantidad!";
     }
     if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $VentaEd) !== 1){
