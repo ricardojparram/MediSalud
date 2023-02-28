@@ -107,12 +107,12 @@
 
 			$mail->isSMTP(); 
 			$mail->SMTPDebug = 0;
-			$mail->Host = "smtp.gmail.com";
+			$mail->Host = _SMTP;
 			$mail->Port = 587;
 			$mail->SMTPSecure = 'tls';
 			$mail->SMTPAuth = true;
-			$mail->Username = 'cfesricardo@gmail.com'; 
-			$mail->Password = 'gsdmrveydcxqexpi'; 
+			$mail->Username = _SMTP_USER; 
+			$mail->Password = _SMTP_PASS; 
 
 			$mail->setFrom('medisalud-farmacia@gmail.com', 'Farmacia MediSalud C.A');
 			$mail->addAddress($email, $name);

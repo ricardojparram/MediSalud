@@ -10,6 +10,9 @@
     define("DIRECTORY" , "bin/controlador/");
     define("MODEL", "modelo/");
     define("CONTROLADOR", "Controlador.php");
+    define("_SMTP", "smtp.gmail.com");
+    define("_SMTP_USER", "cfesricardo@gmail.com");
+    define("_SMTP_PASS", "gsdmrveydcxqexpi");
 
 
     class configSistema{
