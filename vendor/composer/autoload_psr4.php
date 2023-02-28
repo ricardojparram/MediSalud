@@ -10,4 +10,5 @@ return array(
     'config\\' => array($baseDir . '/bin/config'),
     'component\\' => array($baseDir . '/bin/component'),
     'bin\\' => array($baseDir . '/bin'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
 );

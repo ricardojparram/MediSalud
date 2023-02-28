@@ -3,8 +3,9 @@
     "description": "Proyecto",
     "type": "project",
     "require": {
-        "php": "^7.3",
-        "setasign/fpdf": "^1.8"
+        "php": ">=7.3",
+        "setasign/fpdf": "^1.8",
+        "phpmailer/phpmailer": "^6.7"
     },
     "license": "proprietary",
     "autoload": {

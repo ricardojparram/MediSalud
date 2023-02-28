@@ -1,7 +1,14 @@
 $(document).ready(function(){
 
+
+  let click = 0;
+  setInterval(()=>{ click = 0 }, 5000);
+
   $("#boton").click((e)=>{
     e.preventDefault()
+    if(click >= 1) throw new Error('Spam de clicks');
+    click++;
+    
     $.ajax({
 
       type: "post",
@@ -20,6 +27,15 @@ $(document).ready(function(){
           $("#cedula").attr("style","border-color: red; background-image: url(assets/img/Triangulo_exclamacion.png); background-repeat: no-repeat; background-position: right calc(0.375em + 0.1875rem) center; background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);"); 
         }else{
           vemail = true;
+        }
+
+        if(data.resultado != "Correo enviado"){
+          Swal.fire({
+            title: 'Ha ocurrido un error!',
+            text: 'El envío del correo falló',
+            icon: 'error',
+          })
+          throw new Error('Error: El correo no se envió.')
         }
 
         if(vemail){
