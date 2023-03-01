@@ -19,6 +19,10 @@
     $objModel->mostrarDatos($_SESSION['cedula']);
   }
 
+  if(isset($_POST['usuarios'], $_POST['lista'])){
+    $objModel->mostrarUsuarios();
+  }
+
   if(isset($_POST['password'], $_POST['validarContraseña'])){
     $objModel->getValidarContraseña($_POST['password'], $_SESSION['cedula']);
   }

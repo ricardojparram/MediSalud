@@ -217,19 +217,8 @@
             <div class="card-body">
               <h5 class="card-title">Otros Usuarios</h5>
               <div class="bd-example">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    <img src="assets/img/messages-1.jpg" alt="Profile" class="imgUser">
-                    <p>Maria Hudson</p>
-                  </li>
-                  <li class="list-group-item">
-                    <img src="assets/img/messages-2.jpg" alt="Profile" class="imgUser">
-                    <p>Anna Nelson</p>
-                  </li>
-                  <li class="list-group-item">
-                    <img src="assets/img/messages-3.jpg" alt="Profile" class="imgUser">
-                    <p>David Muldon</p>
-                  </li>
+                <ul id="users" class="list-group list-group-flush">
+                  
                 </ul>
                 </div>
               </div>

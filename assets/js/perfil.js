@@ -23,6 +23,26 @@ $(document).ready(function(){
 		})
 	}
 
+	mostrarUsuarios();
+	function mostrarUsuarios(){
+		$.post('', {lista: 'mostrar', usuarios: 'usuarios'},
+			function(response){
+				let usuarios = JSON.parse(response);
+				console.log(usuarios);
+				let imgDefault = 'assets/img/profile_photo.jpg';
+				let lista = '';
+				usuarios.forEach(fila =>{
+					if(fila.img == null) fila.img = imgDefault
+
+					lista += ` <li class="list-group-item">
+			                    <img src="${fila.img}" alt="Profile" class="imgUser">
+			                    <p>${fila.nombre}</p>
+			                  </li>`
+				})
+				$('#users').append(lista);
+			})
+	}
+
 	$("#nameEdit").keyup(()=> {  validarNombre($("#nameEdit"),$("#error") ,"Error de nombre,") });
 	$("#apeEdit").keyup(()=> {  validarNombre($("#apeEdit"),$("#error") ,"Error de apellido,") });
 	$("#cedulaEdit").keyup(()=> {	validarCedula($("#cedulaEdit"),$("#error") ,"Error de cedula,") });
@@ -83,6 +103,7 @@ $(document).ready(function(){
 					if (data.edit.respuesta == "Editado correctamente") {
 						$('#formEditar').trigger('reset');
 						rellenar();
+						mostrarUsuarios();
 						Toast.fire({ icon: 'success', title: 'Usuario Actualizado' });
 						$("#perfil").click();
 					}

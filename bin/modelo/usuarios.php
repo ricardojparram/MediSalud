@@ -76,6 +76,8 @@ class usuarios extends DBConnect{
 
       if(!isset($data[0]["correo"])){
 
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+
         $new = $this->con->prepare("INSERT INTO `usuario`(`cedula`, `nombre`, `apellido`, `correo`, `password`, `nivel`, `status`) VALUES (?,?,?,?,?,?,1)");
         $new->bindValue(1, $this->cedula);
         $new->bindValue(2, $this->name); 

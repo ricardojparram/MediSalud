@@ -42,6 +42,23 @@ class perfil extends DBConnect{
         }
     }
 
+    public function mostrarUsuarios(){
+    	try {
+    		
+    		$new = $this->con->prepare("SELECT img, CONCAT(nombre, ' ', apellido) AS nombre FROM usuario
+    			WHERE status = 1
+    			ORDER BY RAND() LIMIT 4");
+    		$new->execute();
+    		$data = $new->fetchAll(\PDO::FETCH_OBJ);
+
+    		echo json_encode($data);
+    		die();
+
+    	} catch (\PDOException $e) {
+    		return $e;
+    	}
+    }
+
     public function getValidarContraseña($pass, $cedula){
     	if(preg_match_all("/^[A-Za-z0-9 *?=&_!¡()@#]{8,30}$/", $pass) == false) {
     		$resultado = ['resultado' => 'Error de contraseña' , 'error' => 'Correo inválida.'];
