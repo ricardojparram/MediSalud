@@ -11,6 +11,7 @@
       private $codigoP;
       private $cantidad;
       private $metodo;
+      private $moneda;
 
 
       function __construct(){
@@ -19,7 +20,7 @@
 
      //---------------------------------AGREGAR VENTAS--------------------------------
 
-     public function getAgregarVenta($cedula,$montoT,$metodo){
+     public function getAgregarVenta($cedula,$montoT,$metodo,$moneda){
 
      if(preg_match_all("/^[0-9]{3,30}$/", $cedula) != 1){
         return "Error de cedula!";
@@ -30,10 +31,14 @@
       if(preg_match_all("/^[0-9]{1,15}$/", $metodo) != 1){
         return "Error de metodo de pago!";
       }
+      if(!is_numeric($moneda)){
+        die('Error de moneda!');
+      }
     
       $this->cedula = $cedula; 
       $this->monto = $montoT;
       $this->metodo = $metodo;
+      $this->moneda = $moneda;
 
 
       return $this->agregarVenta();
@@ -49,11 +54,12 @@
 
       if(isset($data[0]["cedula"])){
 
-       $new = $this->con->prepare("INSERT INTO `venta`(`num_fact`, `fecha`, `monto`, `cedula_cliente`, `cod_tipo_pago`, `status`) VALUES (default,default,?,?,?,1)");
+       $new = $this->con->prepare("INSERT INTO `venta`(`num_fact`, `fecha`, `monto`, `cedula_cliente`, `cod_tipo_pago`, `cod_cambio`, `status`) VALUES (default,default,?,?,?,?,1)");
 
        $new->bindValue(1, $this->monto);
        $new->bindValue(2, $this->cedula);
        $new->bindValue(3, $this->metodo);
+       $new->bindValue(4, $this->moneda);
        $new->execute();
        $this->id = $this->con->lastInsertId();
        echo json_encode(['id' => $this->id]);
@@ -174,7 +180,11 @@
 
     public function getMostrarVentas(){
       try{
-        $query = "SELECT v.cedula_cliente, CONCAT('<button class=\"btn btn-success detalleV\" id=\"', v.num_fact ,'\" data-bs-toggle=\"modal\" data-bs-target=\"#detalleVenta\">Ver detalles</button>') as productos, v.fecha , tp.des_tipo_pago ,v.monto ,CONCAT('<button type=\"button\" id=\"', v.num_fact ,'\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#Borrar\"><i class=\"bi bi-trash3\"></i></button>') as opciones FROM venta v INNER JOIN tipo_pago tp ON v.cod_tipo_pago = tp.cod_tipo_pago WHERE v.status = 1";
+        $query = "SELECT v.cedula_cliente, CONCAT('<button class=\"btn btn-success detalleV\" id=\"', v.num_fact ,'\" data-bs-toggle=\"modal\" data-bs-target=\"#detalleVenta\">Ver detalles</button>') as productos, v.fecha , tp.des_tipo_pago,  CONCAT(IF(MOD(v.monto / cm.cambio, 1) >= 0.5, CEILING(v.monto / cm.cambio), FLOOR(v.monto / cm.cambio) + 0.5), ' ', m.nombre) as 'total_divisa' ,v.monto ,CONCAT('<button type=\"button\" id=\"', v.num_fact ,'\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#Borrar\"><i class=\"bi bi-trash3\"></i></button>') as opciones FROM venta v 
+          INNER JOIN tipo_pago tp ON v.cod_tipo_pago = tp.cod_tipo_pago 
+          INNER JOIN cambio cm ON cm.id_cambio = v.cod_cambio
+          INNER JOIN moneda m ON cm.moneda = m.id_moneda
+          WHERE v.status = 1;";
 
         $new = $this->con->prepare($query);
         $new->execute();
@@ -243,7 +253,7 @@
 
     public function getMostrarMoneda(){
      try{
-      $new = $this->con->prepare("SELECT * FROM moneda WHERE status = 1");
+      $new = $this->con->prepare("SELECT * FROM( SELECT c.id_cambio, m.nombre, c.cambio FROM cambio c INNER JOIN moneda m ON c.moneda = m.id_moneda WHERE c.status = 1 ORDER BY c.fecha DESC LIMIT 9999999) as tabla GROUP BY tabla.nombre");
       $new->execute();
       $data = $new->fetchAll(\PDO::FETCH_OBJ);
 

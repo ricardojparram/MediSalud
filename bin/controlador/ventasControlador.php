@@ -35,9 +35,9 @@
       }
 
 
-	    if(isset($_POST['cedula']) && isset($_POST['montoT']) && isset($_POST['metodo']) ){
+	    if(isset($_POST['cedula']) && isset($_POST['montoT']) && isset($_POST['metodo']) && isset($_POST['moneda']) ){
 
-	     $objModel->getAgregarVenta($_POST['cedula'] , $_POST['montoT'] , $_POST['metodo'] );
+	     $objModel->getAgregarVenta($_POST['cedula'] , $_POST['montoT'] , $_POST['metodo'] , $_POST['moneda'] );
 
 	  	}
 

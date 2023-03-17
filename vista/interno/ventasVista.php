@@ -72,7 +72,8 @@
                       <th scope="col">Productos</th>
                       <th scope="col">Fecha y Hora</th>
                       <th scope="col">Metodo de Pago</th>
-                      <th scope="col">Monto</th>
+                      <th scope="col">Total divisa</th>
+                      <th scope="col">Total Bs</th>
                       <th scope="col">Opciones</th>
                     </tr>
                   </thead>
@@ -82,7 +83,8 @@
                       <th scope="col">Productos</th>
                       <th scope="col">Fecha y Hora</th>
                       <th scope="col">Metodo de Pago</th>
-                      <th scope="col">Monto</th>
+                      <th scope="col">Total divisa</th>
+                      <th scope="col">Total Bs</th>
                       <th scope="col">Opciones</th>
                     </tr>
                   </tfoot>
@@ -171,6 +173,7 @@
                         <option selected disabled>Moneda</option>
                       </select>
                     </div>
+                    <p class="error" style="color:#ff0000;text-align: center;" id="error5"></p>
                   </div>
 
                   <div class="form-group col-md-4">  

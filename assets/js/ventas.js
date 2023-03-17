@@ -1,29 +1,27 @@
  $(document).ready(function(){
 
-  // MOSTRA TABLA CON DATATABLE
 
-     let tablaMostrar;         
-     rellenar();
-       function rellenar(){
-         $.ajax({
-          method: "POST",
-          url: " ",
-          dataType: "json",
-          data:{mostrar: "venta"},
-          success(data){
-            tablaMostrar = $('#tableMostrar').DataTable({
-              responsive : true,
-              data : data
-            });
-          }
-        })
+  let tablaMostrar;         
+  rellenar();
+  function rellenar(){
+    $.ajax({
+      method: "POST",
+      url: " ",
+      dataType: "json",
+      data:{mostrar: "venta"},
+      success(data){
+        tablaMostrar = $('#tableMostrar').DataTable({
+          responsive : true,
+          data : data
+        });
       }
-      // MOSTRA DETALLES DE VENTA POR PRODUCTO
+    })
+  }
 
-      let id;
+  let id;
 
-      $(document).on('click', '.detalleV' , function(){
-     
+  $(document).on('click', '.detalleV' , function(){
+
        id = this.id; // id = id
        console.log(id);
        $.post('',{detalleV : 'detV' , id}, function(data){
@@ -31,58 +29,62 @@
         console.log(lista);
         let tabla;
 
-         lista.forEach(row=>{
+        lista.forEach(row=>{
           tabla += `
-           <tr>
-             <td>${row.descripcion}</td>
-             <td>${row.cantidad}</td>
-             <td>${row.precio_actual}</td>                      
-           </tr>
+          <tr>
+          <td>${row.descripcion}</td>
+          <td>${row.cantidad}</td>
+          <td>${row.precio_actual}</td>                      
+          </tr>
           `  
         })
-         $('#ventaNombre').text(`Numero de Factura #${lista[0].num_fact}.`);
-         $('#bodyDetalle').html(tabla);
+        $('#ventaNombre').text(`Numero de Factura #${lista[0].num_fact}.`);
+        $('#bodyDetalle').html(tabla);
 
       })
-    })
+     })
 
-     
+
      // FUNCION CALCULATE PARA PRECIOS
-      selectMoneda()
-      var iva = parseFloat($('#config_iva').val());
-      var moneda = parseFloat($('.select2M').val());
-      selectOptions();
-      calculate();
+  selectMoneda()
+  var iva = parseFloat($('#config_iva').val());
+  var money;
+  $(document).on("change", '.select2M', function(){
+    money = $(this).children(":selected").attr("id");
+    calculate();
+  })
 
-      function calculate(){
-       let total_price = 0,
-       total_tax = 0;
-    // console.log('Calculando moneda:'+moneda);
-    // console.log('Calculando IVA:'+iva);
+
+  selectOptions();
+  calculate();
+
+  function calculate(){
+    let total_price = 0,
+    total_tax = 0;
 
     $('.table-body tbody tr').each( function(){
-         let row = $(this),
-         rate = row.find('.rate input').val(),
-         amount = row.find('.amount input').val();
+      let row = $(this),
+      rate = row.find('.rate input').val(),
+      amount = row.find('.amount input').val();
 
-         let sum = rate * amount;
-         let tax = ("0."+iva)*sum;
+      let sum = rate * amount;
+      let tax = ("0."+iva)*sum;
 
-         total_price = total_price + sum;
-         total_tax = total_tax + tax;
+      total_price = total_price + sum;
+      total_tax = total_tax + tax;
 
-         row.find('.sum').text( sum.toFixed(2) );
-         row.find('.tax').text( tax.toFixed(2) );
+      row.find('.sum').text( sum.toFixed(2) );
+      row.find('.tax').text( tax.toFixed(2) );
 
-      });
+    });
 
-      let precioTotal = (total_price + total_tax).toFixed(2);
-      let ivatotal = total_tax.toFixed(2);
-      let total = total_price.toFixed(2);
-      let cambio = (total / moneda).toFixed(2);
-      if(isNaN(cambio)){
-       cambio = "0"
-      }
+    let precioTotal = (total_price + total_tax).toFixed(2);
+    let ivatotal = total_tax.toFixed(2);
+    let total = total_price.toFixed(2);
+    let cambio = (precioTotal / money).toFixed(2);
+    if(isNaN(cambio) || money == 0){
+      cambio = "0"
+    }
       $('#montos').text(`IVA: ${ivatotal} - subTotal: ${total}`)
       $('#montos2').text(`Total + IVA: ${precioTotal}`)
       $('#cambio').text(`Al cambio: ${cambio}`)
@@ -102,7 +104,9 @@
         success(data){
           let option = ""
           data.forEach((row)=>{
-           option += `<option value="${row.cambio}">${row.nombre} ${row.cambio}</option>`
+            let alcambio = row.cambio;
+            if(row.cambio == 0) alcambio = "" 
+           option += `<option id="${alcambio}" class="option" value="${row.id_cambio}" >${row.nombre} ${alcambio}</option>`
          })
           $('.select2M').each(function(){
             if(this.children.length == 1){
@@ -294,9 +298,12 @@
     
    
      // REGISTRAR VENTA
-
-     $('#metodo').change(function(){
-      let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
+    let vmetodo, vmoneda;
+    $('#metodo').change(function(){
+      vmetodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
+    })
+    $('#moneda').change(function(){
+      vmoneda =  validarSelect($('#moneda'),$("#error5"),"Error de moneda")
     })
      $('.iva').keyup(()=> {validarNumero($(".iva"),$("#error4"),"Error de iva") });
 
@@ -321,11 +328,11 @@
          return cedula = true;
        }
      })
-
-       let metodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
+       vmoneda =  validarSelect($('#moneda'),$("#error5"),"Error de moneda")
+       vmetodo = validarNumero($("#metodo"),$("#error2"),"Error de metodo de pago");
        let montoT = validarNumero($("#monto"),$("#error3"),"Error de monto");
        let iva = validarNumero($(".iva"),$("#error4"),"Error de iva");
-
+       let selectM = validarSelect($('#moneda'),$("#error5"),"Error de moneda");
        let vproductos = true;
 
        $('.table-body tbody tr').each(function(){
@@ -350,17 +357,19 @@
       }else if($('.stock').val() == "" || $('.stock').val() === '0'){
         vstock = false
         $('#error').text('Seleccione un producto');
-      }
+      } 
 
+       
 
-      if(cedula && metodo && montoT && vproductos && vstock && iva && repetidos){
+      if(cedula && vmetodo && vmoneda && montoT && vproductos && vstock && iva && selectM && repetidos){
 
        console.log("Enviando ...");
 
        $.post('',{
         cedula: $('#cedula').val(),
         metodo: $('#metodo').val(),
-        montoT: $('#monto').val()
+        montoT: $('#monto').val(),
+        moneda: $('#moneda').val()
       },
       function(data){
        let idVenta = JSON.parse(data);
