@@ -16,35 +16,30 @@ class moneda extends DBConnect{
 	parent::__construct();
     }
    
-   public function getAgregarMoneda($alcambio,$moneda){
+   public function getAgregarCambio($alcambio,$tipo){
 
-   	 if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $moneda) == false){
+   	 if(preg_match_all("/^[0-9]{1,30}$/", $tipo) != 1){
             $resultado = ['resultado' => 'Error de moneda' , 'error' => 'moneda inválido.'];
-            echo json_encode($resultado);
-            die();
+            die($resultado);
         }
-     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $alcambio)){
-            return "Error de cambio!";
+     if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $alcambio) != 1){
+            die("Error de cambio!") ;
         }
     
-    $this->moneda = $moneda;
+    $this->moneda = $tipo;
     $this->alcambio = $alcambio;
-   
 
-     $this->agregarMoneda(); 
+     $this->agregarCambio(); 
 
 
    }
    
-     private function agregarMoneda(){
+     private function agregarCambio(){
      try{
-      $new = $this->con->prepare("INSERT INTO `moneda`(`id_moneda`, `cambio`, `nombre`, `status`) VALUES (default,?,?,1)");
-
+      $new = $this->con->prepare("INSERT INTO `cambio`(`id_cambio`, `cambio`, `fecha`, `moneda`, `status`) VALUES (DEFAULT,?,DEFAULT,?,1)");
       $new->bindValue(1 , $this->alcambio);
       $new->bindValue(2 , $this->moneda);
       $new->execute();
-      $data = $new->fetchAll();
-      
       $resultado = ['resultado' => 'Registado con exito'];
       echo json_encode($resultado);      
       die();
@@ -54,35 +49,50 @@ class moneda extends DBConnect{
       }
 
    }
-   public function getMostrarMoneda(){
-
+   public function getMostrarCambio(){
    	try{
-       $new = $this->con->prepare("SELECT  nombre,cambio, CONCAT('<button type=\"button\" class=\"btn btn-success editar\" data-bs-toggle=\"modal\" data-bs-target=\"#editarModal\" id=\"',id_moneda,'\"><i class=\"bi bi-pencil\"></i></button>
-        <button type=\"button\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#delModal\" id=\"',id_moneda,'\">
+       $new = $this->con->prepare("
+        SELECT m.nombre,c.cambio,c.fecha, CONCAT('<button type=\"button\" class=\"btn btn-success editar\" data-bs-toggle=\"modal\" data-bs-target=\"#editarModal\" id=\"',c.id_cambio,'\"><i class=\"bi bi-pencil\"></i></button>
+        <button type=\"button\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#delModal\" id=\"',c.id_cambio,'\">
         <i class=\"bi bi-trash3\"></i>
-        </button>') AS Opciones FROM moneda WHERE status = 1");
-     $new->execute();
-     $data = $new->fetchAll();
-     echo json_encode($data);
-     die();
+        </button>') AS Opciones FROM moneda m INNER JOIN cambio c ON c.moneda = m.id_moneda WHERE c.status = 1 AND m.status = 1");
+       $new->execute();
+       $data = $new->fetchAll();
+       echo json_encode($data);
+       die();
 
-    }catch(\PDOexection $error){
+     }catch(\PDOexection $error){
 
-     return $error;
+       return $error;
 
-    }
+     }
   }
 
-  public function getEliminarMoneda($id){
+  public function SelectM(){
+    try{
+       $new = $this->con->prepare("SELECT * FROM `moneda` WHERE status = 1");
+       $new->execute();
+       $data = $new->fetchAll();
+       echo json_encode($data);
+       die();
+
+     }catch(\PDOexection $error){
+
+       return $error;
+
+     }
+  }
+
+  public function getEliminarCambio($id){
    $this->id = $id;
 
-   $this->eliminarMoneda();
+   $this->eliminarCambio();
   }
 
-  private function eliminarMoneda(){
+  private function eliminarCambio(){
 
     try {
-      $new = $this->con->prepare("UPDATE `moneda` SET `status` = '0' WHERE `moneda`.`id_moneda` = ?");
+      $new = $this->con->prepare("UPDATE `cambio` SET `status` = '0' WHERE `id_cambio` = ? and status = 1");
       $new->bindValue(1, $this->id);
       $new->execute();
       $resultado = ['resultado' => 'Eliminado'];
@@ -103,7 +113,7 @@ class moneda extends DBConnect{
 
   private function unico(){
     try {
-      $new = $this->con->prepare("SELECT cambio, nombre FROM moneda WHERE id_moneda = ?");
+      $new = $this->con->prepare("SELECT * FROM `cambio` WHERE id_cambio = ?");
       $new->bindValue(1, $this->id);
       $new->execute();
       $datas = $new->fetchAll();
@@ -115,34 +125,37 @@ class moneda extends DBConnect{
     }
   }
 
-  public function getEditarMoneda($alcambio,$moneda, $unico){
+  public function getEditarCambio($alcambio,$moneda, $unico){
 
-     if(preg_match_all("/^[a-zA-Z]{3,30}$/", $moneda) == false){
+     if(preg_match_all("/^[0-9]{1,30}$/", $moneda) != 1){
             $resultado = ['resultado' => 'Error de Moneda' , 'error' => 'Moneda inválido.'];
             echo json_encode($resultado);
             die();
         }
-     if(preg_match_all("[!#-'*+\\-\\/0-9=?A-Z\\^-~]", $alcambio)){
-            return "Error de cambio!";
+     if(preg_match_all("/^([0-9]+\.+[0-9]|[0-9])+$/", $alcambio) != 1){
+            die("Error de cambio!");
         }
     
     $this->moneda = $moneda;
     $this->alcambio = $alcambio;
     $this->idedit = $unico;
-   
+    
+    date_default_timezone_set("america/caracas");
+    $this->fechaActual = date("Y-m-d G:i:s");
 
-     $this->editarMoneda(); 
+     $this->editarCambio(); 
 
 
    }
    
-     private function editarMoneda(){
+     private function editarCambio(){
      try{
-      $new = $this->con->prepare("UPDATE `moneda` SET `cambio`= ?,`nombre`= ? WHERE id_moneda = ?");
+      $new = $this->con->prepare("UPDATE `cambio` SET `cambio`= ?,`moneda`= ?, `fecha`= ? WHERE id_cambio = ? and status = 1");
 
       $new->bindValue(1, $this->alcambio);
       $new->bindValue(2, $this->moneda);
-      $new->bindValue(3, $this->idedit);
+      $new->bindValue(3, $this->fechaActual);
+      $new->bindValue(4, $this->idedit);
       $new->execute();
       $data = $new->fetchAll();
       
@@ -156,8 +169,109 @@ class moneda extends DBConnect{
 
    }
 
+   public function getMoneda(){
+      try{
+       $new = $this->con->prepare("SELECT`nombre`,CONCAT('<button type=\"button\" class=\"btn btn-success update\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal\" id=\"',id_moneda,'\"><i class=\"bi bi-pencil\"></i></button> <button type=\"button\" class=\"btn btn-danger delete\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteModal\" id=\"',id_moneda,'\"> <i class=\"bi bi-trash3\"></i></button>') FROM `moneda` WHERE status = 1");
+       $new->execute();
+       $data = $new->fetchAll();
+       echo json_encode($data);
+       die();
+
+     }catch(\PDOexection $error){
+
+       return $error;
+
+     }
+   }
+
+   public function getAgregarMoneda($name){
+    if(preg_match_all("/^[a-zA-ZÀ-ÿ]{3,30}$/", $name) == false){
+      die('moneda inválido.');
+    }
+    
+    $this->moneda = $name;
+
+    return $this->agregarMoneda();
+
+   }
+   
+   private function agregarMoneda(){
+    try{
+      $new = $this->con->prepare("INSERT INTO `moneda`(`id_moneda`, `nombre`, `status`) VALUES (DEFAULT,?,1)");
+      $new->bindValue(1, $this->moneda);
+      $new->execute();
+      $resultado = ['resultado' => 'Registado con exito'];
+      echo json_encode($resultado);      
+      die();
+
+    }catch(\PDOexection $error){
+      return $error;
+    }
+   }
+
+   public function mostrarM($id){
+    $this->id = $id;
+    
+    try{
+       $new = $this->con->prepare("SELECT * FROM `moneda` WHERE status = 1 and id_moneda = ?");
+       $new->bindValue(1, $this->id);
+       $new->execute();
+       $data = $new->fetchAll();
+       echo json_encode($data);
+       die();
+
+     }catch(\PDOexection $error){
+
+       return $error;
+
+     }
 
 
+   }
+
+   public function getEditarM($nameEdit, $id){
+     if(preg_match_all("/^[a-zA-ZÀ-ÿ]{3,30}$/", $nameEdit) == false){
+      die('moneda inválido.');
+    }
+    
+    $this->id = $id;
+    $this->moneda = $nameEdit;
+
+    return $this->editarM();
+  }
+
+  private function editarM(){
+    try{
+      $new = $this->con->prepare("UPDATE moneda SET nombre = ? WHERE status = 1 AND id_moneda = ?");
+      $new->bindValue(1, $this->moneda);
+      $new->bindValue(2, $this->id);
+      $new->execute();
+      $resultado = ['resultado' => 'Actualizado con exito'];
+      echo json_encode($resultado);      
+      die();
+
+    }catch(\PDOexection $error){
+      return $error;
+    }
+  }
+
+  public function getEliminarM($id){
+    $this->id = $id;
+
+    try{
+       $new = $this->con->prepare("UPDATE moneda SET status = 0 WHERE id_moneda = ? AND status = 1");
+       $new->bindValue(1, $this->id);
+       $new->execute();
+       $data = ['resultado' => 'Eliminado con exito'];
+       echo json_encode($data);
+       die();
+
+     }catch(\PDOexection $error){
+
+       return $error;
+
+     }
+  }
 
 }
 ?>

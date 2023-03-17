@@ -159,6 +159,24 @@ CREATE TABLE `tipo_pago`(
     `status` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+
+-- TABLA PARA LA MONEDA 
+CREATE TABLE `moneda`(
+    `id_moneda` int AUTO_INCREMENT PRIMARY KEY,
+    `nombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+    `status` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- TABLA PARA LA CAMBIO 
+CREATE TABLE `cambio`(
+    `id_cambio` int AUTO_INCREMENT PRIMARY KEY,
+    `cambio` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
+    `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `moneda` int NOT NULL,
+    `status` int NOT NULL,
+    FOREIGN KEY(`moneda`) REFERENCES `moneda`(`id_moneda`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
 -- TABLA PARA LAS VENTAS 
 CREATE TABLE `venta`(
     `num_fact` int AUTO_INCREMENT PRIMARY KEY,
@@ -166,19 +184,14 @@ CREATE TABLE `venta`(
     `monto` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
     `cedula_cliente` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
     `cod_tipo_pago` int NOT NULL,
+    `cod_cambio` int NOT NULL,
     `status` int NOT NULL,
     FOREIGN KEY (`cedula_cliente`) REFERENCES `cliente`(`cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`cod_tipo_pago`) REFERENCES `tipo_pago`(`cod_tipo_pago`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`cod_tipo_pago`) REFERENCES `tipo_pago`(`cod_tipo_pago`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`cod_cambio`) REFERENCES `cambio`(`id_cambio`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 
--- TABLA PARA LA MONEDA 
-CREATE TABLE `moneda`(
-    `id_moneda` int AUTO_INCREMENT PRIMARY KEY,
-    `cambio` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-    `nombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
-    `status` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- TABLA PARA LA RELACIÓN VENTA - PRODUCTO 
 CREATE TABLE `venta_producto`(
@@ -195,10 +208,12 @@ CREATE TABLE `compra`(
     `cod_compra` int AUTO_INCREMENT PRIMARY KEY,
     `orden_compra` varchar(12) NOT NULL, 
     `fecha` date NOT NULL,
-    `monto_total` varchar(12) NOT NULL,
-    `status` int NOT NULL,
+    `monto_total` varchar(20) NOT NULL,
     `cod_prove` int NOT NULL,
-    FOREIGN KEY (`cod_prove`) REFERENCES `proveedor`(`cod_prove`) ON DELETE CASCADE ON UPDATE CASCADE
+    `cod_cambio` int NOT NULL,
+    `status` int NOT NULL,
+    FOREIGN KEY (`cod_prove`) REFERENCES `proveedor`(`cod_prove`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`cod_cambio`) REFERENCES `cambio`(`id_cambio`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- TABLA PARA LAS COMPRA POR PRODUCTO 
@@ -225,20 +240,33 @@ INSERT INTO `cliente`(`cedula`, `nombre`, `apellido`, `direccion`, `status`) VAL
 ('30233547','Enmanuel','Torres','Tierra Negra',1),
 ('29727935','Michelle','Torres','Tierra Negra',1),
 ('28956745','Victor','Aparicio','Chivacoa',1);
+INSERT INTO `contacto_cliente` (`celular`, `correo`, `cedula`) VALUES 
+('04123893311', 'victor123@gmail.com', '28956745'), 
+('04145443212', 'torresmichell213@hotmail.com', '29727935'), 
+('04163889393', 'enmanuel551@email.es', '30233547');
+
 -- INSERTA LOS LABORATORIOS
 INSERT INTO `laboratorio`(`rif`, `direccion`, `razon_social`, `status`) VALUES 
 (0000000,'ninguno','NO ASIGNADO',1),
 (1234567,'Av. Venezuela','MedicalCare',1),
 (7788564,'Pueblo Nuevo','Bayer',1),
 (2394739,'Pueblo Nuevo','Geven',1);
+
+INSERT INTO `contacto_lab` (`telefono`, `contacto`, `cod_lab`) VALUES 
+('0251939333', NULL, '2'), ('04128883131', NULL, '4'), ('02510503132', NULL, '3');
+
 -- INSERTA LAS PROVEEDOR
 INSERT INTO `proveedor`(`rif`, `direccion`, `razon_social`, `status`) VALUES 
 (12345678,'Av.Venezuela','DroNena',1),
 (34534565,'Pueblo Nuevo','DroAra',1),
 (12232432,'Centro','DroNose',1);
+
+INSERT INTO `contacto_prove` (`telefono`, `contacto`, `cod_prove`) VALUES 
+('02513993323', NULL, '1'), ('0412949331', NULL, '2'), ('02519393888', 'drogueriaAra.com', '3');
+
 -- INSERTA LAS PRECENTACIONES
 INSERT INTO `presentacion` (`cod_pres`, `cantidad`, `medida`, `peso`, `status`) VALUES
-(1,0,'NO ASIGNADO','0',1),
+(1,'','NO ASIGNADO','',1),
 (2, 30, 'mg', '250.00', 1),
 (3, 50, 'mg', '500.00', 1),
 (4, 20, 'lts', '1.00', 1),
@@ -254,5 +282,6 @@ INSERT INTO `clase`(`des_clase`, `status`) VALUES ('NO ASIGNADO',1);
 INSERT INTO `tipo_pago`(`cod_tipo_pago`, `des_tipo_pago`, `status`) VALUES 
 (1,'Tarjeta de credito',1),
 (2,'Efectivo',1),
-(3,'divisa',1),
+(3,'Divisa',1),
 (4,'Pago movil',1);
+
