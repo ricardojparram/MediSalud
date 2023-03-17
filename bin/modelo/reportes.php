@@ -22,20 +22,30 @@
 		private function obtenerReporte(){
 			switch ($this->tipo) {
 				case 'compra':
-				$this->sql="SELECT c.orden_compra, p.razon_social, c.fecha, SUM(cp.cantidad) as cantidad,
-							c.monto_total FROM compra c 
+				$this->sql="SELECT c.orden_compra, p.razon_social, SUM(cp.cantidad) as cantidad, c.fecha,
+							CONCAT(IF(MOD(c.monto_total / cm.cambio, 1) >= 0.5, CEILING(c.monto_total / cm.cambio), FLOOR(c.monto_total / cm.cambio) + 0.5), ' ', m.nombre) as 'total_divisa', c.monto_total 
+							FROM compra c 
 							INNER JOIN compra_producto cp
-							ON cp.cod_compra = c.cod_compra
+								ON cp.cod_compra = c.cod_compra
 							INNER JOIN proveedor p 
-							ON c.cod_prove = p.cod_prove
+								ON c.cod_prove = p.cod_prove
+							INNER JOIN cambio cm 
+								ON cm.id_cambio = c.cod_cambio
+							INNER JOIN moneda m 
+								ON m.id_moneda = cm.moneda;
 							WHERE fecha BETWEEN ? AND ? AND c.status = 1
 							GROUP BY cp.cod_compra ORDER BY c.fecha";
 				break;
 				case 'venta':
 				$this->sql="SELECT v.num_fact, c.cedula, CONCAT(c.nombre,' ',c.apellido) as nombre,
-							v.fecha, v.monto  FROM venta v 
+							v.fecha, CONCAT(IF(MOD(v.monto / cm.cambio, 1) >= 0.5, CEILING(v.monto / cm.cambio), FLOOR(v.monto / cm.cambio) + 0.5), ' ', m.nombre) as 'total_divisa' ,v.monto  
+							FROM venta v 
 							INNER JOIN cliente c 
-							ON v.cedula_cliente = c.cedula
+								ON v.cedula_cliente = c.cedula
+							INNER JOIN cambio cm 
+								ON cm.id_cambio = v.cod_cambio
+							INNER JOIN moneda m 
+								ON m.id_moneda = cm.moneda;
 							WHERE fecha BETWEEN CONCAT(?, ' 00:00:00') AND CONCAT(?, ' 23:59:59') AND c.status = 1
 							ORDER BY v.fecha";
 				break;
@@ -94,7 +104,7 @@
 			$nombre = ($this->tipo == 'compra') ? 'compras_'.$fechaI.'_'.$fechaF.'.pdf' : 'ventas_'.$fechaI.'_'.$fechaF.'.pdf';
 			$titulo = ($this->tipo == 'compra') ? 'Reporte de Compras' : 'Reporte de Ventas';
 			$subTitulo = $fechaI.' a '.$fechaF;
-			$columnas = ($this->tipo == 'compra') ? [0 => 'Orden', 1 => 'Proveedor', 2 => 'Fecha', 3 => 'Cantidad', 4 => 'Monto'] : [0 => 'N°', 1 => 'Cédula', 2 => 'Nombre', 3 => 'Fecha', 4 => 'Monto'];
+			$columnas = ($this->tipo == 'compra') ? [0 => 'Orden', 1 => 'Proveedor', 2 => 'Cantidad', 3 => 'Fecha', 4 => 'Total Divisa', 5 => 'Monto Total'] : [0 => 'N°', 1 => 'Cédula', 2 => 'Nombre', 3 => 'Fecha', 4 => 'Total Divisa', 5 => 'Monto Total'];
 
 			$pdf = new FPDF();
 			$pdf->AddPage();
@@ -108,33 +118,35 @@
 			$pdf->Cell(0,10,$subTitulo,0,0,'C');
 			$pdf->Ln(18); 
 
-			$pdf->SetFont('Helvetica','B',12);
+			$pdf->SetFont('Helvetica','B',9);
 			$pdf->SetFillColor(210, 224, 137);
 
-			$pdf->Cell(25,10,utf8_decode($columnas[0]),1,0,'C',1);
-			$pdf->Cell(40,10,utf8_decode($columnas[1]),1,0,'C',1);
-			$pdf->Cell(45,10,utf8_decode($columnas[2]),1,0,'C',1);
-			$pdf->Cell(40,10,utf8_decode($columnas[3]),1,0,'C',1);
-			$pdf->Cell(30,10,utf8_decode($columnas[4]),1,1,'C',1);
+			$pdf->Cell(20,10,utf8_decode($columnas[0]),1,0,'C',1);
+			$pdf->Cell(30,10,utf8_decode($columnas[1]),1,0,'C',1);
+			$pdf->Cell(35,10,utf8_decode($columnas[2]),1,0,'C',1);
+			$pdf->Cell(35,10,utf8_decode($columnas[3]),1,0,'C',1);
+			$pdf->Cell(30,10,utf8_decode($columnas[4]),1,0,'C',1);
+			$pdf->Cell(30,10,utf8_decode($columnas[5]),1,1,'C',1);
 
-			$pdf->SetFont('Arial','',12);
+			$pdf->SetFont('Arial','',9);
 			$pdf->SetFillColor(245,245,245);
 
 			$total = 0;
 
 			foreach ($reporte as $col => $value) {
 
-				$pdf->Cell(25,10,utf8_decode($value[0]),1,0,'C',1);
-				$pdf->Cell(40,10,utf8_decode($value[1]),1,0,'C',1);
-				$pdf->Cell(45,10,utf8_decode($value[2]),1,0,'C',1);
-				$pdf->Cell(40,10,utf8_decode($value[3]),1,0,'C',1);
-				$pdf->Cell(30,10,utf8_decode($value[4]),1,1,'C',1);
-				$total += $value[4];
+				$pdf->Cell(20,10,utf8_decode($value[0]),1,0,'C',1);
+				$pdf->Cell(30,10,utf8_decode($value[1]),1,0,'C',1);
+				$pdf->Cell(35,10,utf8_decode($value[2]),1,0,'C',1);
+				$pdf->Cell(35,10,utf8_decode($value[3]),1,0,'C',1);
+				$pdf->Cell(30,10,utf8_decode($value[4]),1,0,'C',1);
+				$pdf->Cell(30,10,utf8_decode($value[5]),1,1,'C',1);
+				$total += $value[5];
 			}
 			
 			$pdf->SetFillColor(210, 224, 137);
-			$pdf->setX(125);
-			$pdf->Cell(40,10,utf8_decode('Monto total'),1,0,'C',1);
+			$pdf->setX(135);
+			$pdf->Cell(30,10,utf8_decode('Monto total'),1,0,'C',1);
 			$pdf->Cell(30,10,utf8_decode($total),1,1,'C',1);
 
 			$repositorio = 'assets/reportes/'.$nombre;

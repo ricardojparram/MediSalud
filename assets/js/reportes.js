@@ -48,13 +48,15 @@ $(document).ready(function(){
 						<th scope="col">Cédula</th>
 						<th scope="col">Cliente</th>
 						<th scope="col">Fecha</th>
-						<th scope="col">Monto</th>
+						<th scope="col">Total divisa</th>
+						<th scope="col">Total Bs</th>
 					 </tr>`;
 			$('#reporteLista thead').html(thead);
 			columns = [{data : 'num_fact'},
 					   {data : 'cedula'},
 					   {data: 'nombre'},
 					   {data : 'fecha'},
+					   {data : 'total_divisa'},
 					   {data : 'monto'}];
 			break;
 
@@ -64,13 +66,15 @@ $(document).ready(function(){
 						<th scope="col">Proveedor</th>
 						<th scope="col">Fecha</th>
 						<th scope="col">Cantidad de Productos</th>
-						<th scope="col">Monto Total</th>
+						<th scope="col">Total divisa</th>
+						<th scope="col">Total Bs</th>
 					 </tr>`;
 			$('#reporteLista thead').html(thead);	
 			columns = [{data : 'orden_compra'},
 					   {data : 'razon_social'},
 					   {data : 'fecha'},
 					   {data : 'cantidad'},
+					   {data : 'total_divisa'},
 					   {data : 'monto_total'}];
 			break;	
 			default: $('#error').text('Tipo de reporte inválido.');	 
