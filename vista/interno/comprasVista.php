@@ -74,7 +74,8 @@
                         <th scope="col">Proveedor</th>
                         <th scope="col">Productos</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Monto</th>
+                        <th scope="col">Total divisa</th>
+                        <th scope="col">Total Bs</th>
                         <th width="1%" scope="col">Opciones</th>
                       </tr>
 
@@ -104,9 +105,6 @@
     <div class="modal-content">
       <div class="modal-header alert alert-success">
         <h4 class="modal-title"> <strong>Registrar Compra</strong> </h4>
-        <label class="IVA" for="config_iva">IVA:
-          <input type="text" id="config_iva" value="16"/>%
-        </label>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -139,6 +137,32 @@
                   <div class="input-group">
                     <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca el orden de compra correspondiente"><i class="bi bi-envelope"></i></button> 
                     <input class="form-control"  id="orden" placeholder="">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12">  
+            <div class="container-fluid">
+              <div class="row">
+
+                <div class="form-group col-6">                          
+                  <label class="col-form-label"> <strong>IVA</strong> </label>
+                  <div class="input-group">
+                      <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Introduzca un IVA para la venta">%</button> 
+                      <input class="form-control iva" type="text" id="config_iva" value="16"/>
+                    </div>
+                </div>
+
+                <div class="form-group col-6">                          
+                  <label class="col-form-label"> <strong>Moneda</strong> </label>
+                  <div class="input-group">
+                    <button type="button" class="iconos btn btn-secondary" data-bs-trigger="hover focus"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Evaluara el Total al valor de la moneda Seleccionada"><i class="bi bi-currency-exchange"></i></button> 
+                      <select class="form-select select2M" id="moneda">
+                        <option selected disabled>Moneda</option>
+                      </select>
                   </div>
                 </div>
 
@@ -205,9 +229,10 @@
                   <br>
                 </div>
                 <div class="text-end">
-                    <p id="montos"></p>
-                    <p id="montos2"></p>
-                  </div>
+                  <p id="montos"></p> 
+                  <p id="montos2"></p>
+                  <p id="cambio"></p>
+                </div>
               </div>
             </div>
           </div>
@@ -277,12 +302,6 @@
 <!-- FINAL MODAL DE PRODUCTOS -->
 
 <?php $VarComp->js();?>
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
-    integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    ></script>
 <script src="assets/js/chosen.jquery.min.js"></script>
 <script src="assets/js/compras.js"></script>
 </html>

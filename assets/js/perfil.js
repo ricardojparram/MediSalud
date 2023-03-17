@@ -39,7 +39,7 @@ $(document).ready(function(){
 			                    <p>${fila.nombre}</p>
 			                  </li>`
 				})
-				$('#users').append(lista);
+				$('#users').html(lista);
 			})
 	}
 

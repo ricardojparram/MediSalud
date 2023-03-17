@@ -20,6 +20,31 @@ $(document).ready(function() {
 		})
 
 	}
+	selectMoneda();
+	function selectMoneda(){
+		$.ajax({
+			url: '',
+			method: 'POST',
+			dataType: 'json',
+			data: {
+				selectM : 'moneda'
+			},
+			success(data){
+				let option = ""
+				data.forEach((row)=>{
+					let alcambio = row.cambio;
+					if(row.cambio == 0) alcambio = "" 
+						option += `<option id="${alcambio}" value="${row.id_cambio}">${row.nombre} ${alcambio}</option>`
+				})
+				$('#moneda').each(function(){
+					if(this.children.length == 1){
+						$(this).append(option);
+
+					}
+				})
+			}
+		})
+	}
 
 	let click = 0;
 	setInterval(()=>{ click = 0; }, 2000); 
@@ -47,6 +72,11 @@ $(document).ready(function() {
 
     var iva = parseFloat($('#config_iva').val());
 
+	let money = 0;
+	$('#moneda').on("change", function(){
+		money = $(this).children(":selected").attr("id");
+		calculate();
+	})
 	calculate();
 	selectOptions();
 
@@ -74,11 +104,15 @@ $(document).ready(function() {
 		let precioTotal = Math.abs((total_price + total_tax).toFixed(2));
 		let ivatotal = Math.abs(total_tax.toFixed(2));
 		let total = total_price.toFixed(2);
+		let cambio = (precioTotal / money).toFixed(2);
+		if(isNaN(cambio) || money == 0){
+			cambio = "0";
+		}
 
 		$('#montos').text(`IVA: ${ivatotal} - Total: ${total}`)
 		$('#montos2').text(`Total + IVA: ${precioTotal}`)
+		$('#cambio').text(`Al cambio: ${cambio}`)
 		$('#monto').val(precioTotal)
-
 
 	}
 
@@ -177,7 +211,6 @@ $(document).ready(function() {
 
 	$('#config_iva').on('keyup',function(){
 		iva = parseFloat($(this).val());
-		console.log(iva);
 
 		if (iva < 0 || iva > 100 || isNaN(iva)){
 			iva = 0;
@@ -233,7 +266,10 @@ $(document).ready(function() {
 			validarOrden($('#orden'), $('#error'));
 		}
 	})
-
+	let vmoneda = false;
+	$('#moneda').change(function(){
+      vmoneda =  validarSelect($('#moneda'),$("#error5"),"Error de moneda")
+    })
 
 	$('#registrar').click((e)=>{
 		e.preventDefault()
@@ -242,7 +278,7 @@ $(document).ready(function() {
 
 		let vorden, vproductos, vstock = true, vprecio = true;
 		vorden = validarNumero($('#orden'), $('#error'), "Error de Orden,");
-
+		vmoneda = validarSelect($('#moneda'),$("#error5"),"Error de moneda");
 		$('.amount input').each(function(){ validarStock($(this)) });
 		$('.rate input').each(function(){ validarPrecio($(this)) });
 		
@@ -268,13 +304,14 @@ $(document).ready(function() {
 			}
 		})
 
-		if(vorden && vproductos && vstock && vprecio){
+		if(vorden && vproductos && vstock && vprecio && vmoneda){
 
 			$.post('',{
 				proveedor : $('#proveedor').val(),
 				orden : $('#orden').val(),
 				fecha : $('#fecha').val(),
-				montoT : $('#monto').val()
+				montoT : $('#monto').val(),
+				cambio : $('#moneda').val()
 			},
 			function(response){
 				let data = JSON.parse(response);
@@ -341,6 +378,7 @@ $(document).ready(function() {
 		$('#agregarform').trigger('reset');
 		$('.removeRow').click(); 
 		$('#Agregar input').attr("style","border-color: none; background-image: none;")
+		$('#Agregar select').attr("style","border-color: none; background-image: none;")
 		$('#error').text('');
 		filaN()
 		fechaHoy($('#fecha'));

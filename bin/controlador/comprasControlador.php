@@ -19,10 +19,14 @@
 	if(isset($_POST['mostrar'])){
 		$objModel->mostrarCompras();
 	}
+	if (isset($_POST['selectM'])) {
+		$objModel->mostrarMoneda();
+	}
 
 	if(isset($_POST['select'])){
 		$objModel->mostrarSelect();
 	}
+
 	if(isset($_GET['producto']) && isset($_GET['fill'])){
 		$objModel->productoDetalle($_GET['producto']);
 	}
@@ -31,8 +35,8 @@
 		$objModel->getOrden($_POST['orden']);
 	}
 
-	if(isset($_POST['proveedor']) && isset($_POST['orden']) && isset($_POST['fecha']) && isset($_POST['montoT'])){
-		$objModel->getCompras($_POST['proveedor'], $_POST['orden'], $_POST['fecha'], $_POST['montoT']);
+	if(isset($_POST['proveedor']) && isset($_POST['orden']) && isset($_POST['fecha']) && isset($_POST['cambio']) && isset($_POST['montoT'])){
+		$objModel->getCompras($_POST['proveedor'], $_POST['orden'], $_POST['fecha'], $_POST['cambio'], $_POST['montoT']);
 	}
 	if(isset($_POST['cantidad']) && isset($_POST['precio']) && isset($_POST['producto']) && isset($_POST['id'])){
 		$objModel->getProducto($_POST['cantidad'], $_POST['precio'], $_POST['producto'], $_POST['id']);

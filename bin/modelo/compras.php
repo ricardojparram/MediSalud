@@ -9,6 +9,7 @@
 		private $orden;
 		private $fecha;
 		private $montoT;
+		private $cambio;
 
 		private $producto;
 		private $cantidad;
@@ -23,10 +24,12 @@
 
 			try {
 				
-				$query = "SELECT c.orden_compra, p.razon_social, CONCAT('<a class=\"a-asd detalleCompra\" id=\"', c.cod_compra ,'\" data-bs-toggle=\"modal\" data-bs-target=\"#detalleCompra\">Ver detalles</a>') as productos, c.fecha, c.monto_total, CONCAT('<button type=\"button\" id=\"', c.cod_compra ,'\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#Borrar\"><i class=\"bi bi-trash3\"></i></button>') as opciones FROM compra c 
-				INNER JOIN proveedor p
-				ON c.cod_prove = p.cod_prove 
-				WHERE c.status = 1";
+				$query = "SELECT c.orden_compra, p.razon_social, CONCAT('<a class=\"a-asd detalleCompra\" id=\"', c.cod_compra ,'\" data-bs-toggle=\"modal\" data-bs-target=\"#detalleCompra\">Ver detalles</a>') as productos, c.fecha, CONCAT(IF(MOD(c.monto_total / cm.cambio, 1) >= 0.5, CEILING(c.monto_total / cm.cambio), FLOOR(c.monto_total / cm.cambio) + 0.5), ' ', m.nombre) as 'total_divisa', c.monto_total, CONCAT('<button type=\"button\" id=\"', c.cod_compra ,'\" class=\"btn btn-danger borrar\" data-bs-toggle=\"modal\" data-bs-target=\"#Borrar\"><i class=\"bi bi-trash3\"></i></button>') as opciones 
+					FROM compra c 
+					INNER JOIN proveedor p ON c.cod_prove = p.cod_prove 
+					INNER JOIN cambio cm ON cm.id_cambio = c.cod_cambio
+					INNER JOIN moneda m ON cm.moneda = m.id_moneda
+					WHERE c.status = 1;";
 
 				$new = $this->con->prepare($query);
 				$new->execute();
@@ -70,6 +73,28 @@
 			}
 		}
 
+		public function mostrarMoneda(){
+			try{
+				$new = $this->con->prepare("
+					SELECT * FROM(
+						SELECT c.id_cambio, m.nombre, c.cambio FROM cambio c 
+						INNER JOIN moneda m ON c.moneda = m.id_moneda 
+						WHERE c.status = 1 
+						ORDER BY c.fecha DESC LIMIT 9999999
+					) as tabla 
+					GROUP BY tabla.nombre");
+				$new->execute();
+				$data = $new->fetchAll(\PDO::FETCH_OBJ);
+
+				echo json_encode($data);
+				die();
+
+			}catch(\PDOexection $error){
+
+				return $error;   
+
+			} 
+		}
 
 		public function productoDetalle($id){
 			if(preg_match_all("/^[0-9]{1,10}$/", $id) != 1){
@@ -119,7 +144,7 @@
 			}
 		}
 
-		public function getcompras($prove, $orden, $fecha, $montoT){
+		public function getCompras($prove, $orden, $fecha, $cambio, $montoT){
 
 			if(preg_match_all("/^[0-9]{1,10}$/", $prove) != 1){
 				die(json_encode(['error' => 'Proveedor inválido.']));
@@ -130,6 +155,9 @@
 			if(preg_match_all("/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/", $fecha) != 1){
 				die(json_encode(['error' => 'Fecha inválida.']));
 			}
+			if(!is_numeric($cambio)){
+				die(json_encode(['error' => 'Moneda inválida.']));
+			}
 			if(!is_numeric($montoT)){
 				die(json_encode(['error' => 'Monto inválido.']));
 			}
@@ -137,6 +165,7 @@
 			$this->proveedor = abs($prove);
 			$this->orden = abs($orden);
 			$this->fecha = $fecha;
+			$this->cambio = abs($cambio);
 			$this->montoT = abs($montoT);
 
 			$this->registrarCompras();
@@ -155,11 +184,12 @@
 					die(json_encode(['resultado' => 'Error de orden', 'error' => 'Orden de compra ya registrada.']));
 				}
 
-				$new = $this->con->prepare('INSERT INTO compra (orden_compra, fecha, monto_total, status , cod_prove) VALUES (?, ?, ?, 1, ?)');
+				$new = $this->con->prepare('INSERT INTO compra (orden_compra, fecha, cod_cambio, monto_total, status , cod_prove) VALUES (?, ?, ?, ?, 1, ?)');
 				$new->bindValue(1, $this->orden);
 				$new->bindValue(2, $this->fecha);
-				$new->bindValue(3, $this->montoT);
-				$new->bindValue(4, $this->proveedor);
+				$new->bindValue(3, $this->cambio);
+				$new->bindValue(4, $this->montoT);
+				$new->bindValue(5, $this->proveedor);
 				$new->execute();
 
 				$this->id = $this->con->lastInsertId();
