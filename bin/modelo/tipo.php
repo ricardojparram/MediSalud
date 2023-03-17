@@ -14,7 +14,7 @@ class tipo extends DBConnect{
 	}
 
 	public function getAgregarTipo($tipo){
-		if(preg_match_all("/^[a-zA-ZÀ-ÿ]{0,30}$/", $tipo) == false){
+		if(preg_match_all("/^[a-zA-Z]{0,30}$/", $tipo) == false){
             $resultado = ['resultado' => 'Error de nombre' , 'error' => 'Nombre inválido.'];
             echo json_encode($resultado);
             die();
