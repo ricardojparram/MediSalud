@@ -32,8 +32,8 @@
 							INNER JOIN cambio cm 
 								ON cm.id_cambio = c.cod_cambio
 							INNER JOIN moneda m 
-								ON m.id_moneda = cm.moneda;
-							WHERE fecha BETWEEN ? AND ? AND c.status = 1
+								ON m.id_moneda = cm.moneda
+							WHERE c.fecha BETWEEN ? AND ? AND c.status = 1
 							GROUP BY cp.cod_compra ORDER BY c.fecha";
 				break;
 				case 'venta':
@@ -45,8 +45,8 @@
 							INNER JOIN cambio cm 
 								ON cm.id_cambio = v.cod_cambio
 							INNER JOIN moneda m 
-								ON m.id_moneda = cm.moneda;
-							WHERE fecha BETWEEN CONCAT(?, ' 00:00:00') AND CONCAT(?, ' 23:59:59') AND c.status = 1
+								ON m.id_moneda = cm.moneda
+							WHERE v.fecha BETWEEN CONCAT(?, ' 00:00:00') AND CONCAT(?, ' 23:59:59') AND c.status = 1
 							ORDER BY v.fecha";
 				break;
 				
