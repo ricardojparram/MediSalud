@@ -28,7 +28,6 @@ $(document).ready(function(){
 		$.post('', {lista: 'mostrar', usuarios: 'usuarios'},
 			function(response){
 				let usuarios = JSON.parse(response);
-				console.log(usuarios);
 				let imgDefault = 'assets/img/profile_photo.jpg';
 				let lista = '';
 				usuarios.forEach(fila =>{
@@ -53,15 +52,58 @@ $(document).ready(function(){
 		$('#imgEditar').attr('src', 'assets/img/profile_photo.jpg');
 	})
 
-	$('#foto').change(function(){
-		let imagen = $('#foto')[0].files[0];
+	let imagen = document.getElementById('imgModal')
+	let	imgPreview = document.getElementById('imgEditar')
+	let	input = document.getElementById('foto')
 
-		if(imagen == null || imagen == ""){
-			throw new Error('Imagen inválida');
+	input.addEventListener('change', function (e) {
+		var files = e.target.files;
+		var done = function (url) {
+			// input.value = '';
+			imagen.src = url;
+			$('#fotoModal').modal('show');
+		};
+		var reader;
+		var file;
+		var url;
+
+		if (files && files.length > 0) {
+			file = files[0];
+
+			if (URL) {
+				done(URL.createObjectURL(file));
+			} else if (FileReader) {
+				reader = new FileReader();
+				reader.onload = function (e) {
+					done(reader.result);
+				};
+				reader.readAsDataURL(file);
+			}
 		}
+	});
 
-		let url = URL.createObjectURL(imagen);
-		$('#imgEditar').attr('src', url)
+	$('#fotoModal').on('shown.bs.modal', function () {
+		cropper = new Cropper(imagen, {
+			aspectRatio: 1,
+			viewMode: 3,
+		});
+	}).on('hidden.bs.modal', function () {
+		cropper.destroy();
+		cropper = null;
+	});
+
+	let canvas;
+	$('#aceptar').click(function(){
+		if(!cropper) throw new Error('Error al recortar');
+
+		canvas = cropper.getCroppedCanvas({
+			width: 200,
+			height: 200,
+		});
+
+		imgPreview.src = canvas.toDataURL();
+		$('#fotoModal').modal('hide')
+
 	})
 
 	$("#enviarDatos").click((e)=>{
@@ -77,38 +119,78 @@ $(document).ready(function(){
 
 		if(name && lastname && id && email) {
 
-			let form = new FormData($('#formEditar')[0]);
+			canvas.toBlob(function (blob) {
 
-			let borrar = $('#imgEditar').is('[src="assets/img/profile_photo.jpg"]');
-			if(borrar){
-				form.append("borrar", "borrarImg");
-			}
+				let form = new FormData($('#formEditar')[0]);
+				form.set('foto', blob, 'avatar.png')
 
-			$.ajax({
-				type: "POST",
-				url: '',
-				dataType: 'JSON',
-				data: form,
-				contentType: false,
-				processData: false,
-				success(data){
-					
-					if(data.foto.respuesta == 'Error'){
-						$('#error').text(data.foto.error);
-						throw new Error('Error de foto.');
-					}
-					if(data.foto.respuesta == 'Imagen guardada.' || data.foto.respuesta == 'Imagen eliminada.'){
-						$('.fotoPerfil').attr('src', data.foto.url);
-					}
-					if (data.edit.respuesta == "Editado correctamente") {
-						$('#formEditar').trigger('reset');
-						rellenar();
-						mostrarUsuarios();
-						Toast.fire({ icon: 'success', title: 'Usuario Actualizado' });
-						$("#perfil").click();
-					}
+				let borrar = $('#imgEditar').is('[src="assets/img/profile_photo.jpg"]');
+				if(borrar){
+					form.append("borrar", "borrarImg");
 				}
+
+				$.ajax({
+					type: "POST",
+					url: '',
+					dataType: 'JSON',
+					data: form,
+					contentType: false,
+					processData: false,
+					xhr(){
+						let xhr = new window.XMLHttpRequest();
+						$('#displayProgreso').show();
+						xhr.upload.addEventListener("progress", function(event){
+
+							if(event.lengthComputable){
+								let porcentaje = parseInt( (event.loaded / event.total * 100), 10);
+								$('#progressBar').data("aria-valuenow",porcentaje)
+								$('#progressBar').css("width",porcentaje+'%')
+								$('#progressBar').html(porcentaje+'%')
+							}
+
+						},false)
+						xhr.addEventListener("progress", function(e){
+
+							if (e.lengthComputable) {
+								percentComplete = parseInt( (e.loaded / e.total * 100), 10);
+								$('#progressBar').data("aria-valuenow",percentComplete);
+								$('#progressBar').css("width",percentComplete+'%');
+								$('#progressBar').html(percentComplete+'%');
+							}else{
+								$('#progressBar').html("Upload");
+							}
+
+						}, false);
+
+						return xhr;
+					},
+					success(data){
+						$('#displayProgreso').hide();
+						if(data.foto.respuesta == 'Error'){
+							$('#error').text(data.foto.error);
+							throw new Error('Error de foto.');
+						}
+						if(data.foto.respuesta == 'Imagen guardada.' || data.foto.respuesta == 'Imagen eliminada.'){
+							$('.fotoPerfil').attr('src', data.foto.url);
+						}
+						if (data.edit.respuesta == "Editado correctamente") {
+							$('#formEditar').trigger('reset');
+							rellenar();
+							mostrarUsuarios();
+							Toast.fire({ icon: 'success', title: 'Usuario Actualizado' });
+							$("#perfil").click();
+						}
+					},
+					error(data){
+						$('#displayProgreso').hide();
+						Toast.fire({ icon: 'error', title: 'Ha ocurrido un error al subir la imágen.' });
+						console.log(data);
+					}
+				})
+
 			})
+			
+
 
 		}
 

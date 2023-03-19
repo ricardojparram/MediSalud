@@ -8,6 +8,7 @@
     <?php $VarComp->header(); ?>
     <link rel="stylesheet" href="assets/css/estiloInterno.css">
     <link rel="stylesheet" href="assets/css/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css" integrity="sha512-C4k/QrN4udgZnXStNFS5osxdhVECWyhMsK1pnlk+LkC7yJGCqoYxW4mH3/ZXLweODyzolwdWSqmmadudSHMRLA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -230,6 +231,46 @@
 
 </main>
 </body>
+
+<div class="modal fade" id="fotoModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" >
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header alert alert-success">
+        <h5 class="modal-title"><strong>Recortar Foto de Perfil</strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row ">
+          <div class="col-md-6 mx-auto text-center" id="imgContainer">
+            <div class="">
+              <img id="imgModal" class="img-fluid w-100 h-auto" src="#">
+            </div>
+          </div>        
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="cerrarModal">Cancelar</button>
+        <button type="button" class="btn btn-success" id="aceptar">Aceptar</button>
+      </div>
+  </div>
+</div>
+</div>
+
+
+<div style="position: fixed;z-index: 99999;background: #000000b3;border-radius: 6px;padding: 21px;top: 0;width: 100%;height: 100%;display:none;" id="displayProgreso">
+    <div style="height: 70px;width: 250px;position: relative;top: 50%;margin: auto;">
+        <div style="padding: 23px;background: #fffcf269; border-radius: 8px;">
+            <div class="progress progress-bar-primary">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" id="progressBar"role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php $VarComp->js(); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="assets/js/perfil.js"></script>
 </html>

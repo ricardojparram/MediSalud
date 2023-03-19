@@ -174,20 +174,20 @@ class perfil extends DBConnect{
 			return ['respuesta' => 'Error', 'error' => 'Tipo de imagen inválido.'];
 		}
 
-		switch($this->foto['type']){
-			case 'image/jpeg' : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
-			break;
-			case 'image/png' : $foto = imagecreatefrompng($this->foto['tmp_name']);
-			break;
-			default : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
-		}
+		// switch($this->foto['type']){
+		// 	case 'image/jpeg' : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
+		// 	break;
+		// 	case 'image/png' : $foto = imagecreatefrompng($this->foto['tmp_name']);
+		// 	break;
+		// 	default : $foto = imagecreatefromjpeg($this->foto['tmp_name']);
+		// }
 
-		$ancho = imagesx($foto);
-		$largo = imagesy($foto);
+		// $ancho = imagesx($foto);
+		// $largo = imagesy($foto);
 
-		if($ancho > 1080 || $largo > 1080){
-			return ['respuesta' => 'Error', 'error' => 'La imagen no puede ser mayor de 1080 x 1080'];
-		}
+		// if($ancho > 1080 || $largo > 1080){
+		// 	return ['respuesta' => 'Error', 'error' => 'La imagen no puede ser mayor de 1080 x 1080'];
+		// }
 
 		$repositorio = "assets/img/perfil/";
 		$extension = pathinfo($this->foto['name'], PATHINFO_EXTENSION);
